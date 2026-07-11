@@ -295,7 +295,7 @@ p:last-child { margin-bottom: 0; }
 
 .seq-phase-group { margin-bottom: 48px; }
 .seq-phase-label {
-  display: inline-flex; align-items: center; gap-8px;
+  display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em;
   text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
   margin-bottom: 20px; border: 1px solid;
@@ -794,14 +794,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Negotiation</h1>
     <p>The structured pursuit of an agreement that meets your objectives — and holds under pressure.</p>
-    <div class="tab-bar">
+  </div>
+  <div class="fw-tabs">
       <button class="tab-btn active" onclick="showTab('neg','n1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('neg','n2',this)">02 — Preparation</button>
       <button class="tab-btn" onclick="showTab('neg','n3',this)">03 — Tactics & Execution</button>
       <button class="tab-btn" onclick="showTab('neg','n4',this)">04 — Pitfalls</button>
     </div>
-  </div>
-  <div class="fw-body">
+  <div class="fw-main">
 
     <div class="tab-panel active" id="neg-n1">
       <div class="section-intro"><h2>First Principles</h2><p>Before tactics and frameworks, these are the truths that govern every negotiation — regardless of category, counterpart, or commercial stakes.</p></div>
@@ -950,14 +950,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Contract Management</h1>
     <p>The discipline of converting a signed agreement into sustained commercial value — and protecting against the erosion that begins the moment ink dries.</p>
-    <div class="tab-bar">
+  </div>
+  <div class="fw-tabs">
       <button class="tab-btn active" onclick="showTab('cmt','m1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('cmt','m2',this)">02 — Contract Architecture</button>
       <button class="tab-btn" onclick="showTab('cmt','m3',this)">03 — Lifecycle Process</button>
       <button class="tab-btn" onclick="showTab('cmt','m4',this)">04 — Pitfalls</button>
     </div>
-  </div>
-  <div class="fw-body">
+  <div class="fw-main">
 
     <div class="tab-panel active" id="cmt-m1">
       <div class="section-intro"><h2>First Principles</h2><p>Contract management is where procurement value is protected or destroyed. Most sourcing effort is wasted if post-award governance is weak.</p></div>
@@ -1045,14 +1045,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Supplier Risk Management</h1>
     <p>The systematic identification, assessment, and mitigation of risks that originate in the supply base — before they materialise as operational failures.</p>
-    <div class="tab-bar">
+  </div>
+  <div class="fw-tabs">
       <button class="tab-btn active" onclick="showTab('srisk','r1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('srisk','r2',this)">02 — Risk Taxonomy</button>
       <button class="tab-btn" onclick="showTab('srisk','r3',this)">03 — Process</button>
       <button class="tab-btn" onclick="showTab('srisk','r4',this)">04 — Pitfalls</button>
     </div>
-  </div>
-  <div class="fw-body">
+  <div class="fw-main">
 
     <div class="tab-panel active" id="srisk-r1">
       <div class="section-intro"><h2>First Principles</h2><p>Supply risk is not a compliance exercise. It is a strategic function that determines whether your supply chain can execute when conditions are unfavourable — which they will be.</p></div>
@@ -1152,14 +1152,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Spend Analysis</h1>
     <p>The structured interrogation of what your organisation buys, from whom, at what cost — and what that data reveals about opportunity, risk, and leverage.</p>
-    <div class="tab-bar">
+  </div>
+  <div class="fw-tabs">
       <button class="tab-btn active" onclick="showTab('spend','s1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('spend','s2',this)">02 — The Spend Cube</button>
       <button class="tab-btn" onclick="showTab('spend','s3',this)">03 — Process</button>
       <button class="tab-btn" onclick="showTab('spend','s4',this)">04 — Pitfalls</button>
     </div>
-  </div>
-  <div class="fw-body">
+  <div class="fw-main">
 
     <div class="tab-panel active" id="spend-s1">
       <div class="section-intro"><h2>First Principles</h2><p>Spend analysis is the foundational intelligence layer of procurement. Without it, every sourcing decision, category strategy, and supplier discussion is conducted with incomplete information.</p></div>
@@ -1278,14 +1278,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Should-Cost Modelling</h1>
     <p>The independent estimation of what a product or service ought to cost to produce — built from engineering and market data, not supplier quotations.</p>
-    <div class="tab-bar">
+  </div>
+  <div class="fw-tabs">
       <button class="tab-btn active" onclick="showTab('scm','sc1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('scm','sc2',this)">02 — Cost Architecture</button>
       <button class="tab-btn" onclick="showTab('scm','sc3',this)">03 — Building the Model</button>
       <button class="tab-btn" onclick="showTab('scm','sc4',this)">04 — Pitfalls</button>
     </div>
-  </div>
-  <div class="fw-body">
+  <div class="fw-main">
 
     <div class="tab-panel active" id="scm-sc1">
       <div class="section-intro"><h2>First Principles</h2><p>Should-cost modelling shifts the sourcing conversation from "what does the supplier charge?" to "what should it cost to make?" — a fundamentally different posture.</p></div>
@@ -1392,14 +1392,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Supplier Selection &amp; Evaluation</h1>
     <p>The structured process of identifying, assessing, and selecting the supplier most capable of meeting your requirements — commercially, technically, and strategically.</p>
-    <div class="tab-bar">
+  </div>
+  <div class="fw-tabs">
       <button class="tab-btn active" onclick="showTab('sse','ss1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('sse','ss2',this)">02 — Evaluation Framework</button>
       <button class="tab-btn" onclick="showTab('sse','ss3',this)">03 — Selection Process</button>
       <button class="tab-btn" onclick="showTab('sse','ss4',this)">04 — Pitfalls</button>
     </div>
-  </div>
-  <div class="fw-body">
+  <div class="fw-main">
 
     <div class="tab-panel active" id="sse-ss1">
       <div class="section-intro"><h2>First Principles</h2><p>Supplier selection is the decision that shapes your supply chain risk, quality baseline, and commercial leverage for years. It deserves the same rigour as any significant capital investment.</p></div>
@@ -1511,14 +1511,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Supplier Relationship Management</h1>
     <p>The deliberate programme of differentiated engagement with strategically important suppliers — designed to create mutual value that transactional management cannot reach.</p>
-    <div class="tab-bar">
+  </div>
+  <div class="fw-tabs">
       <button class="tab-btn active" onclick="showTab('srm','sm1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('srm','sm2',this)">02 — Segmentation Model</button>
       <button class="tab-btn" onclick="showTab('srm','sm3',this)">03 — Governance Model</button>
       <button class="tab-btn" onclick="showTab('srm','sm4',this)">04 — Pitfalls</button>
     </div>
-  </div>
-  <div class="fw-body">
+  <div class="fw-main">
 
     <div class="tab-panel active" id="srm-sm1">
       <div class="section-intro"><h2>First Principles</h2><p>SRM is not general supplier management — it is a targeted investment in a small number of relationships where that investment generates returns unavailable through transactional engagement.</p></div>
@@ -1651,14 +1651,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Supply Market Analysis</h1>
     <p>The structured investigation of external market forces — supplier landscape, competitive dynamics, cost drivers, and macro trends — that shape what is strategically possible in a category.</p>
-    <div class="tab-bar">
+  </div>
+  <div class="fw-tabs">
       <button class="tab-btn active" onclick="showTab('sma','ma1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('sma','ma2',this)">02 — Analytical Frameworks</button>
       <button class="tab-btn" onclick="showTab('sma','ma3',this)">03 — Analysis Process</button>
       <button class="tab-btn" onclick="showTab('sma','ma4',this)">04 — Pitfalls</button>
     </div>
-  </div>
-  <div class="fw-body">
+  <div class="fw-main">
 
     <div class="tab-panel active" id="sma-ma1">
       <div class="section-intro"><h2>First Principles</h2><p>Category strategy without supply market intelligence is opinion. Supply market analysis converts the external environment from a blind spot into a structural input to every sourcing and negotiation decision.</p></div>
@@ -1772,12 +1772,12 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Sequences</h1>
     <p>Two perspectives on how the frameworks relate — how to learn them, and how they flow in practice.</p>
-    <div class="tab-bar">
+  </div>
+  <div class="fw-tabs">
       <button class="tab-btn active" onclick="showTab('guide','g1',this)">01 — Study Sequence</button>
       <button class="tab-btn" onclick="showTab('guide','g2',this)">02 — Live Work Sequence</button>
     </div>
-  </div>
-  <div class="fw-body">
+  <div class="fw-main">
 
     <!-- ═══════════════════════════════ STUDY SEQUENCE ═══════════════════════════════ -->
     <div class="tab-panel active" id="guide-g1">
