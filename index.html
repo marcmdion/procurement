@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="color-scheme" content="only light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marc Dion - Procurement Reference Suite</title>
+<title>Procurement Reference Suite</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -365,6 +366,106 @@ p:last-child { margin-bottom: 0; }
 .num-protect    { color: var(--green); border-color: var(--green); background: rgba(42,110,66,0.07); }
 .num-study      { color: var(--teal); border-color: var(--teal); background: rgba(26,110,110,0.07); }
 
+
+/* ── DRILL (Recall + Self-Test) ── */
+.fw-sel-btn.drill-btn.active { border-bottom-color: var(--purple); background: rgba(90,72,130,0.06); }
+.fw-sel-btn.drill-btn.active .sel-num { color: var(--purple); }
+.sel-drill { font-family: var(--font-mono); font-size: 8px; color: var(--purple); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; }
+.fw-sel-btn.drill-btn.active .sel-drill { opacity: 1; }
+
+.recall-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.recall-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 22px; }
+.recall-fw { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.recall-q { font-family: var(--font-serif); font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 14px; line-height: 1.35; }
+.recall-lines { display: flex; flex-direction: column; gap: 7px; margin-bottom: 12px; }
+.recall-line { font-size: 12.5px; color: var(--muted); cursor: pointer; padding: 6px 10px; background: var(--surface2); border-radius: 4px; line-height: 1.5; }
+.recall-line .rl-text { filter: blur(5px); transition: filter 0.15s; user-select: none; }
+.recall-line.revealed .rl-text { filter: none; user-select: auto; }
+.recall-line .rl-label { font-family: var(--font-mono); font-size: 10px; color: var(--purple); margin-right: 6px; }
+.recall-pitfall { font-size: 11px; font-family: var(--font-mono); color: var(--red); cursor: pointer; padding-top: 10px; border-top: 1px solid var(--border); }
+.recall-pitfall .rl-text { filter: blur(5px); transition: filter 0.15s; }
+.recall-pitfall.revealed .rl-text { filter: none; }
+.recall-pitfall::before { content: '⚠ killer pitfall — tap: '; color: var(--muted); }
+.recall-hint { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-bottom: 20px; }
+
+.quiz-filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+.quiz-filter { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 5px 11px; border-radius: 20px; cursor: pointer; transition: all 0.15s; }
+.quiz-filter:hover { border-color: var(--purple); color: var(--purple); }
+.quiz-filter.active { background: rgba(90,72,130,0.08); border-color: var(--purple); color: var(--purple); }
+.quiz-list { display: flex; flex-direction: column; gap: 12px; }
+.quiz-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; }
+.quiz-item.hidden-fw { display: none; }
+.quiz-fw-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 6px; }
+.quiz-q { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 12px; line-height: 1.5; }
+.quiz-reveal-btn { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; background: none; border: 1px solid var(--purple); color: var(--purple); padding: 5px 12px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+.quiz-reveal-btn:hover { background: rgba(90,72,130,0.08); }
+.quiz-answer { display: none; margin-top: 12px; padding: 12px 16px; background: var(--surface2); border-left: 3px solid var(--green); border-radius: 0 4px 4px 0; font-size: 13px; color: var(--muted); line-height: 1.6; }
+.quiz-answer.open { display: block; }
+
+
+/* ── FIX: missing container classes (frameworks 04-11, guide, drill) ── */
+.tab-bar { display: flex; border-bottom: 1px solid var(--border); overflow-x: auto; margin: 20px -48px -28px; padding: 0 48px; -webkit-overflow-scrolling: touch; }
+.fw-body { padding: 36px 48px 80px; max-width: 1060px; }
+.fw-header { overflow: visible; }
+@media (max-width: 600px) {
+  .tab-bar { margin: 16px -16px -16px; padding: 0 16px; }
+  .fw-body { padding: 24px 16px 60px; }
+  .seq-fw-name { font-size: 16px; }
+  .recall-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ── FORCE LIGHT CANVAS (defeats dark-mode webview overrides) ── */
+:root { color-scheme: light; }
+html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: light; }
+  html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
+  .fw-content, .tab-panel, .fw-body, .fw-main { background: transparent; }
+}
+
+
+/* ── TIER 3 NAV ── */
+.fw-tier-sep.t3 { background: rgba(142,83,26,0.04); }
+.fw-tier-sep.t3 .fw-tier-sep-label { color: var(--orange); }
+.sel-tier3 { font-family: var(--font-mono); font-size: 8px; color: var(--orange); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; }
+.fw-sel-btn.t3-btn.active { border-bottom-color: var(--orange); background: rgba(142,83,26,0.06); }
+.fw-sel-btn.t3-btn.active .sel-num { color: var(--orange); }
+.fw-sel-btn.t3-btn.active .sel-tier3 { opacity: 1; }
+.fw-sel-btn.apx-btn.active { border-bottom-color: var(--gold); background: rgba(140,109,31,0.07); }
+.fw-sel-btn.apx-btn.active .sel-num { color: var(--gold); }
+
+/* ── SEARCH ── */
+.search-row { padding: 9px 16px 11px; border-bottom: 1px solid var(--border); background: var(--surface); }
+.search-wrap { position: relative; max-width: 760px; margin: 0 auto; }
+.search-wrap::before { content: '⌕'; position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 16px; pointer-events: none; }
+.search-input { width: 100%; box-sizing: border-box; font-family: var(--font-mono); font-size: 13px; padding: 9px 14px 9px 36px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); outline: none; transition: border-color 0.15s; }
+.search-input:focus { border-color: var(--gold); background: var(--surface); }
+.search-input::placeholder { color: var(--muted); opacity: 0.7; }
+.search-results { display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 14px 36px rgba(0,0,0,0.14); max-height: 62vh; overflow-y: auto; z-index: 400; }
+.search-results.open { display: block; }
+.search-hit { padding: 11px 16px; border-bottom: 1px solid var(--border); cursor: pointer; }
+.search-hit:last-child { border-bottom: none; }
+.search-hit:hover { background: var(--surface2); }
+.hit-path { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+.hit-title { font-size: 13.5px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.hit-snip { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.search-empty { padding: 16px; font-size: 12px; color: var(--muted); font-family: var(--font-mono); }
+.search-flash { animation: flashbg 1.8s ease; }
+@keyframes flashbg { 0% { background: rgba(140,109,31,0.28); } 100% { background: transparent; } }
+
+/* ── APPENDIX ── */
+.apx-section { margin-bottom: 46px; }
+.formula-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.formula-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; }
+.formula-name { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 8px; }
+.formula-eq { font-family: var(--font-mono); font-size: 14px; color: var(--text); background: var(--surface2); padding: 10px 14px; border-radius: 6px; margin-bottom: 10px; line-height: 1.5; }
+.formula-vars { font-size: 12px; color: var(--muted); line-height: 1.75; }
+.gloss-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 4px 26px; }
+.gloss-item { display: grid; grid-template-columns: 84px 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; align-items: baseline; }
+.gloss-term { font-family: var(--font-mono); font-weight: 600; color: var(--text); font-size: 11.5px; }
+.gloss-def { color: var(--muted); line-height: 1.5; }
+
 </style>
 </head>
 <body>
@@ -374,6 +475,12 @@ p:last-child { margin-bottom: 0; }
 <div class="top-nav">
   <div class="app-brand">
     <div class="brand-mark"><span>Reference Suite</span>Procurement<br>Frameworks</div>
+  </div>
+  <div class="search-row">
+    <div class="search-wrap">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search all frameworks — try 'BATNA', 'Kraljic', 'safety stock'…" oninput="runSearch(this.value)" autocomplete="off">
+      <div class="search-results" id="searchResults"></div>
+    </div>
   </div>
   <div class="fw-selector">
     <button class="fw-sel-btn active" data-fw="proc" onclick="selectFW('proc',this)">
@@ -426,11 +533,42 @@ p:last-child { margin-bottom: 0; }
       <span class="sel-name">Supply Market Analysis</span>
       <span class="sel-tier">Strategic Tool</span>
     </button>
+    <div class="fw-tier-sep t3"><span class="fw-tier-sep-label">Tier 3 — Specialist</span></div>
+    <button class="fw-sel-btn t3-btn" data-fw="inv" onclick="selectFW('inv',this)">
+      <span class="sel-num">12</span>
+      <span class="sel-name">Inventory &amp; Planning</span>
+      <span class="sel-tier3">Specialist</span>
+    </button>
+    <button class="fw-sel-btn t3-btn" data-fw="res" onclick="selectFW('res',this)">
+      <span class="sel-num">13</span>
+      <span class="sel-name">Supply Resilience</span>
+      <span class="sel-tier3">Specialist</span>
+    </button>
+    <button class="fw-sel-btn t3-btn" data-fw="sus" onclick="selectFW('sus',this)">
+      <span class="sel-num">14</span>
+      <span class="sel-name">Sustainable Procurement</span>
+      <span class="sel-tier3">Specialist</span>
+    </button>
+    <button class="fw-sel-btn t3-btn" data-fw="gov" onclick="selectFW('gov',this)">
+      <span class="sel-num">15</span>
+      <span class="sel-name">Governance &amp; Policy</span>
+      <span class="sel-tier3">Specialist</span>
+    </button>
     <div class="fw-guide-sep"></div>
+    <button class="fw-sel-btn apx-btn" data-fw="apx" onclick="selectFW('apx',this)">
+      <span class="sel-num">§</span>
+      <span class="sel-name">Appendix</span>
+      <span class="sel-guide">Tables &amp; Glossary</span>
+    </button>
     <button class="fw-sel-btn guide-btn" data-fw="guide" onclick="selectFW('guide',this)">
       <span class="sel-num">⇄</span>
       <span class="sel-name">Sequences</span>
       <span class="sel-guide">Study &amp; Live Work</span>
+    </button>
+    <button class="fw-sel-btn drill-btn" data-fw="drill" onclick="selectFW('drill',this)">
+      <span class="sel-num">◉</span>
+      <span class="sel-name">Drill</span>
+      <span class="sel-drill">Recall &amp; Self-Test</span>
     </button>
   </div>
 </div>
@@ -794,14 +932,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Negotiation</h1>
     <p>The structured pursuit of an agreement that meets your objectives — and holds under pressure.</p>
-  </div>
-  <div class="fw-tabs">
+    <div class="tab-bar">
       <button class="tab-btn active" onclick="showTab('neg','n1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('neg','n2',this)">02 — Preparation</button>
       <button class="tab-btn" onclick="showTab('neg','n3',this)">03 — Tactics & Execution</button>
       <button class="tab-btn" onclick="showTab('neg','n4',this)">04 — Pitfalls</button>
     </div>
-  <div class="fw-main">
+  </div>
+  <div class="fw-body">
 
     <div class="tab-panel active" id="neg-n1">
       <div class="section-intro"><h2>First Principles</h2><p>Before tactics and frameworks, these are the truths that govern every negotiation — regardless of category, counterpart, or commercial stakes.</p></div>
@@ -950,14 +1088,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Contract Management</h1>
     <p>The discipline of converting a signed agreement into sustained commercial value — and protecting against the erosion that begins the moment ink dries.</p>
-  </div>
-  <div class="fw-tabs">
+    <div class="tab-bar">
       <button class="tab-btn active" onclick="showTab('cmt','m1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('cmt','m2',this)">02 — Contract Architecture</button>
       <button class="tab-btn" onclick="showTab('cmt','m3',this)">03 — Lifecycle Process</button>
       <button class="tab-btn" onclick="showTab('cmt','m4',this)">04 — Pitfalls</button>
     </div>
-  <div class="fw-main">
+  </div>
+  <div class="fw-body">
 
     <div class="tab-panel active" id="cmt-m1">
       <div class="section-intro"><h2>First Principles</h2><p>Contract management is where procurement value is protected or destroyed. Most sourcing effort is wasted if post-award governance is weak.</p></div>
@@ -1045,14 +1183,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Supplier Risk Management</h1>
     <p>The systematic identification, assessment, and mitigation of risks that originate in the supply base — before they materialise as operational failures.</p>
-  </div>
-  <div class="fw-tabs">
+    <div class="tab-bar">
       <button class="tab-btn active" onclick="showTab('srisk','r1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('srisk','r2',this)">02 — Risk Taxonomy</button>
       <button class="tab-btn" onclick="showTab('srisk','r3',this)">03 — Process</button>
       <button class="tab-btn" onclick="showTab('srisk','r4',this)">04 — Pitfalls</button>
     </div>
-  <div class="fw-main">
+  </div>
+  <div class="fw-body">
 
     <div class="tab-panel active" id="srisk-r1">
       <div class="section-intro"><h2>First Principles</h2><p>Supply risk is not a compliance exercise. It is a strategic function that determines whether your supply chain can execute when conditions are unfavourable — which they will be.</p></div>
@@ -1152,14 +1290,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Spend Analysis</h1>
     <p>The structured interrogation of what your organisation buys, from whom, at what cost — and what that data reveals about opportunity, risk, and leverage.</p>
-  </div>
-  <div class="fw-tabs">
+    <div class="tab-bar">
       <button class="tab-btn active" onclick="showTab('spend','s1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('spend','s2',this)">02 — The Spend Cube</button>
       <button class="tab-btn" onclick="showTab('spend','s3',this)">03 — Process</button>
       <button class="tab-btn" onclick="showTab('spend','s4',this)">04 — Pitfalls</button>
     </div>
-  <div class="fw-main">
+  </div>
+  <div class="fw-body">
 
     <div class="tab-panel active" id="spend-s1">
       <div class="section-intro"><h2>First Principles</h2><p>Spend analysis is the foundational intelligence layer of procurement. Without it, every sourcing decision, category strategy, and supplier discussion is conducted with incomplete information.</p></div>
@@ -1278,14 +1416,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Should-Cost Modelling</h1>
     <p>The independent estimation of what a product or service ought to cost to produce — built from engineering and market data, not supplier quotations.</p>
-  </div>
-  <div class="fw-tabs">
+    <div class="tab-bar">
       <button class="tab-btn active" onclick="showTab('scm','sc1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('scm','sc2',this)">02 — Cost Architecture</button>
       <button class="tab-btn" onclick="showTab('scm','sc3',this)">03 — Building the Model</button>
       <button class="tab-btn" onclick="showTab('scm','sc4',this)">04 — Pitfalls</button>
     </div>
-  <div class="fw-main">
+  </div>
+  <div class="fw-body">
 
     <div class="tab-panel active" id="scm-sc1">
       <div class="section-intro"><h2>First Principles</h2><p>Should-cost modelling shifts the sourcing conversation from "what does the supplier charge?" to "what should it cost to make?" — a fundamentally different posture.</p></div>
@@ -1392,14 +1530,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Supplier Selection &amp; Evaluation</h1>
     <p>The structured process of identifying, assessing, and selecting the supplier most capable of meeting your requirements — commercially, technically, and strategically.</p>
-  </div>
-  <div class="fw-tabs">
+    <div class="tab-bar">
       <button class="tab-btn active" onclick="showTab('sse','ss1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('sse','ss2',this)">02 — Evaluation Framework</button>
       <button class="tab-btn" onclick="showTab('sse','ss3',this)">03 — Selection Process</button>
       <button class="tab-btn" onclick="showTab('sse','ss4',this)">04 — Pitfalls</button>
     </div>
-  <div class="fw-main">
+  </div>
+  <div class="fw-body">
 
     <div class="tab-panel active" id="sse-ss1">
       <div class="section-intro"><h2>First Principles</h2><p>Supplier selection is the decision that shapes your supply chain risk, quality baseline, and commercial leverage for years. It deserves the same rigour as any significant capital investment.</p></div>
@@ -1511,14 +1649,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Supplier Relationship Management</h1>
     <p>The deliberate programme of differentiated engagement with strategically important suppliers — designed to create mutual value that transactional management cannot reach.</p>
-  </div>
-  <div class="fw-tabs">
+    <div class="tab-bar">
       <button class="tab-btn active" onclick="showTab('srm','sm1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('srm','sm2',this)">02 — Segmentation Model</button>
       <button class="tab-btn" onclick="showTab('srm','sm3',this)">03 — Governance Model</button>
       <button class="tab-btn" onclick="showTab('srm','sm4',this)">04 — Pitfalls</button>
     </div>
-  <div class="fw-main">
+  </div>
+  <div class="fw-body">
 
     <div class="tab-panel active" id="srm-sm1">
       <div class="section-intro"><h2>First Principles</h2><p>SRM is not general supplier management — it is a targeted investment in a small number of relationships where that investment generates returns unavailable through transactional engagement.</p></div>
@@ -1651,14 +1789,14 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Supply Market Analysis</h1>
     <p>The structured investigation of external market forces — supplier landscape, competitive dynamics, cost drivers, and macro trends — that shape what is strategically possible in a category.</p>
-  </div>
-  <div class="fw-tabs">
+    <div class="tab-bar">
       <button class="tab-btn active" onclick="showTab('sma','ma1',this)">01 — First Principles</button>
       <button class="tab-btn" onclick="showTab('sma','ma2',this)">02 — Analytical Frameworks</button>
       <button class="tab-btn" onclick="showTab('sma','ma3',this)">03 — Analysis Process</button>
       <button class="tab-btn" onclick="showTab('sma','ma4',this)">04 — Pitfalls</button>
     </div>
-  <div class="fw-main">
+  </div>
+  <div class="fw-body">
 
     <div class="tab-panel active" id="sma-ma1">
       <div class="section-intro"><h2>First Principles</h2><p>Category strategy without supply market intelligence is opinion. Supply market analysis converts the external environment from a blind spot into a structural input to every sourcing and negotiation decision.</p></div>
@@ -1772,12 +1910,12 @@ p:last-child { margin-bottom: 0; }
   <div class="fw-header">
     <h1>Sequences</h1>
     <p>Two perspectives on how the frameworks relate — how to learn them, and how they flow in practice.</p>
-  </div>
-  <div class="fw-tabs">
+    <div class="tab-bar">
       <button class="tab-btn active" onclick="showTab('guide','g1',this)">01 — Study Sequence</button>
       <button class="tab-btn" onclick="showTab('guide','g2',this)">02 — Live Work Sequence</button>
     </div>
-  <div class="fw-main">
+  </div>
+  <div class="fw-body">
 
     <!-- ═══════════════════════════════ STUDY SEQUENCE ═══════════════════════════════ -->
     <div class="tab-panel active" id="guide-g1">
@@ -2039,6 +2177,785 @@ p:last-child { margin-bottom: 0; }
   </div>
 </div><!-- /fw-guide -->
 
+<!-- ╔══════════════════════════════════╗
+     ║  DRILL — RECALL + SELF-TEST     ║
+     ╚══════════════════════════════════╝ -->
+<div class="fw-content" id="fw-drill">
+  <div class="fw-header">
+    <h1>Drill</h1>
+    <p>Active recall tools. Reading builds recognition; retrieval builds memory. Attempt the answer before revealing — the struggle is the mechanism.</p>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('drill','d1',this)">01 — Recall Cards</button>
+      <button class="tab-btn" onclick="showTab('drill','d2',this)">02 — Self-Test</button>
+    </div>
+  </div>
+  <div class="fw-body">
+
+    <div class="tab-panel active" id="drill-d1">
+      <div class="seq-intro" style="border-color:var(--purple)">
+        <h2>Recall Cards</h2>
+        <p>One compressed skeleton per framework. Every line is blurred — say the answer out loud, then tap to check. Drill into the full framework only where you blanked.</p>
+      </div>
+      <div class="recall-hint">TAP A LINE TO REVEAL · WORK TOP TO BOTTOM · FROM MEMORY FIRST</div>
+      <div class="recall-grid">
+
+        <div class="recall-card">
+          <div class="recall-fw">01 · Procurement</div>
+          <div class="recall-q">How does the organisation buy — and who owns what?</div>
+          <div class="recall-lines">
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">P2P</span><span class="rl-text">Need → Requisition → Sourcing → PO → Receipt → Invoice match → Payment</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Org models</span><span class="rl-text">Centralised · Decentralised · Hybrid/CoE — trade leverage vs. responsiveness</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">RFx</span><span class="rl-text">RFI = information · RFQ = price on defined spec · RFP = proposed solution</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Savings</span><span class="rl-text">Cost reduction vs. avoidance — baseline, validate, track to P&L</span></div>
+          </div>
+          <div class="recall-pitfall" onclick="toggleReveal(this)"><span class="rl-text">Measuring procurement on price savings alone</span></div>
+        </div>
+
+        <div class="recall-card">
+          <div class="recall-fw">02 · Category Management</div>
+          <div class="recall-q">How do we manage this spend area strategically, not transactionally?</div>
+          <div class="recall-lines">
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Cycle</span><span class="rl-text">Baseline → Market analysis → Strategy → Sourcing → Negotiate → Implement → Manage & review</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Kraljic axes</span><span class="rl-text">Supply risk × profit impact</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Quadrants</span><span class="rl-text">Strategic = partner · Leverage = compete · Bottleneck = secure supply · Routine = automate</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Plan</span><span class="rl-text">Living document — refreshed on market events, not shelf-ware</span></div>
+          </div>
+          <div class="recall-pitfall" onclick="toggleReveal(this)"><span class="rl-text">Strategy written to justify the status quo</span></div>
+        </div>
+
+        <div class="recall-card">
+          <div class="recall-fw">03 · TCO Model</div>
+          <div class="recall-q">What does it truly cost to own — beyond the price?</div>
+          <div class="recall-lines">
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">7 buckets</span><span class="rl-text">Acquisition · Quality · Logistics · Inventory · Switching · Usage/operation · End-of-life</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Key move</span><span class="rl-text">Quantify failure & friction costs that never appear on the quote</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Where used</span><span class="rl-text">Award decisions, make-vs-buy, supplier switching business cases</span></div>
+          </div>
+          <div class="recall-pitfall" onclick="toggleReveal(this)"><span class="rl-text">Unit-price myopia — cheapest quote, highest total cost</span></div>
+        </div>
+
+        <div class="recall-card">
+          <div class="recall-fw">04 · Negotiation</div>
+          <div class="recall-q">What's my walkaway — and what do I trade?</div>
+          <div class="recall-lines">
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">BATNA</span><span class="rl-text">Best alternative to negotiated agreement — your real power source</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">ZOPA</span><span class="rl-text">Zone between both parties' walkaway points — deal space</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Stack</span><span class="rl-text">Opening → Target → Walkaway — set all three before entering</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Concessions</span><span class="rl-text">Never free · Always shrinking · Always slower — trade, don't give</span></div>
+          </div>
+          <div class="recall-pitfall" onclick="toggleReveal(this)"><span class="rl-text">Entering without a BATNA — negotiating on hope</span></div>
+        </div>
+
+        <div class="recall-card">
+          <div class="recall-fw">05 · Contract Management</div>
+          <div class="recall-q">Are we receiving the value we negotiated?</div>
+          <div class="recall-lines">
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">6 domains</span><span class="rl-text">Commercial terms · Performance · Risk/liability · Change mgmt · Termination/exit · Governance</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Lifecycle</span><span class="rl-text">Baseline → Mobilise → Steady state → Variation → Renewal decision → Exit</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Value leak</span><span class="rl-text">Negotiated value erodes post-award without active management — unclaimed credits, unenforced SLAs, price creep</span></div>
+          </div>
+          <div class="recall-pitfall" onclick="toggleReveal(this)"><span class="rl-text">Sign-and-file — contract never looked at again until renewal</span></div>
+        </div>
+
+        <div class="recall-card">
+          <div class="recall-fw">06 · Supplier Risk</div>
+          <div class="recall-q">What could fail — and would we see it coming?</div>
+          <div class="recall-lines">
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">8 types</span><span class="rl-text">Disruption · Quality · Financial · Geopolitical · Regulatory · Cyber · ESG · Concentration</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Process</span><span class="rl-text">Identify → Assess → Prioritise → Mitigate → Monitor → Respond</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Assess on</span><span class="rl-text">Likelihood × impact — prioritise, don't treat all risks equally</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">EWIs</span><span class="rl-text">Late deliveries trending, quality drift, payment term requests, key staff departures, credit downgrades</span></div>
+          </div>
+          <div class="recall-pitfall" onclick="toggleReveal(this)"><span class="rl-text">Risk register theatre — assessed once, never monitored</span></div>
+        </div>
+
+        <div class="recall-card">
+          <div class="recall-fw">07 · Spend Analysis</div>
+          <div class="recall-q">What do we buy, from whom, at what cost?</div>
+          <div class="recall-lines">
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Cube</span><span class="rl-text">Category × Supplier × Business unit</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Process</span><span class="rl-text">Extract → Consolidate → Cleanse → Classify → Enrich → Analyse → Action</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Lenses</span><span class="rl-text">Concentration · Tail spend · Maverick spend · Price variance · Payment terms · Contract coverage</span></div>
+          </div>
+          <div class="recall-pitfall" onclick="toggleReveal(this)"><span class="rl-text">Insight without action — analysis that changes nothing</span></div>
+        </div>
+
+        <div class="recall-card">
+          <div class="recall-fw">08 · Should-Cost Model</div>
+          <div class="recall-q">What should it cost to make?</div>
+          <div class="recall-lines">
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">6 layers</span><span class="rl-text">Direct materials · Direct labour · Overhead · Tooling/NRE · Freight · SG&A + margin</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Built from</span><span class="rl-text">Market data — commodity indices, regional labour rates, benchmark burden rates — independent of any quote</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Use as</span><span class="rl-text">Dialogue tool — invite the supplier to challenge assumptions</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Timing</span><span class="rl-text">Before the RFQ — shapes the event, not just reacts to it</span></div>
+          </div>
+          <div class="recall-pitfall" onclick="toggleReveal(this)"><span class="rl-text">Using it as a weapon, or treating an estimate as exact</span></div>
+        </div>
+
+        <div class="recall-card">
+          <div class="recall-fw">09 · Supplier Selection</div>
+          <div class="recall-q">Who's genuinely best — and can I defend the decision?</div>
+          <div class="recall-lines">
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Rule 1</span><span class="rl-text">Criteria + weights defined and approved BEFORE any response is read</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">6 domains</span><span class="rl-text">Commercial · Technical · Quality · Supply chain/delivery · Financial health · ESG/compliance</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Funnel</span><span class="rl-text">Define → Long list → RFI pre-qualify → RFQ/RFP → Evaluate → Clarify/BAFO → Diligence → Award & onboard</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Diligence</span><span class="rl-text">Site visit + financial check + reference calls — mandatory for strategic</span></div>
+          </div>
+          <div class="recall-pitfall" onclick="toggleReveal(this)"><span class="rl-text">Criteria set after reading responses — bias dressed as process</span></div>
+        </div>
+
+        <div class="recall-card">
+          <div class="recall-fw">10 · SRM Deep Dive</div>
+          <div class="recall-q">Which relationships deserve disproportionate investment?</div>
+          <div class="recall-lines">
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">4 tiers</span><span class="rl-text">Strategic (5–15) · Preferred · Approved · Transactional</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Governance</span><span class="rl-text">Ops monthly · QBR quarterly · Executive annual</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Scorecard</span><span class="rl-text">Quality · Delivery · Commercial · Responsiveness · Innovation — floor, not ceiling</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Above it</span><span class="rl-text">Joint value creation — DfM, co-development, demand visibility, resilience</span></div>
+          </div>
+          <div class="recall-pitfall" onclick="toggleReveal(this)"><span class="rl-text">Everyone is "strategic" — investment spread too thin to return anything</span></div>
+        </div>
+
+        <div class="recall-card">
+          <div class="recall-fw">11 · Supply Market Analysis</div>
+          <div class="recall-q">What does the market allow?</div>
+          <div class="recall-lines">
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Five Forces</span><span class="rl-text">Supplier power · Buyer power · Substitution · New entrants · Rivalry</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">PESTLE</span><span class="rl-text">Political · Economic · Social · Technological · Legal · Environmental</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Key signal</span><span class="rl-text">Capacity utilisation — >85% tightening, <75% buyers' market</span></div>
+            <div class="recall-line" onclick="toggleReveal(this)"><span class="rl-label">Concentration</span><span class="rl-text">HHI &gt; 2,500 = highly concentrated — supplier power structural</span></div>
+          </div>
+          <div class="recall-pitfall" onclick="toggleReveal(this)"><span class="rl-text">Analysis never refreshed, never changes a decision</span></div>
+        </div>
+
+      </div>
+    </div><!-- /d1 -->
+
+    <div class="tab-panel" id="drill-d2">
+      <div class="seq-intro" style="border-color:var(--purple)">
+        <h2>Self-Test</h2>
+        <p>Answer out loud or on paper before revealing. If you can't produce it cold, that framework needs another pass — recognition is not retention.</p>
+      </div>
+      <div class="quiz-filters">
+        <button class="quiz-filter active" onclick="filterQuiz('all',this)">All</button>
+        <button class="quiz-filter" onclick="filterQuiz('proc',this)">Procurement</button>
+        <button class="quiz-filter" onclick="filterQuiz('cat',this)">Category Mgmt</button>
+        <button class="quiz-filter" onclick="filterQuiz('tco',this)">TCO</button>
+        <button class="quiz-filter" onclick="filterQuiz('neg',this)">Negotiation</button>
+        <button class="quiz-filter" onclick="filterQuiz('cmt',this)">Contract Mgmt</button>
+        <button class="quiz-filter" onclick="filterQuiz('srisk',this)">Supplier Risk</button>
+        <button class="quiz-filter" onclick="filterQuiz('spend',this)">Spend Analysis</button>
+        <button class="quiz-filter" onclick="filterQuiz('scm',this)">Should-Cost</button>
+        <button class="quiz-filter" onclick="filterQuiz('sse',this)">Supplier Selection</button>
+        <button class="quiz-filter" onclick="filterQuiz('srm',this)">SRM</button>
+        <button class="quiz-filter" onclick="filterQuiz('sma',this)">Market Analysis</button>
+      </div>
+      <div class="quiz-list">
+
+        <div class="quiz-item" data-qfw="proc"><div class="quiz-fw-tag">Procurement</div><div class="quiz-q">Name the stages of the P2P cycle in order.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Need identification → Requisition → Sourcing/supplier selection → Purchase order → Goods receipt → Invoice matching (3-way match: PO, receipt, invoice) → Payment. The 3-way match is the core financial control in the cycle.</div></div>
+
+        <div class="quiz-item" data-qfw="proc"><div class="quiz-fw-tag">Procurement</div><div class="quiz-q">When do you use an RFI vs. RFQ vs. RFP — and what's the core difference?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">RFI: market scanning and pre-qualification — gathering information, no pricing. RFQ: price and commercial terms against a fully defined specification. RFP: the solution is not fully defined — suppliers propose their approach. The core difference is specification maturity: the more defined your requirement, the closer to RFQ you move.</div></div>
+
+        <div class="quiz-item" data-qfw="proc"><div class="quiz-fw-tag">Procurement</div><div class="quiz-q">What's the difference between cost reduction and cost avoidance — and why does the distinction matter?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Cost reduction lowers actual spend against a historical baseline (visible in the P&L). Cost avoidance prevents an increase that would otherwise have occurred (invisible in the P&L). The distinction matters because finance only credits what it can see — conflating the two damages procurement's credibility and inflates reported savings.</div></div>
+
+        <div class="quiz-item" data-qfw="cat"><div class="quiz-fw-tag">Category Management</div><div class="quiz-q">Draw the Kraljic Matrix from memory: axes, four quadrants, and the strategy for each.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Axes: supply risk (x) × profit impact (y). Strategic (high/high): partner deeply, secure long-term. Leverage (low risk/high impact): create competition, drive price. Bottleneck (high risk/low impact): secure continuity, reduce dependency, hold buffer. Routine (low/low): automate, minimise transaction cost, rationalise.</div></div>
+
+        <div class="quiz-item" data-qfw="cat"><div class="quiz-fw-tag">Category Management</div><div class="quiz-q">Name the seven stages of the category management cycle.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">1. Baseline the category (spend, suppliers, contracts) → 2. Analyse the supply market → 3. Develop category strategy → 4. Run the sourcing event → 5. Negotiate and contract → 6. Implement and transition → 7. Manage performance and review. The cycle is iterative — stage 7 feeds back into stage 1.</div></div>
+
+        <div class="quiz-item" data-qfw="cat"><div class="quiz-fw-tag">Category Management</div><div class="quiz-q">A category strategy was written 18 months ago and hasn't been touched. What triggers should have forced a refresh?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Major supplier event (failure, acquisition, financial distress) · significant commodity/price movement (>20%) · regulatory change affecting the category · a geopolitical event in a key supply geography · significant demand change internally · contract renewal approaching. A category plan is a living document — if none of these triggers have a monitoring mechanism, the plan is shelf-ware.</div></div>
+
+        <div class="quiz-item" data-qfw="tco"><div class="quiz-fw-tag">TCO Model</div><div class="quiz-q">Name the seven TCO cost buckets.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Acquisition (price, freight, duty) · Quality (defects, rework, inspection, warranty) · Logistics (transport, packaging, handling) · Inventory (carrying cost, obsolescence, working capital) · Switching (qualification, tooling, transition) · Usage/operation (energy, maintenance, consumables) · End-of-life (disposal, decommissioning, residual value).</div></div>
+
+        <div class="quiz-item" data-qfw="tco"><div class="quiz-fw-tag">TCO Model</div><div class="quiz-q">Why does TCO analysis frequently reverse a price-based supplier ranking?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Because the quote sheet captures only acquisition cost — typically 60–80% of total cost. A lower-priced supplier with higher defect rates, longer lead times (more inventory), less reliable delivery (expediting costs), and weaker financial stability (switching risk) accumulates costs across the other six buckets that exceed the price advantage. The cheapest quote is frequently the most expensive supplier.</div></div>
+
+        <div class="quiz-item" data-qfw="neg"><div class="quiz-fw-tag">Negotiation</div><div class="quiz-q">Define BATNA and ZOPA, and explain how they relate.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">BATNA: your Best Alternative To a Negotiated Agreement — what you'll actually do if this deal fails. It defines your walkaway point and is the true source of negotiating power. ZOPA: the Zone Of Possible Agreement — the overlap between your walkaway and theirs. If BATNA improves, your walkaway hardens, and the ZOPA shifts in your favour. No BATNA = negotiating on hope.</div></div>
+
+        <div class="quiz-item" data-qfw="neg"><div class="quiz-fw-tag">Negotiation</div><div class="quiz-q">State the three concession rules.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">1. Never free — every concession must be traded for something of value in return. 2. Always shrinking — each successive concession should be smaller than the last, signalling you're approaching your limit. 3. Always slower — increasing time between concessions reinforces the same signal. Violating these teaches the counterparty that pushing harder produces more.</div></div>
+
+        <div class="quiz-item" data-qfw="neg"><div class="quiz-fw-tag">Negotiation</div><div class="quiz-q">What are the three positions in the position stack, and when must they be set?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Opening (ambitious but justifiable — anchors the discussion) · Target (your realistic goal — where you expect to land) · Walkaway (the point you leave, defined by your BATNA). All three must be set before the negotiation begins — a walkaway invented mid-meeting under pressure isn't a walkaway, it's a rationalisation.</div></div>
+
+        <div class="quiz-item" data-qfw="cmt"><div class="quiz-fw-tag">Contract Management</div><div class="quiz-q">Name the six domains of contract architecture.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Commercial terms (price, payment, escalation) · Performance framework (KPIs, SLAs, remedies) · Risk & liability (indemnities, insurance, liability caps, force majeure) · Change management (variation process, pricing of changes) · Termination & exit (rights, transition assistance, data return) · Governance (review cadence, escalation, dispute resolution).</div></div>
+
+        <div class="quiz-item" data-qfw="cmt"><div class="quiz-fw-tag">Contract Management</div><div class="quiz-q">What is post-award value leak, and what are its most common sources?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">The erosion of negotiated value after signature through passive management. Common sources: unenforced SLA credits and remedies · price increases accepted without contractual basis · volume discounts and rebates never claimed · scope creep priced at supplier discretion · auto-renewals passing without renegotiation · performance decline with no consequence. Industry estimates put typical leakage at a significant share of negotiated value when contracts are unmanaged.</div></div>
+
+        <div class="quiz-item" data-qfw="srisk"><div class="quiz-fw-tag">Supplier Risk</div><div class="quiz-q">Name the eight supplier risk types.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Disruption (capacity, disaster, logistics) · Quality (defects, drift, capability loss) · Financial (distress, insolvency) · Geopolitical (trade policy, sanctions, conflict) · Regulatory (compliance failures, changing requirements) · Cyber (breach, ransomware affecting supply) · ESG (labour practices, environmental incidents, reputational) · Concentration (single points of failure — supplier, geography, or sub-tier).</div></div>
+
+        <div class="quiz-item" data-qfw="srisk"><div class="quiz-fw-tag">Supplier Risk</div><div class="quiz-q">Give five early warning indicators of supplier financial distress.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Requests for changed payment terms (faster payment, deposits) · late deliveries trending upward · quality drift · key staff departures (especially finance/leadership) · credit rating downgrades or credit insurance withdrawal · reduced R&D or maintenance investment · unusual eagerness to lock in long-term volume. Any two together warrant a formal financial review.</div></div>
+
+        <div class="quiz-item" data-qfw="spend"><div class="quiz-fw-tag">Spend Analysis</div><div class="quiz-q">What are the three dimensions of the spend cube, and the seven process steps?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Cube: Category × Supplier × Business unit — every analysis is a slice through these three. Process: Extract → Consolidate → Cleanse → Classify → Enrich → Analyse → Action. The most commonly skipped steps are cleanse/classify (garbage in, garbage out) and action (analysis that changes nothing).</div></div>
+
+        <div class="quiz-item" data-qfw="spend"><div class="quiz-fw-tag">Spend Analysis</div><div class="quiz-q">Name four analytical lenses you'd apply to a cleansed spend dataset.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Supplier concentration (dependency risk, consolidation opportunity) · Tail spend (long tail of small suppliers — rationalisation) · Maverick spend (off-contract buying — compliance leakage) · Price variance (same item, different prices across units) · Payment terms distribution (working capital opportunity) · Contract coverage (spend under management %).</div></div>
+
+        <div class="quiz-item" data-qfw="scm"><div class="quiz-fw-tag">Should-Cost</div><div class="quiz-q">Name the six cost layers of a should-cost model.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Direct materials (BOM × market pricing × yield factor) · Direct labour (process time × regional loaded rate) · Manufacturing overhead (burden rate on labour/machine hours) · Tooling & NRE (amortised over volume) · Freight & logistics · SG&A + fair profit margin. Built from market data, independent of any supplier quote.</div></div>
+
+        <div class="quiz-item" data-qfw="scm"><div class="quiz-fw-tag">Should-Cost</div><div class="quiz-q">A supplier quotes 40% above your should-cost model. What are the two possible explanations, and what do you do?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Either (a) the supplier's price contains excess margin or inefficiency you shouldn't fund, or (b) your model has gaps — constraints, capabilities, or costs it doesn't capture. Both are valuable findings. Action: share the model, invite the supplier to identify where your assumptions are wrong, and let the resulting conversation either improve your model or drive price down. The gap is a data point demanding explanation, not a verdict.</div></div>
+
+        <div class="quiz-item" data-qfw="sse"><div class="quiz-fw-tag">Supplier Selection</div><div class="quiz-q">Why must evaluation criteria be defined before responses are received — and what's the difference between a qualifier and a scored criterion?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Criteria set after reading responses are shaped by those responses — bias that makes the decision indefensible under audit or supplier challenge. Qualifiers are pass/fail minimums (certifications, financial stability, compliance) — failing one disqualifies regardless of other scores. Scored criteria differentiate among qualified suppliers. Separating them prevents a fatally flawed supplier from looking attractive on price.</div></div>
+
+        <div class="quiz-item" data-qfw="sse"><div class="quiz-fw-tag">Supplier Selection</div><div class="quiz-q">Recite the eight-stage selection funnel.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Define (requirements + criteria, pre-approved) → Long list (market scan) → Pre-qualify (RFI + qualifiers → short list) → Solicit (RFQ/RFP) → Evaluate (scored against pre-set criteria) → Clarify/BAFO → Due diligence (site visit, financial check, references) → Award & onboard (with named owner and 90-day review).</div></div>
+
+        <div class="quiz-item" data-qfw="srm"><div class="quiz-fw-tag">SRM</div><div class="quiz-q">Why cap the strategic supplier tier at 5–15, and what happens when you don't?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">SRM's value comes from concentrating disproportionate relationship investment where it generates asymmetric returns — executive sponsorship, QBRs, joint value creation all consume real capacity. Spread across 50 "strategic" suppliers, the investment per relationship falls below the threshold where it produces returns. Everyone is in the programme; no one benefits from it. The label becomes political rather than analytical.</div></div>
+
+        <div class="quiz-item" data-qfw="srm"><div class="quiz-fw-tag">SRM</div><div class="quiz-q">Describe the three-level governance cadence for a strategic supplier.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Operational — monthly, ops leads both sides: KPIs, open issues, order pipeline. Strategic (QBR) — quarterly, category manager + senior account manager: scorecard, improvement initiatives, market outlook, relationship health. Executive — annual or bi-annual, CPO + supplier leadership: strategy alignment, innovation pipeline, joint value roadmap. Each level has distinct participants, agenda, and outputs — don't conflate them.</div></div>
+
+        <div class="quiz-item" data-qfw="sma"><div class="quiz-fw-tag">Market Analysis</div><div class="quiz-q">Name Porter's Five Forces as adapted for procurement, and identify which is the core force.</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Supplier power (the core force — number of alternatives, switching cost, differentiation, concentration) · Buyer power (your share of their revenue, alternatives available) · Threat of substitution (different technology/material meeting the same need) · Threat of new entrants (barriers to entry, market attractiveness) · Competitive rivalry (how aggressively suppliers compete — capacity utilisation is the key indicator).</div></div>
+
+        <div class="quiz-item" data-qfw="sma"><div class="quiz-fw-tag">Market Analysis</div><div class="quiz-q">What is the single most predictive indicator of market tightness, and what are the thresholds?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Capacity utilisation. Above ~85%: tightening market — lengthening lead times, rising supplier pricing power; lock in supply and expect price pressure. Below ~75%: suppliers have idle capacity and incentive to compete aggressively — a buyer's window for renegotiation and sourcing events. Timing sourcing activity against the utilisation cycle is one of the most underused levers in procurement.</div></div>
+
+        <div class="quiz-item" data-qfw="sma"><div class="quiz-fw-tag">Market Analysis</div><div class="quiz-q">Your supplier claims a 15% price increase is "raw material driven." How do you test the claim?</div><button class="quiz-reveal-btn" onclick="toggleAnswer(this)">Reveal answer</button><div class="quiz-answer">Compare against the relevant commodity index weighted by that material's share of product cost. If copper rose 20% but copper is 15% of product cost, the justified impact is ~3% — not 15%. Any increase above the index-weighted impact requires specific supplier cost data, not assertion. This is where your should-cost model and market analysis converge into a single negotiation instrument.</div></div>
+
+      </div>
+    </div><!-- /d2 -->
+
+  </div>
+</div><!-- /fw-drill -->
+
+<!-- ╔══ FRAMEWORK 12 — INVENTORY & PLANNING ══╗ -->
+<div class="fw-content" id="fw-inv">
+  <div class="fw-header">
+    <h1>Inventory &amp; Planning Interface</h1>
+    <p>Where procurement meets the planning engine — the mechanics of how demand signals, inventory policy, and supplier lead times interact to determine what gets bought, when, and in what quantity.</p>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('inv','i1',this)">01 — First Principles</button>
+      <button class="tab-btn" onclick="showTab('inv','i2',this)">02 — Core Mechanics</button>
+      <button class="tab-btn" onclick="showTab('inv','i3',this)">03 — The S&amp;OP Interface</button>
+      <button class="tab-btn" onclick="showTab('inv','i4',this)">04 — Pitfalls</button>
+    </div>
+  </div>
+  <div class="fw-body">
+
+    <div class="tab-panel active" id="inv-i1">
+      <div class="section-intro"><h2>First Principles</h2><p>Inventory is money in physical form, sitting on a shelf. Every inventory decision is a trade-off between service, cost, and risk — and procurement sits at the point where those trade-offs are executed with suppliers.</p></div>
+      <div class="principles-grid">
+        <div class="principle-card"><div class="p-num">01</div><h4>Inventory exists to decouple supply from demand</h4><p>Inventory is a buffer against mismatched timing: suppliers cannot deliver instantly, demand is not perfectly predictable, and production runs in batches. Every unit of stock exists to absorb one of these mismatches. Understanding <em>which</em> mismatch a given inventory pool serves is the prerequisite to deciding how much of it you need.</p></div>
+        <div class="principle-card"><div class="p-num">02</div><h4>Service level is a choice, not an outcome</h4><p>The stock-out probability you accept is a deliberate commercial decision — a 95% service level requires far less safety stock than 99%, and the cost difference is non-linear. The service level should be set by item criticality and the cost of a stock-out, not applied uniformly across the portfolio.</p></div>
+        <div class="principle-card"><div class="p-num">03</div><h4>Lead time is the master variable</h4><p>Almost every inventory quantity scales with lead time: reorder points, safety stock, exposure to obsolescence, and forecast error all grow as lead time extends. A supplier lead time reduction from 12 weeks to 6 is not a convenience — it halves your exposure window and can release significant working capital. Lead time is a negotiable commercial term; treat it as one.</p></div>
+        <div class="principle-card"><div class="p-num">04</div><h4>Variability costs more than volume</h4><p>Stable demand of 1,000 units/month is cheap to serve. Demand that averages 1,000 but swings between 200 and 2,500 is expensive — it drives safety stock, expediting, and capacity buffers throughout the chain. Reducing variability (through forecast sharing, order smoothing, and contract structure) is often worth more than reducing average volume cost.</p></div>
+        <div class="principle-card"><div class="p-num">05</div><h4>MOQs and price breaks are inventory decisions in disguise</h4><p>A supplier's minimum order quantity or volume price break transfers inventory holding from their balance sheet to yours. The unit price saving must be weighed against carrying cost, obsolescence risk, and cash committed. A 5% price break that forces 9 months of stock is frequently a net loss — do the arithmetic every time.</p></div>
+        <div class="principle-card"><div class="p-num">06</div><h4>Not all SKUs deserve equal attention</h4><p>ABC analysis (by value) crossed with XYZ analysis (by demand variability) segments the portfolio into management classes. AX items (high value, stable) suit tight automated replenishment; AZ items (high value, erratic) need human planning judgment; CX items (low value, stable) should consume near-zero planning effort. Uniform policies waste effort where it isn't needed and underinvest where it is.</p></div>
+        <div class="principle-card"><div class="p-num">07</div><h4>Obsolescence is the silent inventory killer</h4><p>In electronics especially, component lifecycles are shorter than product lifecycles. Excess stock doesn't just carry cost — it can become worthless overnight with an engineering change or end-of-life notice. Last-time-buy decisions are among the highest-stakes inventory calls procurement makes: buy too little and face a redesign; buy too much and write it off.</p></div>
+        <div class="principle-card"><div class="p-num">08</div><h4>The forecast is always wrong — the question is by how much</h4><p>Plan around forecast error, not forecast accuracy. Measure it (MAPE, bias), track it by item class, and size buffers from measured error rather than assumed precision. A planning system that pretends the forecast is right will systematically under-protect volatile items and over-protect stable ones.</p></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="inv-i2">
+      <div class="section-intro"><h2>Core Mechanics</h2><p>The quantitative machinery of replenishment. These models are simplifications — their value is in making the trade-offs explicit, not in producing decimal-point precision.</p></div>
+      <div class="expand-list">
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>Economic Order Quantity (EOQ)</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>EOQ = √(2DS ÷ H) — where D is annual demand, S is the fixed cost per order, and H is the annual holding cost per unit. It finds the order size that minimises the sum of ordering cost and carrying cost.</p>
+            <p><strong style="color:var(--text);font-weight:500">Use it for:</strong> a starting point on order sizing, and as the counterweight when a supplier pushes MOQs or price breaks above your economic quantity.</p>
+            <p><strong style="color:var(--text);font-weight:500">Its limits:</strong> assumes stable demand, fixed costs, and no quantity discounts. Real decisions adjust EOQ for MOQs, packaging multiples, shelf life, and price break economics — but the EOQ tells you what the adjustment is costing you.</p>
+          </div>
+        </div>
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>Safety Stock &amp; Service Level</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>Basic form: SS = Z × σd × √LT — where Z is the service factor (1.65 for 95%, 2.33 for 99%), σd is the standard deviation of demand per period, and LT is lead time in periods. Extended forms also incorporate lead time variability, which often matters more than demand variability.</p>
+            <p><strong style="color:var(--text);font-weight:500">Key insight:</strong> safety stock scales with the <em>square root</em> of lead time but <em>linearly</em> with the Z factor — pushing service from 95% to 99% costs ~40% more buffer; pushing to 99.9% roughly doubles it. Choose service levels item by item.</p>
+            <p><strong style="color:var(--text);font-weight:500">Procurement lever:</strong> reducing supplier lead time variability (not just average lead time) directly cuts required safety stock. Make delivery consistency a scored KPI, not just OTD.</p>
+          </div>
+        </div>
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>Reorder Point (ROP)</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>ROP = (average demand per period × lead time in periods) + safety stock. When stock position (on hand + on order − allocated) falls to the ROP, a replenishment order triggers.</p>
+            <p><strong style="color:var(--text);font-weight:500">Watch:</strong> the calculation uses stock <em>position</em>, not stock on hand — forgetting open POs causes double-ordering. And every lead time change must flow through to the ROP immediately; stale lead times are the most common cause of systematic stock-outs after a supply transition.</p>
+          </div>
+        </div>
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>ABC / XYZ Segmentation</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>ABC ranks items by annual spend value (A ≈ top 80% of value, B next 15%, C last 5%). XYZ ranks by demand variability (X stable, Y seasonal/trending, Z erratic). The 9-cell matrix assigns planning policy: automated min/max for CX, statistical replenishment for AX/BX, human review and supplier collaboration for AZ/BZ.</p>
+            <p><strong style="color:var(--text);font-weight:500">Procurement application:</strong> AX items justify long-term agreements with scheduled releases; AZ items justify flexibility clauses and vendor-managed buffers; CX items belong on catalogues or consignment with zero planning touch.</p>
+          </div>
+        </div>
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>MOQ &amp; Price Break Economics</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>To evaluate a price break: compare the unit price saving on annual volume against the incremental carrying cost of the larger order quantity — incremental average inventory × holding rate (typically 15–25%/yr for electronics once obsolescence and cost of capital are included). Include obsolescence probability explicitly for lifecycle-sensitive parts.</p>
+            <p><strong style="color:var(--text);font-weight:500">Rule of thumb:</strong> if the price break forces more than ~3–4 months of additional stock for a saving under 5%, it usually fails the arithmetic. Counter-offer: the break price at a committed annual volume with scheduled releases — the supplier gets the volume certainty; you avoid the inventory.</p>
+          </div>
+        </div>
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>VMI, Consignment &amp; Buffer Agreements</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>Vendor-Managed Inventory: the supplier plans and replenishes against agreed min/max levels using your consumption data. Consignment: stock sits at your site but remains supplier-owned until consumed — you carry no working capital. Buffer agreements: the supplier holds finished or semi-finished stock at agreed levels, funded by volume commitment or a holding fee.</p>
+            <p><strong style="color:var(--text);font-weight:500">When each fits:</strong> VMI for stable, repetitive C/B items where planning effort exceeds value; consignment for high-value items with unpredictable pull; buffer agreements for long-lead strategic components where continuity risk justifies the commitment.</p>
+            <p><strong style="color:var(--text);font-weight:500">The honest trade:</strong> all three shift cost or risk to the supplier — expect it priced in somewhere. The win is when the supplier can carry the buffer more cheaply than you can (better demand pooling, earlier position in the value chain), creating genuine joint saving rather than cost transfer.</p>
+          </div>
+        </div>
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>Last-Time-Buy (LTB) Decisions</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>When a component is end-of-life'd, the LTB quantity must cover remaining product demand plus service/warranty obligations across the support horizon — often 5–10 years for industrial electronics. Build the estimate from: remaining production forecast, field failure rates for service demand, yield loss, and a defined confidence buffer.</p>
+            <p><strong style="color:var(--text);font-weight:500">Before buying:</strong> exhaust the alternatives — pin-compatible substitutes, broker market assessment, die-bank options, or redesign economics. An LTB is a multi-year bet with zero salvage value if wrong; it deserves cross-functional sign-off (engineering + product + finance), not a solo procurement call.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="inv-i3">
+      <div class="section-intro"><h2>The S&amp;OP Interface</h2><p>Sales &amp; Operations Planning is the monthly rhythm that converts a demand forecast into supply decisions. Procurement's job is to translate that plan into supplier commitments — and to feed supply reality back into it.</p></div>
+      <div class="process-list">
+        <div class="process-step"><div class="step-spine"><div class="step-num">01</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Demand Review</div><h4>Consolidate the Demand Signal</h4><p>Sales, marketing, and product converge on a single unconstrained demand forecast — by family, then by SKU. Procurement's interest here: forecast changes at the component level, new product introduction timing, and end-of-life ramps. Attend or read the output; surprises caught here are cheap.</p><div class="step-tags"><span class="tag output">Consensus demand plan</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">02</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Supply Review</div><h4>Test the Plan Against Supply Reality</h4><p>Planning explodes demand through the BOM into component requirements and tests them against capacity, inventory, and supplier constraints. This is where procurement contributes hard intelligence: allocation risks, lead time movements, supplier capacity ceilings, and price-volume trade-offs. A supply review without current supplier intelligence is a spreadsheet exercise.</p><div class="step-tags"><span class="tag tool">Supplier capacity data</span><span class="tag output">Constrained supply plan</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">03</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Reconcile</div><h4>Close Gaps and Escalate Trade-offs</h4><p>Where demand exceeds feasible supply, the gap must be closed by decision — expedite (at cost), reallocate, buffer, or reduce the commitment. Procurement owns the expedite economics and the supplier conversations. Unresolved trade-offs go to the executive S&amp;OP meeting with options priced, not problems described.</p><div class="step-tags"><span class="tag output">Gap-closure options, priced</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">04</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Commit</div><h4>Convert the Plan into Supplier Commitments</h4><p>The approved plan becomes purchase orders, scheduled releases against agreements, and rolling forecast commitments to suppliers. Structure commitments in bands: firm (inside lead time), semi-firm (material authorisation), and forecast-only. The band structure is a negotiated contract term — it defines who carries the risk of change at each horizon.</p><div class="step-tags"><span class="tag output">PO / release schedule</span><span class="tag tool">Flexibility bands</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">05</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Share</div><h4>Extend Forecast Visibility to Key Suppliers</h4><p>Strategic suppliers receive a rolling 12–18 month forecast with clear firmness bands. This is not altruism — visibility lets the supplier plan capacity and material, which shortens effective lead time, improves allocation position in shortages, and reduces the risk premium in their pricing. Forecast sharing is one of the highest-return, lowest-cost levers in the entire interface.</p><div class="step-tags"><span class="tag output">Rolling supplier forecast</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">06</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Measure</div><h4>Track Forecast Error and Feed It Back</h4><p>Measure forecast accuracy (MAPE) and bias at the levels that drive buying decisions. Persistent bias is a process failure with a name attached — systematic over-forecasting builds inventory; under-forecasting drives expediting. Feed measured error into safety stock sizing, and feed supplier delivery performance back into lead time parameters. The loop, not the plan, is what improves.</p><div class="step-tags"><span class="tag tool">MAPE / bias tracking</span><span class="tag watch">Stale parameters corrupt everything downstream</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="inv-i4">
+      <div class="section-intro"><h2>Common Failure Modes</h2><p>Planning-interface failures are quiet — they show up as chronic expediting, creeping stock, and write-offs, rarely as a single visible event.</p></div>
+      <div class="pitfalls-list">
+        <div class="pitfall-item"><div class="pitfall-num">01</div><div><h4>Chasing unit price into an inventory trap</h4><p>Accepting MOQs or price breaks far above economic quantity converts a visible price saving into invisible carrying cost and obsolescence exposure. Procurement gets credited for the saving; the write-off two years later lands on someone else's line.</p><div class="pitfall-fix">Run the price-break arithmetic (saving vs. incremental carrying + obsolescence cost) on every MOQ above ~3 months of demand. Report deals on a total-cost basis, not unit price.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">02</div><div><h4>Uniform service levels across the portfolio</h4><p>Applying 98% service to every SKU over-protects cheap stable items and under-protects critical volatile ones. The result is simultaneously too much inventory and too many of the stock-outs that actually hurt.</p><div class="pitfall-fix">Set service levels by ABC/XYZ class and stock-out consequence. Review annually — item criticality changes as products and suppliers change.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">03</div><div><h4>Stale lead times in the planning system</h4><p>Lead times entered at qualification and never updated silently corrupt every reorder point and safety stock downstream. After a supply market shift, the system keeps ordering as if it were still last year.</p><div class="pitfall-fix">Reconcile system lead times against actual receipt performance quarterly. Make lead time updates a mandatory step in every sourcing change and supplier review.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">04</div><div><h4>Forecast sharing without firmness bands</h4><p>Sending suppliers a raw forecast with no definition of what is firm creates one of two failures: the supplier treats it all as speculative (no capacity protection), or claims it was all commitment (liability dispute when demand drops).</p><div class="pitfall-fix">Contractually define the bands — firm, material-authorised, forecast-only — with explicit liability at each horizon. Review band performance at QBRs.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">05</div><div><h4>Treating expediting as free</h4><p>Chronic expediting — premium freight, broker buys, schedule disruption — is a recurring tax paid for planning failure. Because it's spread across many small events, it rarely appears as a line item anyone owns.</p><div class="pitfall-fix">Track expedite spend and premium freight as a named metric with a root-cause code (forecast error, supplier failure, parameter error). Chronic causes get fixed; one-off events get absorbed.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">06</div><div><h4>LTB decisions made by one function</h4><p>A last-time-buy sized by procurement alone (or engineering alone) systematically misses either the demand picture, the substitution options, or the financial exposure. These are multi-year, zero-salvage bets.</p><div class="pitfall-fix">Formalise LTB as a cross-functional decision — engineering (alternatives), product (demand horizon), finance (exposure), procurement (market options) — with documented assumptions and sign-off.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">07</div><div><h4>Consignment/VMI as cost transfer theatre</h4><p>Pushing inventory onto supplier books without changing total chain cost just relocates the expense — and it returns in price at the next negotiation, with a margin on top.</p><div class="pitfall-fix">Pursue VMI/consignment where the supplier genuinely carries stock cheaper (demand pooling, upstream position). Model the total chain cost before and after; if it hasn't fallen, you've moved cost, not removed it.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">08</div><div><h4>Ignoring demand variability you are causing</h4><p>Batch ordering, end-of-quarter pushes, and lumpy release patterns amplify variability up the chain (the bullwhip effect). Suppliers price that chaos back to you as lead time, buffer stock, and margin.</p><div class="pitfall-fix">Smooth release patterns where demand allows. Ask key suppliers where your ordering behaviour hurts them — the answer is often a free lead-time or cost improvement.</div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /fw-inv -->
+
+<!-- ╔══ FRAMEWORK 13 — SUPPLY CHAIN RESILIENCE ══╗ -->
+<div class="fw-content" id="fw-res">
+  <div class="fw-header">
+    <h1>Supply Chain Resilience</h1>
+    <p>The deliberate design of a supply chain that can absorb, adapt to, and recover from disruption — built before the event, because during the event is too late.</p>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('res','e1',this)">01 — First Principles</button>
+      <button class="tab-btn" onclick="showTab('res','e2',this)">02 — Resilience Levers</button>
+      <button class="tab-btn" onclick="showTab('res','e3',this)">03 — Building the Programme</button>
+      <button class="tab-btn" onclick="showTab('res','e4',this)">04 — Pitfalls</button>
+    </div>
+  </div>
+  <div class="fw-body">
+
+    <div class="tab-panel active" id="res-e1">
+      <div class="section-intro"><h2>First Principles</h2><p>Resilience is distinct from risk management: risk management asks "what could go wrong and how likely is it?" Resilience asks "when something goes wrong — predicted or not — how fast do we recover?"</p></div>
+      <div class="principles-grid">
+        <div class="principle-card"><div class="p-num">01</div><h4>Efficiency and resilience trade off — choose consciously</h4><p>Decades of lean optimisation stripped buffers, consolidated suppliers, and extended supply lines — all rational for cost, all fragilising. Neither extreme is right. The discipline is making the trade-off explicitly, item by item, rather than discovering after a disruption that efficiency was chosen by default everywhere.</p></div>
+        <div class="principle-card"><div class="p-num">02</div><h4>You cannot protect what you cannot see</h4><p>Most organisations know their Tier 1 suppliers and almost nothing beyond. Yet disruptions overwhelmingly originate at Tier 2+ — the fab, the substrate maker, the specialty chemical plant that three of your "diversified" Tier 1s all depend on. Multi-tier mapping of critical paths is the entry ticket to resilience; everything else builds on it.</p></div>
+        <div class="principle-card"><div class="p-num">03</div><h4>Time-to-recover and time-to-survive frame every decision</h4><p>For each critical node ask: if it fails, how long until supply resumes (TTR), and how long can we operate without it (TTS)? Where TTR exceeds TTS, you have quantified exposure — and a case for buffers, alternates, or redesign. This simple comparison converts vague anxiety into a ranked investment list.</p></div>
+        <div class="principle-card"><div class="p-num">04</div><h4>Dual sourcing is a capability, not a line in a register</h4><p>A second source that has never received volume, holds no tooling, and hasn't been qualified on the current revision is a name, not an alternative. Genuine dual sourcing means both suppliers are qualified, tooled, and receiving enough share to stay current — which costs money in duplicated NRE and split leverage. Pay it only where the exposure justifies it.</p></div>
+        <div class="principle-card"><div class="p-num">05</div><h4>Concentration hides inside diversification</h4><p>Four suppliers across three countries can still share one upstream chokepoint — a single wafer fab, one port, one rare-earth refiner. Resilience analysis must trace to the level where paths genuinely diverge, not stop at the count of Tier 1 logos.</p></div>
+        <div class="principle-card"><div class="p-num">06</div><h4>Buffers are insurance — price them like it</h4><p>Strategic inventory, capacity reservations, and flexibility clauses all carry premiums. The rational question is whether the premium is less than exposure × probability. Sometimes it isn't, and accepting the risk is correct — but that should be a documented decision, not an accident of budget pressure.</p></div>
+        <div class="principle-card"><div class="p-num">07</div><h4>Response speed is a designed property</h4><p>Organisations that recover fast pre-decided who convenes, what authority they hold, and what the playbook's first ten moves are. In a shortage, the buyer who calls the supplier in hour one with volume authority beats the one who convenes a committee in week two. Speed comes from pre-authorisation, not heroics.</p></div>
+        <div class="principle-card"><div class="p-num">08</div><h4>Resilience decays without exercise</h4><p>Alternate sources drift out of qualification, contacts go stale, playbooks rot. Untested resilience is a hypothesis. Periodic exercises — a simulated supplier failure, a real volume shift to the second source — are what convert paper resilience into working capability.</p></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="res-e2">
+      <div class="section-intro"><h2>Resilience Levers</h2><p>Six families of intervention. None is universally right — each is bought with cost, complexity, or leverage, and matched to the exposure it addresses.</p></div>
+      <div class="expand-list">
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>Multi-Sourcing &amp; Qualification Depth</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>The strongest structural lever: two or more genuinely qualified, tooled, volume-receiving suppliers on different failure paths (different geographies, different upstream dependencies). Variants: full dual-source (both live), warm alternate (qualified, small share), cold alternate (qualified once, dormant — weakest).</p>
+            <p><strong style="color:var(--text);font-weight:500">Costs:</strong> duplicated NRE/tooling, split volume leverage, double qualification maintenance. <strong style="color:var(--text);font-weight:500">Fit:</strong> A-class strategic components where TTR &gt; TTS and redesign is slow.</p>
+          </div>
+        </div>
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>Strategic Buffers</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>Inventory held explicitly against disruption (distinct from cycle/safety stock): sized from TTS-vs-TTR gaps on critical items. Options: buyer-held stock, supplier-held buffer under contract, or bonded/3PL stock at a neutral point. For electronics, die banking (holding wafers/die before packaging) buys long cover at lower cost and lower obsolescence exposure than finished parts.</p>
+            <p><strong style="color:var(--text);font-weight:500">Discipline:</strong> strategic buffer is ring-fenced — it is not available to cover forecast misses, or it will silently become safety stock and be gone when the event arrives.</p>
+          </div>
+        </div>
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>Geographic &amp; Logistics Diversification</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>Reducing correlated exposure: nearshoring or regionalising supply for critical items, qualifying alternate ports and freight lanes, and avoiding single-country concentration for any component family. For NZ-based operations the logistics dimension is acute — long, thin inbound lanes mean freight disruption is a primary risk, not a footnote.</p>
+            <p><strong style="color:var(--text);font-weight:500">Honest trade:</strong> regional supply usually carries a unit-cost premium. Price it against the exposure it removes; apply it selectively to the critical path, not the whole portfolio.</p>
+          </div>
+        </div>
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>Contractual Flexibility &amp; Capacity Rights</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>Resilience written into commercial terms: volume flexibility bands (e.g. ±25% at 8 weeks), capacity reservation fees, allocation priority clauses, disclosed sub-tier dependencies, and mandatory disruption notification within defined hours. In shortage conditions, contractual allocation priority — agreed when you had leverage — is worth more than relationship goodwill.</p>
+            <p><strong style="color:var(--text);font-weight:500">Negotiate when calm:</strong> none of these terms is obtainable mid-crisis. They are bought during normal sourcing events, priced as modest premiums, and exercised rarely.</p>
+          </div>
+        </div>
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>Design for Resilience</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>The upstream lever most procurement teams never pull: influencing engineering toward multi-sourced components, standard packages over sole-source exotics, approved alternates on the BOM at design time, and component commonality across products (which pools demand and simplifies buffering). A resilient BOM beats any amount of downstream heroics.</p>
+            <p><strong style="color:var(--text);font-weight:500">Mechanism:</strong> a sourcing-risk gate in the NPI process — every new sole-source component requires justification and a documented mitigation before design freeze.</p>
+          </div>
+        </div>
+        <div class="expand-item">
+          <div class="expand-header" onclick="toggleExpand(this)"><span>Sensing &amp; Early Warning</span><span class="expand-toggle">+</span></div>
+          <div class="expand-body">
+            <p>Shortening detection time: supplier financial monitoring, PCN/EOL feeds for electronic components, geopolitical and weather watch on concentrated nodes, and lead-time trend tracking (a creeping quote lead time is often the first public signal of allocation). Detection days ahead of competitors translates directly into allocation position and broker-market cost.</p>
+            <p><strong style="color:var(--text);font-weight:500">Keep it proportionate:</strong> monitor the critical-path map, not the universe. A tight watch on 40 nodes beats a shallow feed on 4,000.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="res-e3">
+      <div class="section-intro"><h2>Building the Programme</h2><p>Six steps from unknown exposure to exercised capability. The sequence matters — levers chosen before mapping produce expensive protection in the wrong places.</p></div>
+      <div class="process-list">
+        <div class="process-step"><div class="step-spine"><div class="step-num">01</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Map</div><h4>Trace Critical Paths Beyond Tier 1</h4><p>Select the products or revenue streams that matter most; explode their BOMs to critical components; trace each to Tier 2/3 for manufacturing site, geography, and known chokepoints. Perfection is not required — mapping the top 50–100 critical items to genuine path divergence covers most exposure.</p><div class="step-tags"><span class="tag output">Multi-tier dependency map</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">02</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Assess</div><h4>Quantify TTR vs TTS per Critical Node</h4><p>For each mapped node estimate time-to-recover (requalification, tooling, alternate ramp) and time-to-survive (current cover: inventory + pipeline + demand flexibility). The gap, multiplied by the revenue at risk, is your exposure in dollars and weeks.</p><div class="step-tags"><span class="tag tool">TTR/TTS analysis</span><span class="tag output">Exposure register, quantified</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">03</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Prioritise</div><h4>Rank by Exposure, Not by Noise</h4><p>Sort the register by exposure size and recovery difficulty. Resist recency bias — the last disruption dominates attention while larger, quieter exposures sit unaddressed. The output is a short ranked list the organisation can actually fund.</p><div class="step-tags"><span class="tag output">Ranked mitigation portfolio</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">04</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Design</div><h4>Match Levers to Exposures and Price Them</h4><p>For each top exposure choose the cheapest adequate lever mix — alternate qualification here, die bank there, contractual flexibility elsewhere — with the premium stated against the exposure removed. Some risks will be consciously accepted; document those decisions with the same rigour as the mitigations.</p><div class="step-tags"><span class="tag output">Costed mitigation plan</span><span class="tag watch">Accepted risks documented, not ignored</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">05</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Playbook</div><h4>Pre-Decide the Response</h4><p>Write the disruption playbook while calm: trigger definitions, who convenes within what timeframe, pre-authorised spend limits for expedites and broker buys, allocation decision rights when supply can't meet all demand, and the communication tree — including who calls which supplier executive in hour one.</p><div class="step-tags"><span class="tag output">Response playbook with authorities</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">06</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Exercise</div><h4>Test, Learn, and Keep It Alive</h4><p>Run an annual scenario exercise on a plausible failure; periodically move real volume to warm alternates to keep them genuinely qualified; refresh the map and register on a set cadence and after every market event. After any real disruption, run a structured post-mortem — the event already paid the tuition; collect the learning.</p><div class="step-tags"><span class="tag tool">Annual exercise</span><span class="tag output">Living programme, not a binder</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="res-e4">
+      <div class="section-intro"><h2>Common Failure Modes</h2><p>Resilience programmes fail through comfortable illusions — paper alternates, raided buffers, and maps that stop at Tier 1.</p></div>
+      <div class="pitfalls-list">
+        <div class="pitfall-item"><div class="pitfall-num">01</div><div><h4>Paper dual sourcing</h4><p>A second source qualified years ago, on an old revision, with no tooling and no volume, listed in the register as "mitigated." When the primary fails, the alternate's real lead time turns out to be nine months.</p><div class="pitfall-fix">Define minimum conditions for "qualified alternate" — current revision, tooling status, refresh cadence, minimum volume share. Audit annually; downgrade anything that fails.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">02</div><div><h4>Mapping stops at Tier 1</h4><p>Diversification counted by Tier 1 logos while all paths converge on one fab, one port, or one refiner two tiers up. The map says resilient; the structure says single point of failure.</p><div class="pitfall-fix">For critical items, trace until paths genuinely diverge. Contractually require Tier 1s to disclose manufacturing sites and critical sub-tier dependencies.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">03</div><div><h4>Strategic buffers raided for forecast misses</h4><p>Disruption stock quietly consumed to cover ordinary planning errors. The register still shows twelve weeks of cover; the shelf holds three.</p><div class="pitfall-fix">Ring-fence strategic stock with separate ownership and release authority. Any draw triggers replenishment and a root-cause note.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">04</div><div><h4>Buying resilience everywhere</h4><p>Blanket dual-sourcing mandates and across-the-board buffer increases spend the resilience budget on low-exposure items, leaving the genuinely dangerous nodes under-protected because the money ran out.</p><div class="pitfall-fix">Fund from the ranked exposure register only. Resilience is targeted insurance, not a uniform coating.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">05</div><div><h4>No pre-authorised response authority</h4><p>The disruption hits; the first week disappears into meetings about who may approve premium freight and whether the broker buy needs three quotes. Allocation position is lost in exactly the window it's decided.</p><div class="pitfall-fix">Pre-authorise crisis spend limits and decision rights in the playbook, signed off by finance before any event. Speed is bought in advance.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">06</div><div><h4>Resilience as a one-off project</h4><p>A post-crisis programme produces maps, registers, and a binder — then attention moves on. Three years later the map is fiction and the alternates are cold.</p><div class="pitfall-fix">Assign standing ownership, a refresh calendar, and an annual exercise. Report programme health (map currency, alternate status, buffer integrity) to leadership yearly.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">07</div><div><h4>Ignoring the demand side of survival</h4><p>TTS calculated on inventory alone, overlooking demand levers — product substitution, allocation to priority customers, feature variants that avoid the constrained part. Survival time is understated and buffers oversized.</p><div class="pitfall-fix">Include demand flexibility in TTS: which products can flex, which customers are protected first, which BOM alternates exist. Agree these with product and sales before the event.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">08</div><div><h4>Learning nothing from the near miss</h4><p>Disruptions that almost hurt — the allocation you escaped, the freight delay absorbed by luck — pass without analysis, wasting the cheapest learning available.</p><div class="pitfall-fix">Run lightweight post-mortems on near misses, not just direct hits. Each one is a free stress test; feed findings straight into the register and playbook.</div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /fw-res -->
+
+<!-- ╔══ FRAMEWORK 14 — SUSTAINABLE PROCUREMENT ══╗ -->
+<div class="fw-content" id="fw-sus">
+  <div class="fw-header">
+    <h1>Sustainable &amp; Ethical Procurement</h1>
+    <p>Embedding environmental, social, and governance obligations into how the organisation buys — driven by regulation, customer flow-downs, and the supply chain's outsized share of most companies' total impact.</p>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('sus','u1',this)">01 — First Principles</button>
+      <button class="tab-btn" onclick="showTab('sus','u2',this)">02 — The Obligation Landscape</button>
+      <button class="tab-btn" onclick="showTab('sus','u3',this)">03 — Embedding in Practice</button>
+      <button class="tab-btn" onclick="showTab('sus','u4',this)">04 — Pitfalls</button>
+    </div>
+  </div>
+  <div class="fw-body">
+
+    <div class="tab-panel active" id="sus-u1">
+      <div class="section-intro"><h2>First Principles</h2><p>Sustainable procurement is risk management and market access, not philanthropy. The obligations arrive through law and through customers — and they land on procurement because the supply chain is where most of the exposure lives.</p></div>
+      <div class="principles-grid">
+        <div class="principle-card"><div class="p-num">01</div><h4>Your supply chain is most of your footprint — and most of your risk</h4><p>For a typical manufacturer, the large majority of carbon emissions (Scope 3) and nearly all modern-slavery exposure sit with suppliers, not in your own operations. Any credible ESG position therefore runs through procurement. This is why the obligations keep landing on your desk: you hold the commercial relationships where the exposure lives.</p></div>
+        <div class="principle-card"><div class="p-num">02</div><h4>Obligations flow down — and you flow them down again</h4><p>Large customers discharge their own legal and investor commitments by imposing requirements on suppliers: codes of conduct, emissions disclosure, audit rights, conflict-mineral declarations. You receive these as a supplier and must pass the relevant parts to your own supply base. Procurement is the transmission mechanism in both directions.</p></div>
+        <div class="principle-card"><div class="p-num">03</div><h4>Risk-based effort, not uniform coverage</h4><p>Auditing every supplier equally is impossible and pointless. Exposure concentrates by category (electronics assembly, raw material extraction, low-wage labour services), by geography, and by workforce type. Segment the supply base by inherent ESG risk and concentrate due diligence where the exposure actually is — the same portfolio logic as Kraljic, applied to a different risk axis.</p></div>
+        <div class="principle-card"><div class="p-num">04</div><h4>Transparency beats false assurance</h4><p>Regulators and sophisticated customers do not expect a clean supply chain; they expect you to know it, disclose honestly, and show improvement. A statement that says "we found risk indicators here and are remediating" is stronger — legally and reputationally — than one claiming zero issues, which nobody believes and any journalist can falsify.</p></div>
+        <div class="principle-card"><div class="p-num">05</div><h4>Remediate before you terminate</h4><p>Cutting a supplier at the first finding punishes disclosure, drives problems underground, and frequently harms the affected workers a second time. Leading practice is corrective action with deadlines, support, and verification — reserving exit for refusal to engage or severe, unremediated harm. Your leverage to improve conditions exists only while the commercial relationship does.</p></div>
+        <div class="principle-card"><div class="p-num">06</div><h4>ESG criteria belong inside the sourcing decision, not beside it</h4><p>If sustainability is a policy statement that never appears in supplier selection scoring, contract clauses, or QBR agendas, it is decoration. The test of a real programme: could an ESG factor change a sourcing outcome? If the answer is no, the programme is cosmetic.</p></div>
+        <div class="principle-card"><div class="p-num">07</div><h4>Data quality is the practical constraint</h4><p>Scope 3 reporting, materials declarations, and origin tracing all depend on data suppliers may not hold, may estimate poorly, or may be reluctant to share. Build capability progressively: spend-based estimates first, supplier-specific data for the concentrated categories, primary data only where materiality justifies the collection burden — on both sides.</p></div>
+        <div class="principle-card"><div class="p-num">08</div><h4>Sustainability requirements are commercial terms — price them</h4><p>Certifications, audits, data provision, and material substitutions cost suppliers real money, and that cost returns in price. Sequence and prioritise requirements, contribute to shared audit schemes where possible, and accept that some obligations are worth paying for. Pretending compliance is free just pushes suppliers toward box-ticking.</p></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="sus-u2">
+      <div class="section-intro"><h2>The Obligation Landscape</h2><p>The requirements arrive from three directions: legislation, customer flow-downs, and voluntary frameworks that become de facto mandatory once large customers adopt them.</p></div>
+
+      <h3 style="font-family:var(--font-serif);font-size:18px;color:var(--text);margin:0 0 16px;">Key Obligation Families</h3>
+      <table class="comparison-table" style="margin-bottom:36px;">
+        <thead><tr><th>Family</th><th>Representative Instruments</th><th>What Procurement Must Actually Do</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Modern slavery &amp; labour rights</strong></td><td>Australia's Modern Slavery Act 2018 (reporting entities); UK MSA 2015; NZ has been moving toward disclosure legislation — verify current status; ILO core conventions</td><td>Risk-assess the supply base, run due diligence on high-risk categories, publish honest annual statements, maintain remediation processes</td></tr>
+          <tr><td><strong>Emissions &amp; climate</strong></td><td>Scope 3 (Cat 1: purchased goods) under the GHG Protocol; NZ climate-related disclosures regime for large entities; customer net-zero flow-downs; CBAM for EU-exposed goods</td><td>Build category emission estimates, collect supplier data where material, include emissions criteria in strategic sourcing</td></tr>
+          <tr><td><strong>Materials &amp; product compliance</strong></td><td>RoHS, REACH, conflict minerals (3TG) declarations via CMRT; packaging and e-waste stewardship schemes</td><td>Maintain declarations across the BOM, flow requirements into supplier contracts and change control, manage evidence for customer requests</td></tr>
+          <tr><td><strong>Customer &amp; market flow-downs</strong></td><td>Supplier codes of conduct, EcoVadis / responsible-business assessments, audit rights, RBA (electronics industry) programmes</td><td>Respond as a supplier; cascade equivalent requirements to your own supply base proportionately</td></tr>
+          <tr><td><strong>Governance &amp; integrity</strong></td><td>Anti-bribery law with extraterritorial reach (FCPA, UK Bribery Act); sanctions and export-control regimes</td><td>Screen counterparties, embed compliance clauses, escalate red flags — this family overlaps heavily with Governance &amp; Policy (15)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="two-col">
+        <div class="info-card">
+          <h4>Where Exposure Concentrates</h4>
+          <p>Electronics assembly and component manufacture (migrant labour, recruitment-fee bondage risk) · raw material extraction (3TG minerals, mica, cobalt) · low-wage onshore services — cleaning, security, logistics labour hire (often the highest <em>domestic</em> modern-slavery risk, and routinely overlooked because the spend is small) · packaging and timber products (deforestation, origin fraud).</p>
+        </div>
+        <div class="info-card">
+          <h4>Signals of Elevated Risk</h4>
+          <p>Recruitment fees charged to workers · retained passports or documents · labour-hire layers obscuring the true employer · prices structurally below any plausible compliant cost base · refusal of site access or worker interviews · certificates that cannot be verified with the issuing body. Any of these moves a supplier up the due-diligence queue regardless of category.</p>
+        </div>
+        <div class="info-card">
+          <h4>The Assurance Ladder</h4>
+          <p>Ascending cost and confidence: self-assessment questionnaire → desktop verification of certificates → shared/industry audit (RBA, SMETA) → independent site audit with worker interviews → ongoing worker-voice channels. Match the rung to inherent risk; reserve the expensive rungs for the exposure that warrants them.</p>
+        </div>
+        <div class="info-card">
+          <h4>Evidence Discipline</h4>
+          <p>Every obligation family ultimately reduces to evidence on request: statements, declarations, audit reports, corrective-action records. Keep them centrally, mapped to supplier and contract, with expiry tracking. The organisation that can produce evidence in a day wins customer audits; the one that scrambles for weeks loses bids.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="sus-u3">
+      <div class="section-intro"><h2>Embedding in Practice</h2><p>Seven steps that convert policy into operating reality — each one attaching sustainability to a procurement mechanism that already exists, rather than building a parallel bureaucracy.</p></div>
+      <div class="process-list">
+        <div class="process-step"><div class="step-spine"><div class="step-num">01</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Commit</div><h4>Set Policy and Supplier Code</h4><p>Board-endorsed policy defining scope and commitments, expressed operationally as a Supplier Code of Conduct: labour standards, environment, integrity, and the right to verify. Keep the code short, translated where needed, and written as requirements — not aspirations.</p><div class="step-tags"><span class="tag output">Policy + Supplier Code of Conduct</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">02</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Segment</div><h4>Risk-Map the Supply Base</h4><p>Score suppliers and categories on inherent ESG risk: category type, country indices, workforce profile, spend materiality. The output is a tiered due-diligence queue — the same discipline as Kraljic, on a different axis. Expect the high-risk tier to be small and not perfectly correlated with spend.</p><div class="step-tags"><span class="tag tool">Country/category risk indices</span><span class="tag output">ESG risk segmentation</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">03</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Gate</div><h4>Build ESG into Selection and Onboarding</h4><p>Qualifiers for the non-negotiables (code acceptance, legal compliance, no unremediated severe findings) and scored criteria where differentiation is real (certifications, emissions maturity, transparency). New-supplier onboarding collects the declarations once, systematically — retrofitting is ten times the effort.</p><div class="step-tags"><span class="tag output">ESG criteria in the SSE scorecard</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">04</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Contract</div><h4>Flow Obligations into Terms</h4><p>Code compliance, audit and access rights, sub-tier flow-down, disclosure duties, remediation obligations, and termination rights for severe unremediated breaches. Without contractual footing, every later conversation is a favour; with it, verification and remediation are enforceable process.</p><div class="step-tags"><span class="tag output">Standard ESG clause set</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">05</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Verify</div><h4>Run Proportionate Due Diligence</h4><p>Apply the assurance ladder by risk tier: SAQs broadly, verified audits for the high-risk tier, worker-voice mechanisms where the stakes justify them. Prefer shared industry audits (RBA in electronics) over proprietary duplicates — suppliers drowning in redundant audits give worse data, not better.</p><div class="step-tags"><span class="tag tool">Assurance ladder</span><span class="tag output">Findings register</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">06</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Remediate</div><h4>Manage Findings to Closure</h4><p>Corrective action plans with owners, deadlines, and verification of closure — mirroring quality CAPA discipline. Escalate stalled plans through commercial governance (QBRs, volume decisions). Exit is the last rung, used for refusal or severe unremediated harm, executed responsibly.</p><div class="step-tags"><span class="tag output">CAPA process for ESG findings</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">07</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Report</div><h4>Measure, Disclose, Improve</h4><p>Track a small honest KPI set: high-risk suppliers assessed, findings open/closed, code coverage of spend, category emission estimates. Feed statutory statements and customer responses from the same register — one source of truth, reused. Refresh the risk map on a set cadence and after significant events.</p><div class="step-tags"><span class="tag output">Annual statement + KPI dashboard</span><span class="tag watch">Honest beats impressive — always</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="sus-u4">
+      <div class="section-intro"><h2>Common Failure Modes</h2><p>The gap between stated policy and purchasing behaviour is where sustainable procurement programmes are judged — and where most fail.</p></div>
+      <div class="pitfalls-list">
+        <div class="pitfall-item"><div class="pitfall-num">01</div><div><h4>Policy–practice schism</h4><p>A public commitment to ethical sourcing while award decisions run on price alone, squeezing the very suppliers expected to fund compliance. Suppliers read the purchasing signal, not the policy document.</p><div class="pitfall-fix">Put ESG criteria where money moves: selection scorecards, negotiation mandates, QBR agendas. If it can't change an outcome, it isn't a programme.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">02</div><div><h4>Questionnaire theatre</h4><p>Hundreds of self-assessments collected, filed, and never verified or acted on. Coverage statistics look excellent; assurance value is near zero — and the paper trail proves you saw the risk indicators and did nothing.</p><div class="pitfall-fix">Fewer, better: verify a sample, escalate red flags to real audits, and record what changed as a result of each finding.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">03</div><div><h4>Audit-and-run</h4><p>Findings issued, relationship ended, problem exported to someone else's supply chain — often worsening conditions for the workers involved and teaching every other supplier to hide issues.</p><div class="pitfall-fix">Default to remediation with deadlines and support; reserve exit for refusal or severe unremediated harm, and execute exits responsibly.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">04</div><div><h4>Uniform effort across the base</h4><p>The same questionnaire to the sole-trader courier and the offshore CM — burden spread evenly, assurance concentrated nowhere. High-risk nodes get the same shallow look as trivial ones.</p><div class="pitfall-fix">Risk-tier everything. Deep, verified diligence on the small high-risk tier; light touch elsewhere; documented rationale for the tiers.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">05</div><div><h4>Overlooking the domestic low-spend risk</h4><p>Attention fixed on offshore manufacturing while cleaning, security, and labour-hire contracts onshore — classic modern-slavery territory — pass through on lowest price without a second look.</p><div class="pitfall-fix">Include labour-intensive domestic services in the high-risk tier regardless of spend size. Price abnormally below compliant cost is itself a red flag.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">06</div><div><h4>Claiming beyond the evidence</h4><p>Marketing statements — "slavery-free", "fully traceable", "carbon neutral supply chain" — that the data cannot support. Greenwashing exposure now carries regulatory teeth as well as reputational cost.</p><div class="pitfall-fix">Legal-review public claims against held evidence. Disclose risk found and action taken; credibility compounds, overstatement detonates.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">07</div><div><h4>Scope 3 perfectionism</h4><p>Waiting for perfect supplier-level emissions data before doing anything — years of methodology debate, no reduction levers pulled, while the concentrated categories sat visible in a spend-based estimate all along.</p><div class="pitfall-fix">Start spend-based, refine the material categories with supplier data, act on the concentration you can already see. Estimate → act → improve the estimate.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">08</div><div><h4>Compliance without ownership</h4><p>ESG treated as an annual statement produced by legal or comms, disconnected from category managers who never see the risk map and own no actions. The statement exists; the supply chain is unchanged.</p><div class="pitfall-fix">Embed actions in category plans with named owners and dates. The statutory statement should summarise work that happened anyway — not constitute it.</div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /fw-sus -->
+
+<!-- ╔══ FRAMEWORK 15 — GOVERNANCE & POLICY ══╗ -->
+<div class="fw-content" id="fw-gov">
+  <div class="fw-header">
+    <h1>Procurement Governance &amp; Policy</h1>
+    <p>The control architecture that makes procurement decisions authorised, defensible, and consistent — protecting the organisation and the individuals inside it.</p>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('gov','v1',this)">01 — First Principles</button>
+      <button class="tab-btn" onclick="showTab('gov','v2',this)">02 — Governance Architecture</button>
+      <button class="tab-btn" onclick="showTab('gov','v3',this)">03 — Operating the Framework</button>
+      <button class="tab-btn" onclick="showTab('gov','v4',this)">04 — Pitfalls</button>
+    </div>
+  </div>
+  <div class="fw-body">
+
+    <div class="tab-panel active" id="gov-v1">
+      <div class="section-intro"><h2>First Principles</h2><p>Governance is not bureaucracy for its own sake — it is the system that lets an organisation delegate spending authority to hundreds of people without losing control of the money or the ethics.</p></div>
+      <div class="principles-grid">
+        <div class="principle-card"><div class="p-num">01</div><h4>Governance protects the individual as much as the organisation</h4><p>A documented process, a clear delegation, and a declared conflict are what stand between a procurement professional and an allegation they cannot disprove. Working inside the framework is personal protection — the audit trail is your alibi. People who see governance only as friction have never needed it to defend them.</p></div>
+        <div class="principle-card"><div class="p-num">02</div><h4>Authority must be explicit, delegated, and bounded</h4><p>Every commitment of company money should trace to a named authority level in a Delegation of Authority (DoA) matrix — who can approve what value, for what type of commitment, under what conditions. Ambiguity about who may approve is how unauthorised commitments happen in good faith.</p></div>
+        <div class="principle-card"><div class="p-num">03</div><h4>Separation of duties is the load-bearing control</h4><p>No single person should be able to create a supplier, raise a purchase order, receive the goods, and approve the invoice. The 3-way match (PO / receipt / invoice) and requisitioner-approver separation are the structural defences against both fraud and honest error. Every control simplification proposal should be tested against this principle first.</p></div>
+        <div class="principle-card"><div class="p-num">04</div><h4>Policy earns compliance through usability</h4><p>A policy that is proportionate, findable, and fast gets followed; one that adds weeks to simple purchases gets bypassed — and every bypass builds the maverick-spend channel that eventually carries something serious. The governance designer's job is making the compliant path the easiest path.</p></div>
+        <div class="principle-card"><div class="p-num">05</div><h4>Thresholds should match risk, not habit</h4><p>Approval levels, quote requirements, and tender thresholds are risk instruments: low-value purchases deserve near-zero friction; high-value and high-risk commitments deserve genuine scrutiny. Thresholds inherited from a smaller organisation a decade ago usually over-control the trivial and under-control the material.</p></div>
+        <div class="principle-card"><div class="p-num">06</div><h4>Conflicts of interest are managed by declaration, not absence</h4><p>In a market the size of New Zealand's, connections between buyers and suppliers are unavoidable. The control is not pretending they don't exist — it is declaring them, recording them, and removing the conflicted person from the specific decision. An undeclared minor conflict is more damaging than a declared major one.</p></div>
+        <div class="principle-card"><div class="p-num">07</div><h4>Exceptions are governance too</h4><p>Every framework needs a legitimate fast path — emergencies, sole sources, urgent operational need. The test of governance maturity is not zero exceptions; it is that exceptions are visible, justified, approved at the right level, and reviewed for patterns. An exception process that is easier than the standard process has just become the standard process.</p></div>
+        <div class="principle-card"><div class="p-num">08</div><h4>The audit trail is the deliverable</h4><p>Decisions age; memories fade; people leave. What remains is the record: the evaluation matrix, the approval chain, the declared conflicts, the exception justification. Governance that lives in conversations and cannot be reconstructed on paper does not exist for audit purposes — and audit purposes arrive eventually.</p></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="gov-v2">
+      <div class="section-intro"><h2>Governance Architecture</h2><p>Five structural components. Together they answer: what are the rules, who may commit, how is power separated, how is integrity protected, and how do exceptions flow.</p></div>
+
+      <h3 style="font-family:var(--font-serif);font-size:18px;color:var(--text);margin:0 0 16px;">The Policy Hierarchy</h3>
+      <table class="comparison-table" style="margin-bottom:32px;">
+        <thead><tr><th>Layer</th><th>Purpose</th><th>Owner / Change Authority</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Policy</strong></td><td>Principles and mandates — what must and must not happen (e.g. competitive sourcing above thresholds, ethics rules)</td><td>Board / executive; changes rarely</td></tr>
+          <tr><td><strong>Procedure</strong></td><td>The how — process steps, thresholds, approval routes, documentation requirements</td><td>CPO / functional leadership; reviewed on a cycle</td></tr>
+          <tr><td><strong>Work instruction / guidance</strong></td><td>Task-level detail — system steps, templates, category-specific rules</td><td>Process owners; updated freely as systems change</td></tr>
+        </tbody>
+      </table>
+
+      <div class="two-col" style="margin-bottom:32px;">
+        <div class="info-card">
+          <h4>Delegation of Authority (DoA)</h4>
+          <p>The matrix mapping commitment type × value × role to approval requirements — purchase commitments, contract signature, variations, disposals, and exceptions each need their own line. Key design rules: authority attaches to the <em>role</em>, not the person; contract signature and PO approval are distinct authorities; aggregate/annual value governs, not instalment size — splitting a commitment to duck a threshold is itself a breach.</p>
+        </div>
+        <div class="info-card">
+          <h4>Separation of Duties (SoD)</h4>
+          <p>The incompatible-pairs list: supplier creation vs. payment approval; requisition vs. approval; receipt vs. invoice approval; evaluation vs. sole approval of your own recommendation. In small teams where perfect separation is impossible, compensate with dual sign-off, rotation, and targeted audit sampling — and document the compensating control, not just the gap.</p>
+        </div>
+        <div class="info-card">
+          <h4>Ethics &amp; Integrity Controls</h4>
+          <p>Gifts and hospitality register with value thresholds and pre-approval above them; conflict-of-interest declarations refreshed annually and at each sourcing event; anti-bribery rules covering facilitation payments and third-party intermediaries; confidentiality of supplier pricing during live events; a protected route for raising concerns. These controls exist because procurement sits closest to the money — and to the people who want it.</p>
+        </div>
+        <div class="info-card">
+          <h4>Exception &amp; Sole-Source Management</h4>
+          <p>A defined route for departing from standard process: documented justification, approval one level above the normal authority, time or value bounds, and central logging. Sole-source justifications deserve particular rigour — "only supplier who can" claims should be tested, dated, and re-verified at renewal, because markets change while justifications fossilise.</p>
+        </div>
+      </div>
+
+      <div style="background:rgba(140,109,31,0.06);border:1px solid rgba(140,109,31,0.15);border-radius:6px;padding:18px 22px;">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;">The Coverage Metric That Matters</div>
+        <p style="font-size:13px;color:var(--muted);margin:0;">Spend under management — the share of addressable spend flowing through governed channels (contracts, catalogues, PO process) — is the single best summary indicator of governance health. Low SUM means the framework exists on paper while money moves around it. Track it, trend it, and treat every persistent bypass channel as a design flaw to fix, not a user failing to punish.</p>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="gov-v3">
+      <div class="section-intro"><h2>Operating the Framework</h2><p>Six steps that keep governance alive — because a framework is not what the documents say, it is what the organisation actually does when the documents aren't being watched.</p></div>
+      <div class="process-list">
+        <div class="process-step"><div class="step-spine"><div class="step-num">01</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Design</div><h4>Set Proportionate Rules and Thresholds</h4><p>Define the policy hierarchy, DoA matrix, quote/tender thresholds, and SoD rules — calibrated to current organisation size and risk, not inherited habit. Design the low-value path to be nearly frictionless; spend the control budget on material and high-risk commitments.</p><div class="step-tags"><span class="tag output">Policy set + DoA matrix</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">02</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Embed</div><h4>Build Controls into Systems, Not Memory</h4><p>Approval routing, threshold enforcement, SoD checks, and vendor-master controls belong in the ERP/P2P system where they execute automatically. A control that depends on everyone remembering the policy is a suggestion. System-enforced controls also generate their own audit trail for free.</p><div class="step-tags"><span class="tag tool">ERP workflow configuration</span><span class="tag output">Enforced approval chains</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">03</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Enable</div><h4>Train for Judgment, Not Just Rules</h4><p>Everyone who commits spend needs to know their authority limits, the ethics rules, and where the fast paths are. Use real scenarios — the gift at tender time, the friend's company bidding, the urgent sole-source request — because judgment under pressure is what training is for. Refresh on role change and annually for high-exposure roles.</p><div class="step-tags"><span class="tag output">Scenario-based training</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">04</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Monitor</div><h4>Watch the Patterns, Not Just the Breaches</h4><p>Track spend under management, exception frequency and reasons, split-PO patterns near thresholds, vendor-master changes, and aging sole-source justifications. Patterns reveal design flaws: a threshold everyone splits around is set wrong; a policy everyone excepts is broken. Fix the design before disciplining the users.</p><div class="step-tags"><span class="tag tool">Compliance analytics</span><span class="tag output">Pattern reports</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">05</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Assure</div><h4>Audit Readiness as Standing Posture</h4><p>Keep the evidence chain — evaluations, approvals, declarations, exceptions — retrievable per commitment within a day, retained per statutory periods. Run periodic self-audits on a sample of transactions before internal/external audit does; findings you raise yourself cost credibility nothing and fix faster.</p><div class="step-tags"><span class="tag output">Evidence register + self-audit cycle</span></div></div></div>
+        <div class="process-step"><div class="step-spine"><div class="step-num">06</div><div class="step-line"></div></div><div class="step-body"><div class="step-label">Renew</div><h4>Review the Framework on a Cycle</h4><p>Annually revisit thresholds against organisation growth, DoA against structure changes, and policy against new obligations (ESG, privacy, sanctions). Retire controls that no longer earn their friction. Governance that never changes is either perfect or — far more likely — unexamined.</p><div class="step-tags"><span class="tag watch">Controls must earn their friction</span><span class="tag output">Annual framework review</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="gov-v4">
+      <div class="section-intro"><h2>Common Failure Modes</h2><p>Governance fails in two directions — too little control invites loss and scandal; too much invites the workarounds that create the same exposure with better camouflage.</p></div>
+      <div class="pitfalls-list">
+        <div class="pitfall-item"><div class="pitfall-num">01</div><div><h4>Friction-driven bypass</h4><p>Controls so slow for routine purchases that the organisation industrialises workarounds — P-card splitting, invoice-without-PO, "urgent" everything. Maverick channels built for lunch orders eventually carry consulting contracts.</p><div class="pitfall-fix">Measure cycle time on low-value purchases and drive it toward hours. Every persistent bypass is a design flaw; redesign the path rather than policing the users.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">02</div><div><h4>Threshold gaming tolerated</h4><p>Commitments split into instalments that each duck under approval or tender thresholds — visible in the data, unaddressed in practice, until an auditor aggregates the pattern in an afternoon.</p><div class="pitfall-fix">Define thresholds on aggregate annual value per supplier/need; run split-detection analytics; treat deliberate splitting as the policy breach it is.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">03</div><div><h4>Sole-source justifications that fossilise</h4><p>"Only supplier who can do this" — written five years ago, never re-tested, while the market grew three capable alternatives. The exception has quietly become a permanent uncompeted channel.</p><div class="pitfall-fix">Date-limit every sole-source approval; require market re-verification at renewal; report aging justifications to governance forums.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">04</div><div><h4>Conflicts undeclared because "everyone knows"</h4><p>Small-market familiarity treated as a substitute for declaration — until a tender loss, a falling-out, or a journalist reframes the friendship as corruption and there is no record showing it was managed.</p><div class="pitfall-fix">Normalise declaration as routine hygiene: annual refresh plus per-event confirmation, recorded centrally, conflicted parties visibly recused. Declared and managed is defensible; known and undocumented is not.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">05</div><div><h4>DoA drift after reorganisations</h4><p>Roles renamed, teams merged, and the delegation matrix left describing an org chart that no longer exists — approvals flowing on habit and assumed authority.</p><div class="pitfall-fix">Bind DoA review into every restructure and the annual cycle; reconcile system approval routes against the current matrix, not folklore.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">06</div><div><h4>Control theatre on trivial spend, silence on material risk</h4><p>Three quotes demanded for a $400 purchase while a seven-figure renewal rolls over uncompeted — friction allocated by habit and visibility rather than exposure.</p><div class="pitfall-fix">Map control effort against spend and risk annually; strip friction from the trivial and reinvest it in renewals, variations, and high-risk categories where loss actually lives.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">07</div><div><h4>Exception path becomes the main road</h4><p>An "urgent operational need" route with lighter scrutiny that grows to carry a large share of spend — because it is faster, and speed always wins against unattended process design.</p><div class="pitfall-fix">Track exception share and reasons monthly; cap tolerated volume; when a legitimate need pattern emerges, build it a proper fast lane with proportionate controls.</div></div></div>
+        <div class="pitfall-item"><div class="pitfall-num">08</div><div><h4>Governance owned by no one</h4><p>Policies written at an ERP go-live, PDFs on an intranet, no owner, no review cycle, no relationship to what people actually do. The framework exists archaeologically.</p><div class="pitfall-fix">Name an owner for the framework and each policy; publish the review calendar; retire what is dead. A smaller, living rulebook outperforms a comprehensive dead one.</div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /fw-gov -->
+
+<!-- ╔══ APPENDIX — TABLES & GLOSSARY ══╗ -->
+<div class="fw-content" id="fw-apx">
+  <div class="fw-header">
+    <h1>Appendix</h1>
+    <p>The lookup layer — reference tables, formulas, benchmarks, and the glossary. Built for 90-second answers, not reading.</p>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('apx','a1',this)">01 — Incoterms</button>
+      <button class="tab-btn" onclick="showTab('apx','a2',this)">02 — Formulas</button>
+      <button class="tab-btn" onclick="showTab('apx','a3',this)">03 — Benchmarks &amp; Thresholds</button>
+      <button class="tab-btn" onclick="showTab('apx','a4',this)">04 — Glossary</button>
+    </div>
+  </div>
+  <div class="fw-body">
+
+    <div class="tab-panel active" id="apx-a1">
+      <div class="apx-section">
+        <div class="section-intro"><h2>Incoterms 2020</h2><p>Who pays, who arranges, and — most importantly — where risk transfers. The risk point and the cost point are not always the same place.</p></div>
+        <table class="comparison-table">
+          <thead><tr><th>Term</th><th>Seller's Obligation Ends</th><th>Risk Transfers</th><th>Main Carriage Paid By</th><th>Insurance</th></tr></thead>
+          <tbody>
+            <tr><td><strong>EXW</strong> Ex Works</td><td>Goods made available at seller's premises</td><td>At seller's door</td><td>Buyer</td><td>Buyer's choice</td></tr>
+            <tr><td><strong>FCA</strong> Free Carrier</td><td>Delivered to buyer's nominated carrier</td><td>On handover to carrier</td><td>Buyer</td><td>Buyer's choice</td></tr>
+            <tr><td><strong>FAS</strong> Free Alongside Ship</td><td>Alongside vessel at named port</td><td>Alongside ship</td><td>Buyer</td><td>Buyer's choice</td></tr>
+            <tr><td><strong>FOB</strong> Free On Board</td><td>Loaded on board vessel</td><td>On board vessel</td><td>Buyer</td><td>Buyer's choice</td></tr>
+            <tr><td><strong>CFR</strong> Cost &amp; Freight</td><td>Freight paid to destination port</td><td>On board at origin</td><td>Seller</td><td>Buyer's choice</td></tr>
+            <tr><td><strong>CIF</strong> Cost, Insurance &amp; Freight</td><td>Freight + insurance to destination port</td><td>On board at origin</td><td>Seller</td><td>Seller (minimum cover only)</td></tr>
+            <tr><td><strong>CPT</strong> Carriage Paid To</td><td>Freight paid to named place</td><td>On handover to first carrier</td><td>Seller</td><td>Buyer's choice</td></tr>
+            <tr><td><strong>CIP</strong> Carriage &amp; Insurance Paid</td><td>Freight + insurance to named place</td><td>On handover to first carrier</td><td>Seller</td><td>Seller (all-risks cover)</td></tr>
+            <tr><td><strong>DAP</strong> Delivered At Place</td><td>Arrival at named place, not unloaded</td><td>At named place</td><td>Seller</td><td>Seller's interest</td></tr>
+            <tr><td><strong>DPU</strong> Delivered at Place Unloaded</td><td>Arrival and unloading at named place</td><td>After unloading</td><td>Seller</td><td>Seller's interest</td></tr>
+            <tr><td><strong>DDP</strong> Delivered Duty Paid</td><td>Delivered, import-cleared, duty paid</td><td>At named place</td><td>Seller</td><td>Seller's interest</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="two-col">
+        <div class="info-card"><h4>The Four Groups</h4><p><strong style="color:var(--text);font-weight:500">E</strong> — departure (EXW): buyer does everything. <strong style="color:var(--text);font-weight:500">F</strong> — main carriage unpaid (FCA/FAS/FOB): buyer arranges shipping. <strong style="color:var(--text);font-weight:500">C</strong> — main carriage paid (CFR/CIF/CPT/CIP): seller pays freight but risk transfers at origin — the trap group. <strong style="color:var(--text);font-weight:500">D</strong> — arrival (DAP/DPU/DDP): seller carries risk to destination.</p></div>
+        <div class="info-card"><h4>Common Traps</h4><p>FOB/CIF are maritime-only terms — for containers use FCA/CIP instead. CIF insurance is minimum cover (Institute Clauses C) — often inadequate for electronics; specify better or insure yourself. DDP makes the seller the importer of record — frequently impractical; DAP + buyer clears is usually cleaner. Under all C-terms, goods travel at <em>your</em> risk even though the seller paid the freight.</p></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="apx-a2">
+      <div class="section-intro"><h2>Formulas &amp; Calculations</h2><p>The working arithmetic. Each formula answers one commercial question — the variables matter more than the algebra.</p></div>
+      <div class="formula-grid">
+        <div class="formula-card"><div class="formula-name">Economic Order Quantity</div><div class="formula-eq">EOQ = √( 2 × D × S ÷ H )</div><div class="formula-vars">D = annual demand (units) · S = cost per order · H = holding cost per unit per year. Minimises ordering + carrying cost. Compare against supplier MOQs to price what the MOQ is costing you.</div></div>
+        <div class="formula-card"><div class="formula-name">Safety Stock</div><div class="formula-eq">SS = Z × σd × √LT</div><div class="formula-vars">Z = service factor (90% → 1.28 · 95% → 1.65 · 98% → 2.05 · 99% → 2.33) · σd = std dev of demand per period · LT = lead time in periods. Scales linearly with Z, with the square root of lead time.</div></div>
+        <div class="formula-card"><div class="formula-name">Reorder Point</div><div class="formula-eq">ROP = (d̄ × LT) + SS</div><div class="formula-vars">d̄ = average demand per period · LT = lead time in periods · SS = safety stock. Trigger on stock <em>position</em> (on hand + on order − allocated), never on-hand alone.</div></div>
+        <div class="formula-card"><div class="formula-name">Inventory Turns</div><div class="formula-eq">Turns = COGS ÷ Average Inventory</div><div class="formula-vars">Higher = capital working harder. Days of inventory (DIO) = 365 ÷ turns. Watch the trend, not the absolute — turns vary hugely by industry.</div></div>
+        <div class="formula-card"><div class="formula-name">Cash Conversion Cycle</div><div class="formula-eq">CCC = DIO + DSO − DPO</div><div class="formula-vars">DIO = days inventory · DSO = days sales outstanding · DPO = days payables outstanding = (AP ÷ COGS) × 365. Procurement moves DPO (terms) and DIO (inventory policy).</div></div>
+        <div class="formula-card"><div class="formula-name">Payment Terms → Working Capital</div><div class="formula-eq">Cash impact = Daily spend × Δdays</div><div class="formula-vars">Daily spend = annual spend ÷ 365. Extending a NZD $10M supplier from 30 to 45 days releases ≈ $411k cash. Value the release at your cost of capital; weigh against any early-payment discount offered.</div></div>
+        <div class="formula-card"><div class="formula-name">Early Payment Discount — Annualised</div><div class="formula-eq">Rate ≈ d ÷ (100−d) × 365 ÷ (T − t)</div><div class="formula-vars">d = discount % · t = discount window · T = standard terms. "2/10 net 30" ≈ 37% annualised — usually worth taking if cash allows. Compare against your cost of capital.</div></div>
+        <div class="formula-card"><div class="formula-name">Purchase Price Variance</div><div class="formula-eq">PPV = (Std price − Actual price) × Qty</div><div class="formula-vars">Positive = favourable vs. standard. Useful as a tracking signal; dangerous as a target — PPV can be gamed by inflating standards or buying bulk into inventory.</div></div>
+        <div class="formula-card"><div class="formula-name">Savings — Cost Reduction</div><div class="formula-eq">Saving = (Baseline − New price) × Volume</div><div class="formula-vars">Baseline = last price paid (like-for-like spec, terms, incoterm). Only P&amp;L-visible with volume actually purchased. State baseline type explicitly; get finance sign-off on methodology once, then reuse.</div></div>
+        <div class="formula-card"><div class="formula-name">Cost Avoidance</div><div class="formula-eq">Avoidance = (Quoted/indexed increase − Settled) × Vol</div><div class="formula-vars">Value of an increase resisted or specification saving vs. credible counterfactual. Real, but invisible in the P&amp;L — always report separately from reduction, never blended.</div></div>
+        <div class="formula-card"><div class="formula-name">Should-Cost Gap</div><div class="formula-eq">Gap % = (Quote − Model) ÷ Model × 100</div><div class="formula-vars">The negotiation agenda in one number. Decompose by cost layer (material / labour / overhead / margin) to locate where the conversation should focus.</div></div>
+        <div class="formula-card"><div class="formula-name">Landed Cost</div><div class="formula-eq">Unit + freight + duty + insurance + handling</div><div class="formula-vars">Duty is calculated on customs value which may include freight/insurance depending on jurisdiction and incoterm. Compare suppliers only on landed cost at the same incoterm — never mixed terms.</div></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="apx-a3">
+      <div class="section-intro"><h2>Benchmarks &amp; Thresholds</h2><p>The reference bands used across the frameworks — indicative ranges for orientation, not laws of nature. Local markets and categories vary.</p></div>
+      <div class="apx-section">
+        <table class="comparison-table" style="margin-bottom:32px;">
+          <thead><tr><th>Measure</th><th>Bands</th><th>Reading</th></tr></thead>
+          <tbody>
+            <tr><td><strong>HHI (market concentration)</strong></td><td>&lt;1,500 · 1,500–2,500 · &gt;2,500</td><td>Unconcentrated · moderately concentrated · highly concentrated — supplier power is structural above 2,500</td></tr>
+            <tr><td><strong>Capacity utilisation</strong></td><td>&lt;75% · 75–85% · &gt;85%</td><td>Buyer's market · balanced · tightening — time sourcing events and lock-ins against this cycle</td></tr>
+            <tr><td><strong>Service factor Z</strong></td><td>90%→1.28 · 95%→1.65 · 98%→2.05 · 99%→2.33</td><td>Safety stock scales linearly with Z — each service step costs disproportionately more buffer</td></tr>
+            <tr><td><strong>Overhead burden (vs. direct labour)</strong></td><td>Electronics CM 80–140% · precision machining 150–250% · high-volume plastics 60–100%</td><td>For should-cost models — varies with capital intensity and utilisation</td></tr>
+            <tr><td><strong>Supplier SG&amp;A / net margin</strong></td><td>SG&amp;A 5–15% · margin 5–15%</td><td>Fair-return assumptions in should-cost; higher for IP-heavy or specialty suppliers</td></tr>
+            <tr><td><strong>OTD anchored scale</strong></td><td>5 = &gt;98% · 4 = 95–98% · 3 = 90–95% · 2 = 85–90% · 1 = &lt;85%</td><td>Example anchored scoring for supplier evaluation and scorecards</td></tr>
+            <tr><td><strong>Inventory holding rate</strong></td><td>15–25% of item value / year</td><td>Capital + storage + insurance + obsolescence; electronics sit at the high end via obsolescence</td></tr>
+            <tr><td><strong>Strategic supplier tier size</strong></td><td>5–15 suppliers</td><td>Above ~15, SRM investment dilutes below the threshold where it returns value</td></tr>
+            <tr><td><strong>Payment terms norms</strong></td><td>NZ: 20th of month following · AU: 30 EOM common · EU: 30–60 · US: net 30–60</td><td>Baseline expectations when negotiating terms across regions</td></tr>
+            <tr><td><strong>Post-award value erosion</strong></td><td>Commonly cited at 20–40% within 24 months</td><td>The case for active contract management — unmanaged contracts leak</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="two-col">
+        <div class="info-card"><h4>Kraljic Quadrant Strategies</h4><p><strong style="color:var(--text);font-weight:500">Strategic</strong> (high risk / high impact): partner, secure long-term. <strong style="color:var(--text);font-weight:500">Leverage</strong> (low / high): create competition, drive price. <strong style="color:var(--text);font-weight:500">Bottleneck</strong> (high / low): secure continuity, hold buffer, reduce dependency. <strong style="color:var(--text);font-weight:500">Routine</strong> (low / low): automate, rationalise, minimise touch.</p></div>
+        <div class="info-card"><h4>ABC / XYZ Policy Map</h4><p><strong style="color:var(--text);font-weight:500">AX</strong>: tight statistical replenishment, LTAs with releases. <strong style="color:var(--text);font-weight:500">AZ</strong>: human planning, flexibility clauses, supplier buffers. <strong style="color:var(--text);font-weight:500">CX</strong>: automate entirely — min/max, VMI, catalogue. <strong style="color:var(--text);font-weight:500">CZ</strong>: question whether to stock at all — buy to order.</p></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="apx-a4">
+      <div class="section-intro"><h2>Glossary</h2><p>The acronyms and terms used throughout the suite — and in every meeting you'll sit in.</p></div>
+      <div class="gloss-grid">
+        <div class="gloss-item"><span class="gloss-term">3PL</span><span class="gloss-def">Third-party logistics provider — outsourced warehousing/transport</span></div>
+        <div class="gloss-item"><span class="gloss-term">3-way match</span><span class="gloss-def">PO ↔ goods receipt ↔ invoice reconciliation before payment</span></div>
+        <div class="gloss-item"><span class="gloss-term">ABC/XYZ</span><span class="gloss-def">Segmentation by value (ABC) and demand variability (XYZ)</span></div>
+        <div class="gloss-item"><span class="gloss-term">BAFO</span><span class="gloss-def">Best and Final Offer — last formal commercial revision in a sourcing event</span></div>
+        <div class="gloss-item"><span class="gloss-term">BATNA</span><span class="gloss-def">Best Alternative To a Negotiated Agreement — your real walkaway power</span></div>
+        <div class="gloss-item"><span class="gloss-term">BCP</span><span class="gloss-def">Business Continuity Plan — pre-agreed disruption response</span></div>
+        <div class="gloss-item"><span class="gloss-term">BOM</span><span class="gloss-def">Bill of Materials — full component/material structure of a product</span></div>
+        <div class="gloss-item"><span class="gloss-term">CAPA</span><span class="gloss-def">Corrective and Preventive Action — structured finding-to-closure process</span></div>
+        <div class="gloss-item"><span class="gloss-term">CCC</span><span class="gloss-def">Cash Conversion Cycle = DIO + DSO − DPO</span></div>
+        <div class="gloss-item"><span class="gloss-term">CM</span><span class="gloss-def">Contract Manufacturer</span></div>
+        <div class="gloss-item"><span class="gloss-term">CMRT</span><span class="gloss-def">Conflict Minerals Reporting Template (3TG declarations)</span></div>
+        <div class="gloss-item"><span class="gloss-term">DIFOT / OTIF</span><span class="gloss-def">Delivery In Full, On Time — composite delivery performance measure</span></div>
+        <div class="gloss-item"><span class="gloss-term">DoA</span><span class="gloss-def">Delegation of Authority — who may approve what value and commitment type</span></div>
+        <div class="gloss-item"><span class="gloss-term">DPO / DSO / DIO</span><span class="gloss-def">Days payables / sales / inventory outstanding — working capital trio</span></div>
+        <div class="gloss-item"><span class="gloss-term">EOL / PCN</span><span class="gloss-def">End of Life / Product Change Notification — component lifecycle notices</span></div>
+        <div class="gloss-item"><span class="gloss-term">EOQ</span><span class="gloss-def">Economic Order Quantity — order size minimising ordering + holding cost</span></div>
+        <div class="gloss-item"><span class="gloss-term">ESG</span><span class="gloss-def">Environmental, Social, Governance obligations and criteria</span></div>
+        <div class="gloss-item"><span class="gloss-term">EWI</span><span class="gloss-def">Early Warning Indicator — leading signal of supplier trouble</span></div>
+        <div class="gloss-item"><span class="gloss-term">HHI</span><span class="gloss-def">Herfindahl-Hirschman Index — market concentration measure (&gt;2,500 = high)</span></div>
+        <div class="gloss-item"><span class="gloss-term">Incoterms</span><span class="gloss-def">ICC rules defining delivery obligations, cost and risk transfer</span></div>
+        <div class="gloss-item"><span class="gloss-term">JVC</span><span class="gloss-def">Joint Value Creation — co-invested improvement with strategic suppliers</span></div>
+        <div class="gloss-item"><span class="gloss-term">LTA</span><span class="gloss-def">Long-Term Agreement — framework contract with scheduled releases</span></div>
+        <div class="gloss-item"><span class="gloss-term">LTB</span><span class="gloss-def">Last-Time Buy — final purchase before component end-of-life</span></div>
+        <div class="gloss-item"><span class="gloss-term">MAPE</span><span class="gloss-def">Mean Absolute Percentage Error — forecast accuracy measure</span></div>
+        <div class="gloss-item"><span class="gloss-term">MOQ</span><span class="gloss-def">Minimum Order Quantity — supplier's smallest sellable batch</span></div>
+        <div class="gloss-item"><span class="gloss-term">NRE</span><span class="gloss-def">Non-Recurring Engineering — one-off design/tooling/qualification cost</span></div>
+        <div class="gloss-item"><span class="gloss-term">P2P / S2P</span><span class="gloss-def">Procure-to-Pay / Source-to-Pay process cycles</span></div>
+        <div class="gloss-item"><span class="gloss-term">PESTLE</span><span class="gloss-def">Political, Economic, Social, Technological, Legal, Environmental scan</span></div>
+        <div class="gloss-item"><span class="gloss-term">PPV</span><span class="gloss-def">Purchase Price Variance — actual vs. standard price × quantity</span></div>
+        <div class="gloss-item"><span class="gloss-term">QBR</span><span class="gloss-def">Quarterly Business Review — strategic supplier review cadence</span></div>
+        <div class="gloss-item"><span class="gloss-term">RBA</span><span class="gloss-def">Responsible Business Alliance — electronics industry ESG audit standard</span></div>
+        <div class="gloss-item"><span class="gloss-term">RFI / RFQ / RFP</span><span class="gloss-def">Request for Information / Quotation / Proposal</span></div>
+        <div class="gloss-item"><span class="gloss-term">RoHS / REACH</span><span class="gloss-def">EU substance restriction / chemical registration regimes</span></div>
+        <div class="gloss-item"><span class="gloss-term">ROP</span><span class="gloss-def">Reorder Point — stock position that triggers replenishment</span></div>
+        <div class="gloss-item"><span class="gloss-term">S&amp;OP</span><span class="gloss-def">Sales &amp; Operations Planning — monthly demand-supply balancing cycle</span></div>
+        <div class="gloss-item"><span class="gloss-term">SAQ</span><span class="gloss-def">Self-Assessment Questionnaire — first rung of supplier assurance</span></div>
+        <div class="gloss-item"><span class="gloss-term">SG&amp;A</span><span class="gloss-def">Selling, General &amp; Administrative overhead</span></div>
+        <div class="gloss-item"><span class="gloss-term">SKU</span><span class="gloss-def">Stock Keeping Unit — a distinct stocked item</span></div>
+        <div class="gloss-item"><span class="gloss-term">SLA</span><span class="gloss-def">Service Level Agreement — contracted performance standard with remedies</span></div>
+        <div class="gloss-item"><span class="gloss-term">SoD</span><span class="gloss-def">Separation of Duties — incompatible roles held apart as fraud control</span></div>
+        <div class="gloss-item"><span class="gloss-term">SRM</span><span class="gloss-def">Supplier Relationship Management — differentiated strategic engagement</span></div>
+        <div class="gloss-item"><span class="gloss-term">SUM</span><span class="gloss-def">Spend Under Management — share of spend in governed channels</span></div>
+        <div class="gloss-item"><span class="gloss-term">TCO</span><span class="gloss-def">Total Cost of Ownership — full lifecycle cost beyond price</span></div>
+        <div class="gloss-item"><span class="gloss-term">TTR / TTS</span><span class="gloss-def">Time To Recover / Time To Survive — resilience exposure pair</span></div>
+        <div class="gloss-item"><span class="gloss-term">VMI</span><span class="gloss-def">Vendor-Managed Inventory — supplier plans replenishment to agreed levels</span></div>
+        <div class="gloss-item"><span class="gloss-term">ZOPA</span><span class="gloss-def">Zone Of Possible Agreement — overlap between both walkaway points</span></div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /fw-apx -->
+
 </div><!-- /main -->
 
 <script>
@@ -2056,6 +2973,82 @@ p:last-child { margin-bottom: 0; }
     document.getElementById(fw + '-' + tabId).classList.add('active');
     btn.classList.add('active');
   }
+
+  function toggleReveal(el) { el.classList.toggle('revealed'); }
+  function toggleAnswer(btn) {
+    const a = btn.parentElement.querySelector('.quiz-answer');
+    const isOpen = a.classList.contains('open');
+    a.classList.toggle('open', !isOpen);
+    btn.textContent = isOpen ? 'Reveal answer' : 'Hide answer';
+  }
+  function filterQuiz(fw, btn) {
+    document.querySelectorAll('.quiz-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.quiz-item').forEach(q => {
+      q.classList.toggle('hidden-fw', fw !== 'all' && q.dataset.qfw !== fw);
+    });
+  }
+
+  let searchIndex = null;
+  const fwNames = { proc:'Procurement', cat:'Category Management', tco:'TCO Model', neg:'Negotiation', cmt:'Contract Management', srisk:'Supplier Risk', spend:'Spend Analysis', scm:'Should-Cost Model', sse:'Supplier Selection', srm:'SRM Deep Dive', sma:'Supply Market Analysis', inv:'Inventory & Planning', res:'Supply Resilience', sus:'Sustainable Procurement', gov:'Governance & Policy', guide:'Sequences', drill:'Drill', apx:'Appendix' };
+  function buildSearchIndex() {
+    searchIndex = [];
+    document.querySelectorAll('.fw-content').forEach(fwEl => {
+      const fw = fwEl.id.replace('fw-','');
+      fwEl.querySelectorAll('.principle-card, .process-step, .pitfall-item, .expand-item, .info-card, .recall-card, .quiz-item, .seq-step, .formula-card, .gloss-item, tr').forEach(el => {
+        if (el.tagName === 'TR' && el.closest('.expand-item, .info-card, .principle-card, .pitfall-item')) return;
+        if (el.tagName === 'TR' && !el.querySelector('td')) return;
+        const panel = el.closest('.tab-panel');
+        const tabKey = panel ? panel.id.slice(fw.length + 1) : null;
+        const h = el.querySelector('h4, h3, .seq-fw-name, .recall-q, .quiz-q, .gloss-term, .formula-name');
+        const firstCell = el.tagName === 'TR' ? el.querySelector('td') : null;
+        const title = h ? h.textContent.trim().slice(0,80) : (firstCell ? firstCell.textContent.trim().slice(0,80) : (fwNames[fw] || fw));
+        searchIndex.push({ fw, tabKey, el, title, text: el.textContent.toLowerCase().replace(/\s+/g,' ') });
+      });
+    });
+  }
+  function runSearch(q) {
+    const resEl = document.getElementById('searchResults');
+    q = q.trim().toLowerCase();
+    if (q.length < 2) { resEl.classList.remove('open'); resEl.innerHTML = ''; return; }
+    if (!searchIndex) buildSearchIndex();
+    const hits = [];
+    for (let i = 0; i < searchIndex.length; i++) {
+      const idx = searchIndex[i].text.indexOf(q);
+      if (idx > -1) { hits.push({ i, idx }); if (hits.length >= 20) break; }
+    }
+    resEl.innerHTML = hits.map(h => {
+      const b = searchIndex[h.i];
+      const start = Math.max(0, h.idx - 34);
+      let snip = b.text.slice(start, h.idx + q.length + 70);
+      snip = snip.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+      return '<div class="search-hit" onclick="goToHit(' + h.i + ')"><div class="hit-path">' + (fwNames[b.fw]||b.fw) + '</div><div class="hit-title">' + b.title.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</div><div class="hit-snip">…' + snip + '…</div></div>';
+    }).join('') || '<div class="search-empty">No matches for "' + q.replace(/</g,'&lt;') + '"</div>';
+    resEl.classList.add('open');
+  }
+  function goToHit(i) {
+    const b = searchIndex[i];
+    const navBtn = document.querySelector('.fw-sel-btn[data-fw="' + b.fw + '"]');
+    if (navBtn) selectFW(b.fw, navBtn);
+    if (b.tabKey) {
+      const tb = document.querySelector('#fw-' + b.fw + ' .tab-btn[onclick*="\'' + b.tabKey + '\'"]');
+      if (tb) tb.click();
+    }
+    document.getElementById('searchResults').classList.remove('open');
+    const inp = document.getElementById('searchInput');
+    if (inp) inp.blur();
+    setTimeout(() => {
+      b.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      b.el.classList.add('search-flash');
+      setTimeout(() => b.el.classList.remove('search-flash'), 1800);
+    }, 150);
+  }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrap')) {
+      const r = document.getElementById('searchResults');
+      if (r) r.classList.remove('open');
+    }
+  });
 
   function toggleExpand(header) {
     const body = header.parentElement.querySelector('.expand-body');
