@@ -3155,8 +3155,14 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.fw-sel-btn').forEach(b => b.setAttribute('aria-selected', b.classList.contains('active') ? 'true' : 'false'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', b.classList.contains('active') ? 'true' : 'false'));
+    document.querySelectorAll('.fw-sel-btn').forEach(b => {
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', b.classList.contains('active') ? 'true' : 'false');
+    });
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', b.classList.contains('active') ? 'true' : 'false');
+    });
     document.querySelectorAll('.org-table, .comparison-table').forEach(t => {
       if (!t.parentElement.classList.contains('table-scroll')) {
         const wrap = document.createElement('div');
