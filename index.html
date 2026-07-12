@@ -5,6 +5,7 @@
 <meta name="color-scheme" content="only light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Procurement Reference Suite</title>
+<meta name="description" content="A reference suite for procurement frameworks — category management, TCO, negotiation, contract management, supplier risk, spend analysis, and strategic sourcing tools.">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -85,7 +86,8 @@ p:last-child { margin-bottom: 0; }
 .principles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin-bottom: 36px; }
 .principle-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px; transition: border-color 0.2s; }
 .principle-card:hover { border-color: var(--gold); }
-.principle-num { font-family: var(--font-mono); font-size: 11px; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 10px; display: block; }
+.principle-num, .p-num { font-family: var(--font-mono); font-size: 11px; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 10px; display: block; }
+.p-num { font-weight: 500; }
 .principle-card p { font-size: 13px; color: var(--muted); }
 .principle-implication { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 11px; color: var(--gold); font-family: var(--font-mono); }
 .principle-implication::before { content: '→ '; }
@@ -112,6 +114,7 @@ p:last-child { margin-bottom: 0; }
 .expand-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
 .expand-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 .expand-header { display: grid; grid-template-columns: 4px 1fr auto; cursor: pointer; user-select: none; }
+.expand-header[role="button"]:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .expand-title-area { padding: 15px 18px; display: flex; align-items: center; gap: 12px; }
 .expand-icon { width: 28px; height: 28px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
 .expand-name { font-family: var(--font-serif); font-size: 15px; font-weight: 600; color: var(--text); }
@@ -246,7 +249,8 @@ p:last-child { margin-bottom: 0; }
 
 
 @media (max-width: 600px) {
-  .app-brand { display: none; }
+  .app-brand { padding: 0 12px; flex-shrink: 0; }
+  .brand-mark { font-size: 12px; line-height: 1.25; max-width: 96px; white-space: normal; }
   .fw-sel-btn { min-width: 90px; padding: 10px 12px; }
   .sel-name { font-size: 11px; }
   .fw-header { padding: 20px 16px 16px; }
@@ -327,7 +331,8 @@ p:last-child { margin-bottom: 0; }
   display: inline-flex; align-items: center; gap: 6px;
   font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
   text-transform: uppercase; cursor: pointer; text-decoration: none;
-  padding: 2px 0; border-bottom: 1px solid transparent;
+  padding: 2px 0; border: none; background: none;
+  border-bottom: 1px solid transparent;
   transition: border-color 0.15s; margin-bottom: 8px;
 }
 .seq-fw-link:hover { border-bottom-color: currentColor; }
@@ -466,23 +471,45 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
 .gloss-term { font-family: var(--font-mono); font-weight: 600; color: var(--text); font-size: 11.5px; }
 .gloss-def { color: var(--muted); line-height: 1.5; }
 
+/* ── ACCESSIBILITY & UX POLISH ── */
+.skip-link {
+  position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  background: var(--surface); color: var(--text); border: 1px solid var(--border);
+  padding: 10px 16px; border-radius: 6px; z-index: 500; text-decoration: none;
+}
+.skip-link:focus { left: 16px; top: 12px; width: auto; height: auto; overflow: visible; }
+.fw-sel-btn:focus-visible,
+.tab-btn:focus-visible,
+.quiz-reveal-btn:focus-visible,
+.quiz-filter:focus-visible,
+.seq-fw-link:focus-visible,
+.search-hit:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.search-input:focus-visible { border-color: var(--gold); background: var(--surface); outline: 2px solid rgba(140,109,31,0.35); outline-offset: 0; }
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 14px 0 28px; }
+.table-scroll table { margin: 0; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
 <!-- ════════════════════════════════════
      TOP NAVIGATION
 ════════════════════════════════════ -->
-<div class="top-nav">
+<nav class="top-nav" aria-label="Site navigation">
   <div class="app-brand">
     <div class="brand-mark"><span>Reference Suite</span>Procurement<br>Frameworks</div>
   </div>
   <div class="search-row">
     <div class="search-wrap">
-      <input type="text" id="searchInput" class="search-input" placeholder="Search all frameworks — try 'BATNA', 'Kraljic', 'safety stock'…" oninput="runSearch(this.value)" autocomplete="off">
+      <input type="search" id="searchInput" class="search-input" placeholder="Search all frameworks — try 'BATNA', 'Kraljic', 'safety stock'…" oninput="runSearch(this.value)" autocomplete="off" aria-label="Search frameworks" aria-controls="searchResults">
       <div class="search-results" id="searchResults"></div>
     </div>
   </div>
-  <div class="fw-selector">
+  <div class="fw-selector" role="tablist" aria-label="Frameworks">
     <button class="fw-sel-btn active" data-fw="proc" onclick="selectFW('proc',this)">
       <span class="sel-num">01</span>
       <span class="sel-name">Procurement</span>
@@ -571,12 +598,12 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
       <span class="sel-drill">Recall &amp; Self-Test</span>
     </button>
   </div>
-</div>
+</nav>
 
 <!-- ════════════════════════════════════
      MAIN CONTENT
 ════════════════════════════════════ -->
-<div class="main">
+<div class="main" id="main-content">
 
 
 <!-- ╔══════════════════════════════════╗
@@ -683,11 +710,11 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
       <hr class="divider">
       <h3>Contract Types — Click to Expand</h3>
       <div class="expand-list">
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--gold)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(140,109,31,0.10);color:var(--gold)">$</div><div><div class="expand-name">Fixed Price</div><div class="expand-sub">Price agreed upfront — risk sits with the supplier</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>Supplier delivers defined scope for a fixed price. Risk of cost overrun sits with supplier. Simplest to administer. Appropriate where scope is well-defined and stable.</p><div class="attr-row"><div class="attr"><div class="attr-label">Risk Holder</div><div class="attr-val">Supplier</div></div><div class="attr"><div class="attr-label">Best For</div><div class="attr-val">Well-defined, stable scope</div></div><div class="attr"><div class="attr-label">Buyer Risk</div><div class="attr-val">Scope creep → constant change requests</div></div></div><div class="expand-note">Suppliers price in a risk premium for uncertainty. If scope is genuinely fixed, this is right. If scope will evolve, expect cost escalation via change orders.</div></div></div>
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--orange)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(192,122,58,0.12);color:var(--orange)">+</div><div><div class="expand-name">Cost-Plus</div><div class="expand-sub">Actual cost + agreed margin — risk sits with the buyer</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>Buyer pays actual costs incurred plus an agreed fee or margin. Removes supplier's incentive to inflate price for risk, but removes their incentive to control costs. Requires open-book accounting.</p><div class="attr-row"><div class="attr"><div class="attr-label">Risk Holder</div><div class="attr-val">Buyer</div></div><div class="attr"><div class="attr-label">Best For</div><div class="attr-val">R&D, complex projects, uncertain scope</div></div><div class="attr"><div class="attr-label">Buyer Risk</div><div class="attr-val">Cost escalation, no efficiency incentive</div></div></div><div class="expand-note">Add pain/gain share or KPI-linked fees to restore cost control motivation. Never use without open-book visibility into actuals.</div></div></div>
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--blue)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(74,127,165,0.12);color:var(--blue)">T</div><div><div class="expand-name">Time & Materials</div><div class="expand-sub">Agreed rates × actual time and materials consumed</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>Common for professional services and IT where effort cannot be defined upfront. Supplier charges agreed labour rates plus actual material costs. Rate cards are fixed; scope and duration vary.</p><div class="attr-row"><div class="attr"><div class="attr-label">Risk Holder</div><div class="attr-val">Buyer (effort risk)</div></div><div class="attr"><div class="attr-label">Best For</div><div class="attr-val">IT projects, consulting, maintenance</div></div><div class="attr"><div class="attr-label">Buyer Risk</div><div class="attr-val">Scope expansion, effort inflation</div></div></div><div class="expand-note">Always include a not-to-exceed cap or milestone-based review points. Pure T&M without controls incentivises inefficiency.</div></div></div>
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--green)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(90,158,111,0.12);color:var(--green)">≡</div><div><div class="expand-name">Framework / Blanket Agreement</div><div class="expand-sub">Pre-agreed terms for repeated purchases — no volume commitment</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>Sets commercial terms for a defined period without committing to a specific volume. Individual call-offs or POs draw down against the framework. Efficient for repetitive, variable-volume purchasing.</p><div class="attr-row"><div class="attr"><div class="attr-label">Risk Holder</div><div class="attr-val">Shared — no volume guarantee</div></div><div class="attr"><div class="attr-label">Best For</div><div class="attr-val">High-frequency, variable-volume categories</div></div></div><div class="expand-note">Include minimum volume commitments or preferred supplier status clauses. Review pricing annually against market benchmarks.</div></div></div>
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--purple)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(126,110,170,0.12);color:var(--purple)">⊞</div><div><div class="expand-name">Outcome-Based</div><div class="expand-sub">Payment tied to defined deliverables or business outcomes</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>Payment for outputs (deliverables, milestones) or outcomes (business KPIs) rather than inputs. Aligns supplier incentives with buyer objectives. Requires sophisticated contract design and measurable outcomes.</p><div class="attr-row"><div class="attr"><div class="attr-label">Risk Holder</div><div class="attr-val">Supplier (delivery risk)</div></div><div class="attr"><div class="attr-label">Best For</div><div class="attr-val">Outsourcing, managed services</div></div></div><div class="expand-note">Outcome measures must be within the supplier's control. If external factors can shift the metric, the contract becomes unworkable.</div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--gold)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(140,109,31,0.10);color:var(--gold)">$</div><div><div class="expand-name">Fixed Price</div><div class="expand-sub">Price agreed upfront — risk sits with the supplier</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>Supplier delivers defined scope for a fixed price. Risk of cost overrun sits with supplier. Simplest to administer. Appropriate where scope is well-defined and stable.</p><div class="attr-row"><div class="attr"><div class="attr-label">Risk Holder</div><div class="attr-val">Supplier</div></div><div class="attr"><div class="attr-label">Best For</div><div class="attr-val">Well-defined, stable scope</div></div><div class="attr"><div class="attr-label">Buyer Risk</div><div class="attr-val">Scope creep → constant change requests</div></div></div><div class="expand-note">Suppliers price in a risk premium for uncertainty. If scope is genuinely fixed, this is right. If scope will evolve, expect cost escalation via change orders.</div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--orange)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(192,122,58,0.12);color:var(--orange)">+</div><div><div class="expand-name">Cost-Plus</div><div class="expand-sub">Actual cost + agreed margin — risk sits with the buyer</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>Buyer pays actual costs incurred plus an agreed fee or margin. Removes supplier's incentive to inflate price for risk, but removes their incentive to control costs. Requires open-book accounting.</p><div class="attr-row"><div class="attr"><div class="attr-label">Risk Holder</div><div class="attr-val">Buyer</div></div><div class="attr"><div class="attr-label">Best For</div><div class="attr-val">R&D, complex projects, uncertain scope</div></div><div class="attr"><div class="attr-label">Buyer Risk</div><div class="attr-val">Cost escalation, no efficiency incentive</div></div></div><div class="expand-note">Add pain/gain share or KPI-linked fees to restore cost control motivation. Never use without open-book visibility into actuals.</div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--blue)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(74,127,165,0.12);color:var(--blue)">T</div><div><div class="expand-name">Time & Materials</div><div class="expand-sub">Agreed rates × actual time and materials consumed</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>Common for professional services and IT where effort cannot be defined upfront. Supplier charges agreed labour rates plus actual material costs. Rate cards are fixed; scope and duration vary.</p><div class="attr-row"><div class="attr"><div class="attr-label">Risk Holder</div><div class="attr-val">Buyer (effort risk)</div></div><div class="attr"><div class="attr-label">Best For</div><div class="attr-val">IT projects, consulting, maintenance</div></div><div class="attr"><div class="attr-label">Buyer Risk</div><div class="attr-val">Scope expansion, effort inflation</div></div></div><div class="expand-note">Always include a not-to-exceed cap or milestone-based review points. Pure T&M without controls incentivises inefficiency.</div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--green)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(90,158,111,0.12);color:var(--green)">≡</div><div><div class="expand-name">Framework / Blanket Agreement</div><div class="expand-sub">Pre-agreed terms for repeated purchases — no volume commitment</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>Sets commercial terms for a defined period without committing to a specific volume. Individual call-offs or POs draw down against the framework. Efficient for repetitive, variable-volume purchasing.</p><div class="attr-row"><div class="attr"><div class="attr-label">Risk Holder</div><div class="attr-val">Shared — no volume guarantee</div></div><div class="attr"><div class="attr-label">Best For</div><div class="attr-val">High-frequency, variable-volume categories</div></div></div><div class="expand-note">Include minimum volume commitments or preferred supplier status clauses. Review pricing annually against market benchmarks.</div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--purple)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(126,110,170,0.12);color:var(--purple)">⊞</div><div><div class="expand-name">Outcome-Based</div><div class="expand-sub">Payment tied to defined deliverables or business outcomes</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>Payment for outputs (deliverables, milestones) or outcomes (business KPIs) rather than inputs. Aligns supplier incentives with buyer objectives. Requires sophisticated contract design and measurable outcomes.</p><div class="attr-row"><div class="attr"><div class="attr-label">Risk Holder</div><div class="attr-val">Supplier (delivery risk)</div></div><div class="attr"><div class="attr-label">Best For</div><div class="attr-val">Outsourcing, managed services</div></div></div><div class="expand-note">Outcome measures must be within the supplier's control. If external factors can shift the metric, the contract becomes unworkable.</div></div></div>
       </div>
       <hr class="divider">
       <h3>Supplier Relationship Management — Tiered Model</h3>
@@ -871,13 +898,13 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
       <div class="section-intro"><h2>The Cost Architecture</h2><p>A complete TCO model requires a structured taxonomy of cost organised into buckets that reflect when in the lifecycle the cost occurs and who owns it. Expand each bucket to see individual cost elements.</p></div>
       <h3>Cost Buckets — Click to Expand</h3>
       <div class="expand-list">
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--gold)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(140,109,31,0.10);color:var(--gold)">$</div><div><div class="expand-name">Acquisition Costs</div><div class="expand-sub">What you pay to buy it</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>This is the only bucket typically captured in the purchase order. Everything below is invisible to most price-focused analyses.</p><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Unit Purchase Price</div><div class="cost-item-note">The quoted price per unit. Visible, but only the starting point.</div></div><div class="cost-item"><div class="cost-item-name">Tooling & NRE</div><div class="cost-item-note">Non-Recurring Engineering: mould costs, custom fixtures, setup charges. Often one-off but significant.</div></div><div class="cost-item"><div class="cost-item-name">Qualification & Testing</div><div class="cost-item-note">First-article inspection, laboratory testing, certification. Borne once per supplier/part.</div></div><div class="cost-item"><div class="cost-item-name">Duties & Import Tariffs</div><div class="cost-item-note">Customs duty, HS code classification, anti-dumping levies. Can be 5–25%+ of unit value.</div></div><div class="cost-item"><div class="cost-item-name">Payment Terms Cost of Capital</div><div class="cost-item-note">30-day vs. 90-day terms has a real cost. Early payment discounts have real value. Model them.</div></div><div class="cost-item"><div class="cost-item-name">RFx & Evaluation Effort</div><div class="cost-item-note">Internal procurement and engineering time running the sourcing event. Often ignored but real.</div></div></div><div class="bucket-note">Landed cost = unit price + freight + duties + brokerage + insurance. For offshore suppliers, this is the true acquisition baseline — not the ex-works price.</div></div></div>
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--red)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(192,80,77,0.12);color:var(--red)">✗</div><div><div class="expand-name">Quality Costs (COPQ)</div><div class="expand-sub">Cost of Poor Quality — prevention, appraisal, and failure</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Incoming Inspection</div><div class="cost-item-note">Labour and equipment cost to inspect incoming goods. Higher with lower-trusted suppliers.</div></div><div class="cost-item"><div class="cost-item-name">Internal Defect / Rework</div><div class="cost-item-note">Cost to detect and fix a defect before it leaves the facility. Typically 10–100× unit value.</div></div><div class="cost-item"><div class="cost-item-name">External Failure / Warranty</div><div class="cost-item-note">Cost once defect reaches the customer. Warranty claims, field replacements. 10–1000× unit value.</div></div><div class="cost-item"><div class="cost-item-name">Yield Loss</div><div class="cost-item-note">A 95% yield means you buy 5% more than you use. The effective unit cost increases as yield drops.</div></div><div class="cost-item"><div class="cost-item-name">SCAR Process Cost</div><div class="cost-item-note">Engineering and procurement time managing Supplier Corrective Action Requests. 4–12 hours per incident.</div></div><div class="cost-item"><div class="cost-item-name">Line Stoppage / Downtime</div><div class="cost-item-note">Cost of production halt due to quality rejection. Can be catastrophic depending on production value per hour.</div></div></div><div class="bucket-note">COPQ is typically 5–30% of revenue in manufacturing organisations, but rarely modelled in supplier selection. A 1% defect rate difference between suppliers is rarely just "1%."</div></div></div>
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--blue)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(74,127,165,0.12);color:var(--blue)">⊡</div><div><div class="expand-name">Supply Chain & Logistics Costs</div><div class="expand-sub">The cost of getting it to you</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Inbound Freight</div><div class="cost-item-note">Sea, air, road, or rail. Air freight is 4–8× more expensive than sea but may be necessary for lead time.</div></div><div class="cost-item"><div class="cost-item-name">Insurance</div><div class="cost-item-note">Cargo insurance. Critical for high-value or fragile goods.</div></div><div class="cost-item"><div class="cost-item-name">Customs Brokerage Fees</div><div class="cost-item-note">Professional fees for customs clearance. Small but part of landed cost.</div></div><div class="cost-item"><div class="cost-item-name">Packaging & Handling</div><div class="cost-item-note">Inbound packaging cost, repackaging if required, and handling in receiving.</div></div><div class="cost-item"><div class="cost-item-name">Lead Time Premium (Expediting)</div><div class="cost-item-note">Air freight surcharge when normal lead time is too long. A 16-week supplier incurs expediting costs a 6-week supplier won't.</div></div><div class="cost-item"><div class="cost-item-name">FX Exposure</div><div class="cost-item-note">Currency risk on foreign-denominated contracts. Hedging cost or expected cost of unhedged exposure.</div></div></div></div></div>
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--purple)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(126,110,170,0.12);color:var(--purple)">▣</div><div><div class="expand-name">Inventory Costs</div><div class="expand-sub">The cost of holding stock</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Carrying Cost Rate</div><div class="cost-item-note">Typically 20–30% of inventory value per year. Includes cost of capital, insurance, storage, and shrinkage.</div></div><div class="cost-item"><div class="cost-item-name">Safety Stock Requirement</div><div class="cost-item-note">Buffer stock for supply uncertainty. Longer lead times = higher safety stock = higher carrying cost.</div></div><div class="cost-item"><div class="cost-item-name">MOQ Excess</div><div class="cost-item-note">When MOQ exceeds demand, excess inventory is a real cost. Model the carrying cost of the unsold portion.</div></div><div class="cost-item"><div class="cost-item-name">Obsolescence Risk</div><div class="cost-item-note">For products with short lifecycles, excess inventory becomes scrap. Especially critical in electronics.</div></div><div class="cost-item"><div class="cost-item-name">Warehousing & Storage</div><div class="cost-item-note">Space cost per pallet or square metre. Relevant where storage is constrained or outsourced.</div></div></div><div class="bucket-note">A supplier with 14-week vs. 4-week lead time may require 10 weeks more safety stock. At 25% carrying cost on $500K avg inventory, that is $31K additional annual cost — invisible if you only look at unit price.</div></div></div>
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--teal)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(58,142,142,0.12);color:var(--teal)">⚙</div><div><div class="expand-name">Operational / Usage Costs</div><div class="expand-sub">The cost of using it</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Integration & Installation</div><div class="cost-item-note">Engineering and labour to integrate the component or service into your product or process.</div></div><div class="cost-item"><div class="cost-item-name">Training</div><div class="cost-item-note">Cost to train staff on new equipment, software, or process changes associated with switching.</div></div><div class="cost-item"><div class="cost-item-name">Maintenance & Repair</div><div class="cost-item-note">Ongoing cost to maintain performance. Relevant for capital equipment and tooling.</div></div><div class="cost-item"><div class="cost-item-name">Supplier Management Overhead</div><div class="cost-item-note">Internal time managing the supplier. Some "cheap" suppliers require disproportionately more management overhead.</div></div><div class="cost-item"><div class="cost-item-name">Compliance & Regulatory</div><div class="cost-item-note">Cost to maintain compliance with RoHS, REACH, conflict minerals, cybersecurity standards. Varies by supplier capability.</div></div></div></div></div>
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--orange)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(192,122,58,0.12);color:var(--orange)">⇄</div><div><div class="expand-name">Transition & End-of-Life Costs</div><div class="expand-sub">The cost of switching — in and out</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Supplier Onboarding</div><div class="cost-item-note">Qualification, audit, system setup, and engineering time. Typically 40–200+ hours for a critical component.</div></div><div class="cost-item"><div class="cost-item-name">Dual-Running Cost</div><div class="cost-item-note">Cost of running incumbent and new supplier in parallel during transition.</div></div><div class="cost-item"><div class="cost-item-name">Re-qualification Cost</div><div class="cost-item-note">Where approvals are supplier-specific (medical, aerospace, defence), re-qualification can be $50K–$500K+.</div></div><div class="cost-item"><div class="cost-item-name">Tooling Write-off</div><div class="cost-item-note">Existing tooling at incumbent may be abandoned upon exit. Net book value is a real cost.</div></div><div class="cost-item"><div class="cost-item-name">Disposal / Decommissioning</div><div class="cost-item-note">End-of-life cost for equipment, hazardous materials, or physical assets.</div></div></div><div class="bucket-note">Amortise one-off switching costs over the expected relationship duration to get a true cost-per-year comparison. This is why switching suppliers feels expensive even when the new supplier is clearly better.</div></div></div>
-        <div class="expand-item"><div class="expand-header" onclick="toggleExpand(this)"><div class="expand-stripe" style="background:var(--red)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(192,80,77,0.12);color:var(--red)">⚠</div><div><div class="expand-name">Risk Costs (Quantified)</div><div class="expand-sub">Expected cost of supply risk events — probability × impact</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Supply Disruption (EV)</div><div class="cost-item-note">Probability of disruption × cost of disruption per occurrence × frequency. This is the right formula — not a narrative.</div></div><div class="cost-item"><div class="cost-item-name">Single-Source Premium</div><div class="cost-item-note">If disruption occurs, what is the emergency sourcing cost? That is the implicit premium for sole-sourcing.</div></div><div class="cost-item"><div class="cost-item-name">Supplier Financial Risk</div><div class="cost-item-note">Probability of insolvency × cost of qualifying a replacement on short notice.</div></div><div class="cost-item"><div class="cost-item-name">Geopolitical / Country Risk</div><div class="cost-item-note">Tariff risk, export restrictions, political instability, force majeure. More material for offshore supply chains.</div></div><div class="cost-item"><div class="cost-item-name">FX Volatility Cost</div><div class="cost-item-note">For unhedged foreign currency contracts, expected cost of adverse exchange rate movement over the contract period.</div></div></div><div class="bucket-note">Formula: E(Risk) = P(event) × Impact(cost). Use for each material risk. Sum them. If the total is zero, you haven't done this step seriously.</div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--gold)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(140,109,31,0.10);color:var(--gold)">$</div><div><div class="expand-name">Acquisition Costs</div><div class="expand-sub">What you pay to buy it</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><p>This is the only bucket typically captured in the purchase order. Everything below is invisible to most price-focused analyses.</p><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Unit Purchase Price</div><div class="cost-item-note">The quoted price per unit. Visible, but only the starting point.</div></div><div class="cost-item"><div class="cost-item-name">Tooling & NRE</div><div class="cost-item-note">Non-Recurring Engineering: mould costs, custom fixtures, setup charges. Often one-off but significant.</div></div><div class="cost-item"><div class="cost-item-name">Qualification & Testing</div><div class="cost-item-note">First-article inspection, laboratory testing, certification. Borne once per supplier/part.</div></div><div class="cost-item"><div class="cost-item-name">Duties & Import Tariffs</div><div class="cost-item-note">Customs duty, HS code classification, anti-dumping levies. Can be 5–25%+ of unit value.</div></div><div class="cost-item"><div class="cost-item-name">Payment Terms Cost of Capital</div><div class="cost-item-note">30-day vs. 90-day terms has a real cost. Early payment discounts have real value. Model them.</div></div><div class="cost-item"><div class="cost-item-name">RFx & Evaluation Effort</div><div class="cost-item-note">Internal procurement and engineering time running the sourcing event. Often ignored but real.</div></div></div><div class="bucket-note">Landed cost = unit price + freight + duties + brokerage + insurance. For offshore suppliers, this is the true acquisition baseline — not the ex-works price.</div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--red)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(192,80,77,0.12);color:var(--red)">✗</div><div><div class="expand-name">Quality Costs (COPQ)</div><div class="expand-sub">Cost of Poor Quality — prevention, appraisal, and failure</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Incoming Inspection</div><div class="cost-item-note">Labour and equipment cost to inspect incoming goods. Higher with lower-trusted suppliers.</div></div><div class="cost-item"><div class="cost-item-name">Internal Defect / Rework</div><div class="cost-item-note">Cost to detect and fix a defect before it leaves the facility. Typically 10–100× unit value.</div></div><div class="cost-item"><div class="cost-item-name">External Failure / Warranty</div><div class="cost-item-note">Cost once defect reaches the customer. Warranty claims, field replacements. 10–1000× unit value.</div></div><div class="cost-item"><div class="cost-item-name">Yield Loss</div><div class="cost-item-note">A 95% yield means you buy 5% more than you use. The effective unit cost increases as yield drops.</div></div><div class="cost-item"><div class="cost-item-name">SCAR Process Cost</div><div class="cost-item-note">Engineering and procurement time managing Supplier Corrective Action Requests. 4–12 hours per incident.</div></div><div class="cost-item"><div class="cost-item-name">Line Stoppage / Downtime</div><div class="cost-item-note">Cost of production halt due to quality rejection. Can be catastrophic depending on production value per hour.</div></div></div><div class="bucket-note">COPQ is typically 5–30% of revenue in manufacturing organisations, but rarely modelled in supplier selection. A 1% defect rate difference between suppliers is rarely just "1%."</div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--blue)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(74,127,165,0.12);color:var(--blue)">⊡</div><div><div class="expand-name">Supply Chain & Logistics Costs</div><div class="expand-sub">The cost of getting it to you</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Inbound Freight</div><div class="cost-item-note">Sea, air, road, or rail. Air freight is 4–8× more expensive than sea but may be necessary for lead time.</div></div><div class="cost-item"><div class="cost-item-name">Insurance</div><div class="cost-item-note">Cargo insurance. Critical for high-value or fragile goods.</div></div><div class="cost-item"><div class="cost-item-name">Customs Brokerage Fees</div><div class="cost-item-note">Professional fees for customs clearance. Small but part of landed cost.</div></div><div class="cost-item"><div class="cost-item-name">Packaging & Handling</div><div class="cost-item-note">Inbound packaging cost, repackaging if required, and handling in receiving.</div></div><div class="cost-item"><div class="cost-item-name">Lead Time Premium (Expediting)</div><div class="cost-item-note">Air freight surcharge when normal lead time is too long. A 16-week supplier incurs expediting costs a 6-week supplier won't.</div></div><div class="cost-item"><div class="cost-item-name">FX Exposure</div><div class="cost-item-note">Currency risk on foreign-denominated contracts. Hedging cost or expected cost of unhedged exposure.</div></div></div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--purple)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(126,110,170,0.12);color:var(--purple)">▣</div><div><div class="expand-name">Inventory Costs</div><div class="expand-sub">The cost of holding stock</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Carrying Cost Rate</div><div class="cost-item-note">Typically 20–30% of inventory value per year. Includes cost of capital, insurance, storage, and shrinkage.</div></div><div class="cost-item"><div class="cost-item-name">Safety Stock Requirement</div><div class="cost-item-note">Buffer stock for supply uncertainty. Longer lead times = higher safety stock = higher carrying cost.</div></div><div class="cost-item"><div class="cost-item-name">MOQ Excess</div><div class="cost-item-note">When MOQ exceeds demand, excess inventory is a real cost. Model the carrying cost of the unsold portion.</div></div><div class="cost-item"><div class="cost-item-name">Obsolescence Risk</div><div class="cost-item-note">For products with short lifecycles, excess inventory becomes scrap. Especially critical in electronics.</div></div><div class="cost-item"><div class="cost-item-name">Warehousing & Storage</div><div class="cost-item-note">Space cost per pallet or square metre. Relevant where storage is constrained or outsourced.</div></div></div><div class="bucket-note">A supplier with 14-week vs. 4-week lead time may require 10 weeks more safety stock. At 25% carrying cost on $500K avg inventory, that is $31K additional annual cost — invisible if you only look at unit price.</div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--teal)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(58,142,142,0.12);color:var(--teal)">⚙</div><div><div class="expand-name">Operational / Usage Costs</div><div class="expand-sub">The cost of using it</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Integration & Installation</div><div class="cost-item-note">Engineering and labour to integrate the component or service into your product or process.</div></div><div class="cost-item"><div class="cost-item-name">Training</div><div class="cost-item-note">Cost to train staff on new equipment, software, or process changes associated with switching.</div></div><div class="cost-item"><div class="cost-item-name">Maintenance & Repair</div><div class="cost-item-note">Ongoing cost to maintain performance. Relevant for capital equipment and tooling.</div></div><div class="cost-item"><div class="cost-item-name">Supplier Management Overhead</div><div class="cost-item-note">Internal time managing the supplier. Some "cheap" suppliers require disproportionately more management overhead.</div></div><div class="cost-item"><div class="cost-item-name">Compliance & Regulatory</div><div class="cost-item-note">Cost to maintain compliance with RoHS, REACH, conflict minerals, cybersecurity standards. Varies by supplier capability.</div></div></div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--orange)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(192,122,58,0.12);color:var(--orange)">⇄</div><div><div class="expand-name">Transition & End-of-Life Costs</div><div class="expand-sub">The cost of switching — in and out</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Supplier Onboarding</div><div class="cost-item-note">Qualification, audit, system setup, and engineering time. Typically 40–200+ hours for a critical component.</div></div><div class="cost-item"><div class="cost-item-name">Dual-Running Cost</div><div class="cost-item-note">Cost of running incumbent and new supplier in parallel during transition.</div></div><div class="cost-item"><div class="cost-item-name">Re-qualification Cost</div><div class="cost-item-note">Where approvals are supplier-specific (medical, aerospace, defence), re-qualification can be $50K–$500K+.</div></div><div class="cost-item"><div class="cost-item-name">Tooling Write-off</div><div class="cost-item-note">Existing tooling at incumbent may be abandoned upon exit. Net book value is a real cost.</div></div><div class="cost-item"><div class="cost-item-name">Disposal / Decommissioning</div><div class="cost-item-note">End-of-life cost for equipment, hazardous materials, or physical assets.</div></div></div><div class="bucket-note">Amortise one-off switching costs over the expected relationship duration to get a true cost-per-year comparison. This is why switching suppliers feels expensive even when the new supplier is clearly better.</div></div></div>
+        <div class="expand-item"><div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><div class="expand-stripe" style="background:var(--red)"></div><div class="expand-title-area"><div class="expand-icon" style="background:rgba(192,80,77,0.12);color:var(--red)">⚠</div><div><div class="expand-name">Risk Costs (Quantified)</div><div class="expand-sub">Expected cost of supply risk events — probability × impact</div></div></div><div class="expand-toggle">+</div></div><div class="expand-body"><div class="cost-items"><div class="cost-item"><div class="cost-item-name">Supply Disruption (EV)</div><div class="cost-item-note">Probability of disruption × cost of disruption per occurrence × frequency. This is the right formula — not a narrative.</div></div><div class="cost-item"><div class="cost-item-name">Single-Source Premium</div><div class="cost-item-note">If disruption occurs, what is the emergency sourcing cost? That is the implicit premium for sole-sourcing.</div></div><div class="cost-item"><div class="cost-item-name">Supplier Financial Risk</div><div class="cost-item-note">Probability of insolvency × cost of qualifying a replacement on short notice.</div></div><div class="cost-item"><div class="cost-item-name">Geopolitical / Country Risk</div><div class="cost-item-note">Tariff risk, export restrictions, political instability, force majeure. More material for offshore supply chains.</div></div><div class="cost-item"><div class="cost-item-name">FX Volatility Cost</div><div class="cost-item-note">For unhedged foreign currency contracts, expected cost of adverse exchange rate movement over the contract period.</div></div></div><div class="bucket-note">Formula: E(Risk) = P(event) × Impact(cost). Use for each material risk. Sum them. If the total is zero, you haven't done this step seriously.</div></div></div>
       </div>
       <hr class="divider">
       <h3>Cost Visibility by Bucket</h3>
@@ -1015,19 +1042,19 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
       <h3 style="font-family:var(--font-serif);font-size:18px;color:var(--text);margin:0 0 16px;">Negotiation Styles</h3>
       <div class="expand-list" style="margin-bottom:40px;">
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Collaborative (Integrative)</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Collaborative (Integrative)</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p>Focus on shared interests and joint problem-solving. Best suited for strategic supplier relationships, long-term agreements, and complex multi-issue negotiations where value creation is possible. Requires trust and information sharing. The aim is an agreement both parties are committed to executing.</p><p><strong style="color:var(--text);font-weight:500">When to use:</strong> Preferred supplier negotiations, multi-year agreements, JDA/NDA situations, renewal of critical relationships.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Competitive (Distributive)</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Competitive (Distributive)</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p>Pure value-claiming in a fixed-sum context. Both parties know the ZOPA; the negotiation is about who captures more of it. Appropriate for transactional, commodity, or one-off purchases where the relationship is not the primary asset. Can damage trust if over-applied to strategic relationships.</p><p><strong style="color:var(--text);font-weight:500">When to use:</strong> Commodity auctions, spot purchases, one-off contracts with low strategic interdependence.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Principled (Fisher &amp; Ury)</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Principled (Fisher &amp; Ury)</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p>Separate people from the problem. Focus on interests, not positions. Generate multiple options before deciding. Insist on objective criteria. The classic framework from <em>Getting to Yes</em>. Highly effective in complex or contentious negotiations where positional bargaining creates deadlock.</p><p><strong style="color:var(--text);font-weight:500">When to use:</strong> Disputes, contract renegotiations, high-stakes situations where maintaining the relationship through disagreement matters.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Tactical / Pressure-Based</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Tactical / Pressure-Based</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p>Anchoring, artificial deadlines, good cop/bad cop, limited authority plays. Effective short-term but requires awareness — sophisticated counterparts will recognise these moves and may escalate or disengage. Use selectively and consciously, not as a default.</p><p><strong style="color:var(--text);font-weight:500">When to use:</strong> Final-stage price compression on competitive bids, situations where the counterpart is using tactics first.</p></div>
         </div>
       </div>
@@ -1124,27 +1151,27 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
       <div class="section-intro"><h2>Contract Architecture</h2><p>The six structural domains every well-constructed commercial contract must address. Weakness in any one creates exposure.</p></div>
       <div class="expand-list">
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Commercial Terms</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Commercial Terms</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Pricing structure:</strong> Fixed, variable, cost-plus, indexed, or hybrid. Define the base clearly. If indexed, specify the index, the floor/ceiling, the review cadence, and whether it moves symmetrically (up and down) or only upward.</p><p><strong>Payment terms:</strong> Payment timing, currency, dispute escalation process for contested invoices, early payment discount terms if applicable.</p><p><strong>Volume commitments:</strong> Minimum purchase obligations, forecast obligations, and consequences of shortfall. Asymmetric terms (you commit to minimums, they don't commit to supply) are a common trap.</p><p><strong>Benchmarking rights:</strong> The right to periodically compare contract pricing against market rates, with a process to negotiate adjustment if a defined threshold is exceeded.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Performance Framework</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Performance Framework</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>KPIs and SLAs:</strong> Must be specific, measurable, and tied to outcomes that matter (not just activity). Define measurement methodology, data sources, and who calculates. Ambiguous KPIs are unenforceable KPIs.</p><p><strong>Remedies and incentives:</strong> Penalties (service credits, price reductions) for underperformance and bonuses for outperformance. The mechanism must be defined — not just the trigger. Who claims? By when? What is the limit?</p><p><strong>Review cadence:</strong> Monthly operational reviews, quarterly performance reviews, annual strategic reviews. Each level has different participants, outputs, and escalation thresholds.</p><p><strong>Continuous improvement:</strong> Annual improvement targets — typically 2–5% cost reduction or quality/efficiency improvement — prevent the contract from becoming a price floor that drifts upward with indexation.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Risk &amp; Liability</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Risk &amp; Liability</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Liability caps:</strong> Most commercial contracts limit total liability to a multiple of contract value (1–2× annual fees is common). Understand what is excluded from the cap — typically fraud, gross negligence, IP infringement, and death/injury.</p><p><strong>Indemnities:</strong> Who indemnifies whom for what. IP infringement indemnities from the supplier are critical in technology and component supply. Product liability indemnities matter in OEM supply chains.</p><p><strong>Insurance requirements:</strong> Minimum coverage types and limits, named insured obligations, requirement to notify on material policy changes. Request certificates annually.</p><p><strong>Force majeure:</strong> Defines what events suspend obligations. Review carefully — overbroad force majeure clauses allow suppliers to excuse non-performance for events well within their control.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Change Management</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Change Management</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Variation process:</strong> All changes to scope, specification, timeline, or price must follow a defined process: written request → impact assessment → pricing proposal → written approval. No verbal changes. No retrospective variations.</p><p><strong>Escalation path:</strong> Who is authorised to approve changes at what value threshold. Changes above threshold require escalation to defined governance level.</p><p><strong>Change log:</strong> A running register of all approved variations, cumulative impact on price and scope, and authorising parties. Maintained by both parties. Reviewed at each performance review.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Termination &amp; Exit</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Termination &amp; Exit</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Termination for convenience:</strong> The right to exit without cause, with defined notice period. Critical for maintaining optionality. Some suppliers resist this — it is worth fighting for, especially in longer-term contracts.</p><p><strong>Termination for cause:</strong> Specific trigger events (persistent KPI failure, insolvency, material breach) that allow immediate or accelerated exit. The trigger events must be precisely defined.</p><p><strong>Transition assistance:</strong> The exiting supplier's obligation to support transition to a replacement: knowledge transfer, data export, parallel running, staff introductions. Must be scoped and priced before signing — not negotiated during a fractious exit.</p><p><strong>Step-in rights:</strong> In critical supply relationships, the right to assume direct operational control (or appoint a third party to do so) if the supplier fails to perform and the failure is creating material risk.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Governance &amp; Relationship</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Governance &amp; Relationship</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Relationship owners:</strong> Named individuals on both sides with defined authority and contact protocols. Prevents the relationship from existing only between individuals who may leave.</p><p><strong>Meeting cadence and outputs:</strong> Each review tier produces a defined output: action log, performance scorecard, escalation items, approved changes. Minutes are circulated and agreed within a defined timeframe.</p><p><strong>Dispute resolution:</strong> Escalation ladder before litigation or arbitration: operational → management → executive → formal dispute. Defines timeframes at each stage. Prevents disputes from escalating prematurely.</p><p><strong>Records and audit:</strong> The supplier's obligation to maintain records supporting invoiced amounts, and your right to audit them. Scope, frequency, and notice requirements. Cost allocation for audit.</p></div>
         </div>
       </div>
@@ -1210,35 +1237,35 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
       <div class="section-intro"><h2>Risk Taxonomy</h2><p>Eight categories of supply risk, each with distinct drivers, early warning signals, and mitigation approaches.</p></div>
       <div class="expand-list">
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Supply Disruption Risk</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Supply Disruption Risk</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Definition:</strong> Risk of interruption to the physical flow of goods — from any cause that prevents delivery to schedule.</p><p><strong>Drivers:</strong> Capacity constraints, natural disaster, logistics failure, factory incident, labour dispute, raw material shortage.</p><p><strong>Early warnings:</strong> Extended lead time creep, increased expediting requests, sub-tier shortage reports, logistics capacity tightening.</p><p><strong>Mitigations:</strong> Safety stock, dual sourcing, alternative logistics routing, demand-supply visibility sharing, supplier capacity reservation agreements.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Quality Risk</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Quality Risk</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Definition:</strong> Risk that supplied goods fail to meet specification, leading to returns, rework, production stops, warranty claims, or field failures.</p><p><strong>Drivers:</strong> Process control failures, incoming material variation, workforce turnover, capacity pressure driving shortcuts, inadequate change management.</p><p><strong>Early warnings:</strong> Rising incoming inspection failure rates, increased supplier corrective actions (SCARs), customer field return rates, supplier quality audit findings.</p><p><strong>Mitigations:</strong> Incoming inspection protocols, supplier quality audits, first article inspection requirements, statistical process control requirements, supplier development programmes.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Financial Risk</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Financial Risk</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Definition:</strong> Risk of supplier financial distress — reduced capability, erratic behaviour, or outright failure — that impairs their ability to perform.</p><p><strong>Drivers:</strong> Customer concentration, over-leverage, thin margins, payment disputes, loss of major customer, rising input costs, credit tightening.</p><p><strong>Early warnings:</strong> Requests for extended payment terms or early payment, credit rating downgrades, public financial reports showing deteriorating ratios, longer quotation validity, reduced investment in plant or people.</p><p><strong>Mitigations:</strong> Annual financial health review using public accounts or D&amp;B reports, supply chain finance programmes for critical suppliers, dual sourcing for financially fragile sole sources, escrow of critical tooling, IP, and documentation.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Geopolitical &amp; Trade Risk</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Geopolitical &amp; Trade Risk</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Definition:</strong> Risk arising from political events, trade policy changes, sanctions, tariffs, or regulatory changes in supplier geographies.</p><p><strong>Drivers:</strong> Export controls, tariff escalation, sanctions regimes, political instability, conflict, trade bloc changes, currency controls.</p><p><strong>Early warnings:</strong> Policy announcements, diplomatic deterioration, trade negotiation breakdowns, supplier requests for price adjustments citing "regulatory changes."</p><p><strong>Mitigations:</strong> Geographic diversification of supply base, tariff classification review, free trade agreement utilisation, country-of-origin monitoring, alternate qualification in lower-risk geographies.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Regulatory &amp; Compliance Risk</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Regulatory &amp; Compliance Risk</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Definition:</strong> Risk that the supplier fails to meet applicable regulations — environmental, safety, chemical content, labour — creating legal exposure or import restrictions for the buyer.</p><p><strong>Drivers:</strong> Regulatory change, inadequate compliance management at the supplier, sub-tier non-compliance (e.g. conflict minerals, RoHS substances), evolving international standards.</p><p><strong>Early warnings:</strong> Supplier non-responsiveness to compliance questionnaires, failure to provide updated certifications, changes in product composition without notification.</p><p><strong>Mitigations:</strong> Annual compliance declarations, third-party audits, inclusion of regulatory compliance obligations in contracts, sub-tier material disclosure requirements (e.g. IMDS, IPC-1752).</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Cyber &amp; Data Security Risk</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Cyber &amp; Data Security Risk</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Definition:</strong> Risk arising from the supplier's cybersecurity posture — including the possibility that a breach at the supplier creates exposure for your systems, IP, or data.</p><p><strong>Drivers:</strong> Shared system access, EDI/API integrations, design file sharing, supplier hosting of your data, supplier staff with access to your systems.</p><p><strong>Early warnings:</strong> News of supplier cyber incidents, failure to meet security questionnaire standards, supplier requests for elevated system access.</p><p><strong>Mitigations:</strong> Supplier security questionnaire (aligned to ISO 27001 or NIST), contractual security obligations, penetration testing requirements, limitation of data shared, incident notification clauses with defined timelines.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>ESG &amp; Reputational Risk</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>ESG &amp; Reputational Risk</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Definition:</strong> Risk that supplier practices on environmental, social, or governance dimensions create reputational damage, regulatory exposure, or loss of customer confidence for your organisation.</p><p><strong>Drivers:</strong> Modern slavery, unsafe labour practices, environmental violations, corruption, governance failures — in the supplier or their sub-tier.</p><p><strong>Early warnings:</strong> NGO reports, media coverage, supplier audit non-conformances, modern slavery statement omissions, environmental incident disclosures.</p><p><strong>Mitigations:</strong> Supplier code of conduct, self-assessment questionnaires, third-party audits, contractual right to audit for compliance, traceability programmes for high-risk material categories.</p></div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Concentration Risk</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Concentration Risk</span><span class="expand-toggle">+</span></div>
           <div class="expand-body"><p><strong>Definition:</strong> Structural over-dependency on a single supplier, geography, technology, or supply route — creating disproportionate exposure to any disruption within that node.</p><p><strong>Drivers:</strong> Historical single-sourcing, technology lock-in, high qualification costs, market monopoly/duopoly, geographic clustering of supply.</p><p><strong>Early warnings:</strong> Category reviews that reveal high sole-source percentages, supplier commercial behaviour suggesting awareness of leverage (slower response, less competitive pricing), geographic supply concentration increasing.</p><p><strong>Mitigations:</strong> Dual/multi-source strategy, alternative qualification programmes, design-for-substitution at product level, volume rebalancing, strategic buffer stock for sole-source critical items.</p></div>
         </div>
       </div>
@@ -1443,7 +1470,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
       <div class="section-intro"><h2>Cost Architecture</h2><p>Every manufactured product or service cost decomposes into six primary buckets. Understanding each element — its drivers, variability, and benchmarks — is the foundation of an accurate model.</p></div>
       <div class="expand-list">
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Direct Materials</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Direct Materials</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>The largest cost element in most manufactured products. Build from the Bill of Materials (BOM): list every component and raw material, source current market pricing (spot or contract), apply a yield/scrap factor, and account for minimum order quantities that may require carrying inventory.</p>
             <p><strong style="color:var(--text);font-weight:500">Key data sources:</strong> London Metal Exchange (LME) for base metals, ICIS for polymers and chemicals, component distributors (Digi-Key, Mouser, Arrow) for electronic parts, IHS Markit / Omdia for semiconductor pricing trends.</p>
@@ -1451,7 +1478,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Direct Labour</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Direct Labour</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>Labour cost = (process time in hours) × (fully-loaded labour rate). Process time is derived from engineering estimates, time studies, or analogy to similar products. Rates vary significantly by geography — a PCB assembly in Shenzhen costs a fraction of the same assembly in Germany.</p>
             <p><strong style="color:var(--text);font-weight:500">Key data sources:</strong> ILO wage databases, Aon/Mercer regional manufacturing salary surveys, published hourly rates from contract manufacturers in target geographies.</p>
@@ -1459,7 +1486,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Manufacturing Overhead</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Manufacturing Overhead</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>Overhead encompasses all costs not directly traceable to a unit: facility rent, utilities, equipment depreciation, maintenance, quality/inspection, indirect labour, and production management. Applied as a burden rate — typically expressed as a percentage of direct labour cost or machine hours.</p>
             <p><strong style="color:var(--text);font-weight:500">Benchmark rates:</strong> Electronics contract manufacturers: 80–140% of DL. Precision machining: 150–250% of DL. High-volume plastics: 60–100% of DL. Rates vary by capital intensity and facility utilisation.</p>
@@ -1467,7 +1494,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Tooling &amp; NRE</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Tooling &amp; NRE</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>Non-Recurring Engineering (NRE) costs cover design, tooling, fixtures, test equipment, and first-article qualification — costs incurred once (or periodically) rather than per unit. These must be explicitly scoped and either paid upfront or amortised across the contracted volume. Ownership of tooling (buyer vs. supplier) has significant strategic implications.</p>
             <p><strong style="color:var(--text);font-weight:500">Key questions:</strong> Who owns the tooling at end of life? What is the maintenance cost and responsibility? What happens to NRE if volume doesn't materialise? Is the NRE price competitive with independent quotes?</p>
@@ -1475,7 +1502,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Freight &amp; Logistics</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Freight &amp; Logistics</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>Inbound freight to the supplier's facility, outbound freight to your dock, duty and customs duty (where applicable), packaging, warehousing, and insurance in transit. Often underestimated in should-cost models, particularly for heavy or oversized items, or for supply chains spanning multiple customs jurisdictions.</p>
             <p><strong style="color:var(--text);font-weight:500">Key data sources:</strong> Freightos Baltic Index (container rates), IATA cargo rate indices, incoterms definitions for cost allocation, WTO tariff schedules for customs duty.</p>
@@ -1483,7 +1510,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Supplier Margin &amp; SG&amp;A</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Supplier Margin &amp; SG&amp;A</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>The final layer: selling, general & administrative overhead (typically 5–15% of revenue for manufacturers) plus net profit margin (typically 5–15%, higher for specialty or IP-intensive suppliers). Understanding industry benchmark margins — by segment and supplier type — tells you what is reasonable, and what represents excess return you should be competing away.</p>
             <p><strong style="color:var(--text);font-weight:500">Benchmark sources:</strong> Published annual reports of public comparators, IBISWorld industry margin reports, Dun & Bradstreet industry financial benchmarks.</p>
@@ -1939,7 +1966,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-study">1</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Category Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <a class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('cat', document.querySelector('[data-fw=cat]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('cat', document.querySelector('[data-fw=cat]'))">Open framework →</button>
               <p class="seq-why">The central organising framework of strategic procurement. Learn this second because every other discipline — market analysis, should-cost, supplier selection, negotiation — exists in service of a category strategy. Without understanding what a category strategy is trying to achieve, the tools that feed it are context-free.</p>
             </div>
           </div>
@@ -1953,7 +1980,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-study">2</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Supply Market Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <a class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('sma', document.querySelector('[data-fw=sma]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('sma', document.querySelector('[data-fw=sma]'))">Open framework →</button>
               <p class="seq-why">Learn market analysis before spend analysis because understanding the external environment — supplier landscape, competitive structure, macro forces — is the prerequisite context for interpreting what your own spend data means. A spend concentration finding only becomes actionable when you know whether the supply market offers alternatives.</p>
             </div>
           </div>
@@ -1961,7 +1988,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-study">3</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Spend Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <a class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('spend', document.querySelector('[data-fw=spend]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('spend', document.querySelector('[data-fw=spend]'))">Open framework →</button>
               <p class="seq-why">Spend analysis is your internal intelligence layer — what you buy, from whom, at what cost, and how it clusters. It directly produces the inputs a category strategy needs: supplier concentration, spend by category, maverick spend, tail rationalisation opportunities. With market analysis already understood, you can immediately contextualise what the spend data reveals.</p>
             </div>
           </div>
@@ -1969,7 +1996,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-study">4</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Should-Cost Modelling <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <a class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('scm', document.querySelector('[data-fw=scm]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('scm', document.querySelector('[data-fw=scm]'))">Open framework →</button>
               <p class="seq-why">Should-cost sits at the intersection of market intelligence and commercial execution. Learn it after market analysis and spend analysis — you need commodity data fluency and an understanding of supplier economics (both from SMA) before the cost decomposition model makes full sense. It then becomes the commercial anchor for negotiation.</p>
             </div>
           </div>
@@ -1977,7 +2004,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-study">5</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">TCO Model <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <a class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('tco', document.querySelector('[data-fw=tco]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('tco', document.querySelector('[data-fw=tco]'))">Open framework →</button>
               <p class="seq-why">TCO extends should-cost from production cost to full lifecycle cost — adding quality failure, logistics, switching, and end-of-life costs. Learn it here, after should-cost, so the progression from "what should it cost to make" to "what does it cost to own" is conceptually clean. Together, SCM and TCO form the complete cost intelligence toolkit.</p>
             </div>
           </div>
@@ -1991,7 +2018,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-study">6</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Supplier Selection &amp; Evaluation <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <a class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('sse', document.querySelector('[data-fw=sse]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('sse', document.querySelector('[data-fw=sse]'))">Open framework →</button>
               <p class="seq-why">With intelligence frameworks understood, you can now learn how to make the sourcing decision itself — the evaluation methodology, the RFx process, due diligence, and onboarding. Placed here because supplier selection consumes all the intelligence you've built: market landscape (who exists), spend data (what you need), and TCO (how to evaluate true cost).</p>
             </div>
           </div>
@@ -1999,7 +2026,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-study">7</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Negotiation <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <a class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('neg', document.querySelector('[data-fw=neg]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('neg', document.querySelector('[data-fw=neg]'))">Open framework →</button>
               <p class="seq-why">Negotiation is the commercial execution step that converts intelligence and strategy into outcomes. Positioned after supplier selection because in practice you negotiate after you've shortlisted — and understanding the selection methodology clarifies what concessions have strategic weight versus cosmetic value.</p>
             </div>
           </div>
@@ -2013,7 +2040,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-study">8</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Contract Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <a class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('cmt', document.querySelector('[data-fw=cmt]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('cmt', document.querySelector('[data-fw=cmt]'))">Open framework →</button>
               <p class="seq-why">Contract management is the first post-award discipline — it governs how you execute and protect the deal you've negotiated. Logically follows negotiation in the study sequence because contracts are the instrument that captures negotiation outcomes, and managing them well requires understanding what was agreed and why.</p>
             </div>
           </div>
@@ -2021,7 +2048,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-study">9</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Supplier Risk Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <a class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('srisk', document.querySelector('[data-fw=srisk]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('srisk', document.querySelector('[data-fw=srisk]'))">Open framework →</button>
               <p class="seq-why">Risk management overlaps with both contract management and SRM — it sits between the two. Learning it here, after contract management, makes the distinction between contractual protection mechanisms (covered in CMT) and proactive supply risk monitoring (covered here) conceptually clear.</p>
             </div>
           </div>
@@ -2029,7 +2056,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-study">10</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">SRM Deep Dive <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <a class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('srm', document.querySelector('[data-fw=srm]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('srm', document.querySelector('[data-fw=srm]'))">Open framework →</button>
               <p class="seq-why">SRM is the final and most advanced discipline — it operates above and beyond contracts, risk management, and performance monitoring. Learn it last because it synthesises everything: you need to understand category strategy, supplier selection, negotiation, contract management, and risk management before you can appreciate what SRM does that none of those disciplines accomplish on their own.</p>
             </div>
           </div>
@@ -2060,7 +2087,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-understand">1</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Spend Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <a class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('spend', document.querySelector('[data-fw=spend]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('spend', document.querySelector('[data-fw=spend]'))">Open framework →</button>
               <p class="seq-desc">Before anything else, establish what you are actually buying — volume, value, supplier distribution, specification variation, and maverick spend. This is your internal baseline. Without it you cannot scope the category, size the opportunity, or know which suppliers are material.</p>
               <div class="seq-produces">What it produces: spend baseline — what you buy, from whom, at what cost, and how it clusters.</div>
             </div>
@@ -2069,7 +2096,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-understand">2</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Supply Market Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <a class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('sma', document.querySelector('[data-fw=sma]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('sma', document.querySelector('[data-fw=sma]'))">Open framework →</button>
               <p class="seq-desc">Now look outward. Map the supplier landscape, apply Porter's Five Forces, run the PESTLE scan, and model supply/demand dynamics. This tells you what is strategically possible — whether genuine competition can be created, what macro forces will affect pricing, and where the leverage points in the market are.</p>
               <div class="seq-produces">What it produces: external intelligence — supplier landscape, power balance, market outlook, cost driver analysis.</div>
             </div>
@@ -2078,7 +2105,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-understand">3</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Should-Cost Modelling <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <a class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('scm', document.querySelector('[data-fw=scm]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('scm', document.querySelector('[data-fw=scm]'))">Open framework →</button>
               <p class="seq-desc">With market data in hand, build your independent cost estimate: decompose the BOM, apply commodity prices, estimate labour and overhead, add fair margin. This is your commercial anchor — the number against which every supplier quote will be measured. Built now, before the RFQ, it shapes the sourcing event rather than just reacting to it.</p>
               <div class="seq-produces">What it produces: commercial anchor — independent cost estimate, negotiation floor, cost variance basis.</div>
             </div>
@@ -2093,7 +2120,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-strategise">4</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Category Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <a class="seq-fw-link" style="color:var(--gold)" onclick="selectFW('cat', document.querySelector('[data-fw=cat]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--gold)" onclick="selectFW('cat', document.querySelector('[data-fw=cat]'))">Open framework →</button>
               <p class="seq-desc">Now you have enough intelligence to build a credible category strategy. Work through the 7-stage cycle: run the Kraljic analysis on your spend data, define the sourcing approach, set savings and risk objectives, and produce the category plan. Everything from Phase 1 feeds directly into this step — spend data informs segmentation, market analysis calibrates strategic options, should-cost sets the target.</p>
               <div class="seq-produces">What it produces: category strategy — sourcing model, objectives, supplier approach, savings target, risk posture.</div>
             </div>
@@ -2108,7 +2135,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-execute">5</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Supplier Selection &amp; Evaluation <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <a class="seq-fw-link" style="color:var(--purple)" onclick="selectFW('sse', document.querySelector('[data-fw=sse]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--purple)" onclick="selectFW('sse', document.querySelector('[data-fw=sse]'))">Open framework →</button>
               <p class="seq-desc">Run the sourcing event: long-list from your market analysis, pre-qualify with an RFI, issue the RFQ/RFP, evaluate responses against a pre-defined weighted scorecard, conduct due diligence on the shortlist, and request BAFOs. The category strategy defines what "best" looks like; supplier selection determines who delivers it.</p>
               <div class="seq-produces">What it produces: shortlist and preferred supplier — evaluated, due-diligenced, and ready to negotiate.</div>
             </div>
@@ -2117,7 +2144,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-execute">6</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">TCO Model <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <a class="seq-fw-link" style="color:var(--purple)" onclick="selectFW('tco', document.querySelector('[data-fw=tco]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--purple)" onclick="selectFW('tco', document.querySelector('[data-fw=tco]'))">Open framework →</button>
               <p class="seq-desc">Before making the award decision, build a full TCO model for your shortlisted suppliers. Unit price is only one input. Quality failure cost, logistics, inventory carrying cost, switching cost, and end-of-life costs frequently reverse the price ranking. TCO gives you the true basis for the award decision and the commercial objectives going into negotiation.</p>
               <div class="seq-produces">What it produces: total cost picture — full lifecycle cost per supplier, award decision basis, negotiation objectives.</div>
             </div>
@@ -2126,7 +2153,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-execute">7</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Negotiation <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <a class="seq-fw-link" style="color:var(--purple)" onclick="selectFW('neg', document.querySelector('[data-fw=neg]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--purple)" onclick="selectFW('neg', document.querySelector('[data-fw=neg]'))">Open framework →</button>
               <p class="seq-desc">Armed with your should-cost model, TCO analysis, market intelligence, and a clear BATNA, negotiate the commercial outcome. This is not a standalone conversation — it is the execution of everything built in the previous six steps. Should-cost defines the floor. TCO defines the value of non-price terms. Market analysis defines your walkaway. Supplier selection defines your leverage.</p>
               <div class="seq-produces">What it produces: commercial outcome — agreed price, terms, service levels, risk allocation, and commitments.</div>
             </div>
@@ -2141,7 +2168,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-protect">8</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Contract Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <a class="seq-fw-link" style="color:var(--green)" onclick="selectFW('cmt', document.querySelector('[data-fw=cmt]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--green)" onclick="selectFW('cmt', document.querySelector('[data-fw=cmt]'))">Open framework →</button>
               <p class="seq-desc">Execute the contract, establish performance baselines, and formally mobilise the supplier. The contract captures the value you negotiated — contract management ensures you actually receive it. Set up the governance framework immediately: KPIs, review cadence, escalation path, and variation management process. The first 90 days set the tone for the relationship.</p>
               <div class="seq-produces">What it produces: value lock-in — performance governance, baseline metrics, mobilised supplier, active issue management.</div>
             </div>
@@ -2150,7 +2177,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-protect">9</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">Supplier Risk Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <a class="seq-fw-link" style="color:var(--green)" onclick="selectFW('srisk', document.querySelector('[data-fw=srisk]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--green)" onclick="selectFW('srisk', document.querySelector('[data-fw=srisk]'))">Open framework →</button>
               <p class="seq-desc">Stand up your ongoing risk monitoring framework. Classify the supplier by risk tier, identify your specific risk exposures (disruption, quality, financial, geopolitical, cyber), set early warning indicators, and activate your mitigation plans. Risk management is most effective when established at contract launch — before any event occurs, not in response to one.</p>
               <div class="seq-produces">What it produces: risk posture — risk classification, monitoring framework, early warning indicators, mitigation plans.</div>
             </div>
@@ -2159,7 +2186,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
             <div class="seq-spine"><div class="seq-num num-protect">10</div><div class="seq-line"></div></div>
             <div class="seq-body">
               <div class="seq-fw-name">SRM Deep Dive <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <a class="seq-fw-link" style="color:var(--green)" onclick="selectFW('srm', document.querySelector('[data-fw=srm]'))">Open framework →</a>
+              <button type="button" class="seq-fw-link" style="color:var(--green)" onclick="selectFW('srm', document.querySelector('[data-fw=srm]'))">Open framework →</button>
               <p class="seq-desc">For suppliers that meet the strategic classification criteria, activate the SRM programme. Assign executive sponsors, establish the QBR cadence, launch the scorecard, and begin building the joint value creation pipeline. SRM is not appropriate for all suppliers — this is a deliberate investment reserved for the 5–15 relationships where the return justifies the cost. Assess classification honestly before committing.</p>
               <div class="seq-produces">What it produces: relationship return — scorecards, QBR governance, joint value plan, strategic alignment, innovation pipeline.</div>
             </div>
@@ -2442,7 +2469,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
       <div class="section-intro"><h2>Core Mechanics</h2><p>The quantitative machinery of replenishment. These models are simplifications — their value is in making the trade-offs explicit, not in producing decimal-point precision.</p></div>
       <div class="expand-list">
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Economic Order Quantity (EOQ)</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Economic Order Quantity (EOQ)</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>EOQ = √(2DS ÷ H) — where D is annual demand, S is the fixed cost per order, and H is the annual holding cost per unit. It finds the order size that minimises the sum of ordering cost and carrying cost.</p>
             <p><strong style="color:var(--text);font-weight:500">Use it for:</strong> a starting point on order sizing, and as the counterweight when a supplier pushes MOQs or price breaks above your economic quantity.</p>
@@ -2450,7 +2477,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Safety Stock &amp; Service Level</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Safety Stock &amp; Service Level</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>Basic form: SS = Z × σd × √LT — where Z is the service factor (1.65 for 95%, 2.33 for 99%), σd is the standard deviation of demand per period, and LT is lead time in periods. Extended forms also incorporate lead time variability, which often matters more than demand variability.</p>
             <p><strong style="color:var(--text);font-weight:500">Key insight:</strong> safety stock scales with the <em>square root</em> of lead time but <em>linearly</em> with the Z factor — pushing service from 95% to 99% costs ~40% more buffer; pushing to 99.9% roughly doubles it. Choose service levels item by item.</p>
@@ -2458,28 +2485,28 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Reorder Point (ROP)</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Reorder Point (ROP)</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>ROP = (average demand per period × lead time in periods) + safety stock. When stock position (on hand + on order − allocated) falls to the ROP, a replenishment order triggers.</p>
             <p><strong style="color:var(--text);font-weight:500">Watch:</strong> the calculation uses stock <em>position</em>, not stock on hand — forgetting open POs causes double-ordering. And every lead time change must flow through to the ROP immediately; stale lead times are the most common cause of systematic stock-outs after a supply transition.</p>
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>ABC / XYZ Segmentation</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>ABC / XYZ Segmentation</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>ABC ranks items by annual spend value (A ≈ top 80% of value, B next 15%, C last 5%). XYZ ranks by demand variability (X stable, Y seasonal/trending, Z erratic). The 9-cell matrix assigns planning policy: automated min/max for CX, statistical replenishment for AX/BX, human review and supplier collaboration for AZ/BZ.</p>
             <p><strong style="color:var(--text);font-weight:500">Procurement application:</strong> AX items justify long-term agreements with scheduled releases; AZ items justify flexibility clauses and vendor-managed buffers; CX items belong on catalogues or consignment with zero planning touch.</p>
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>MOQ &amp; Price Break Economics</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>MOQ &amp; Price Break Economics</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>To evaluate a price break: compare the unit price saving on annual volume against the incremental carrying cost of the larger order quantity — incremental average inventory × holding rate (typically 15–25%/yr for electronics once obsolescence and cost of capital are included). Include obsolescence probability explicitly for lifecycle-sensitive parts.</p>
             <p><strong style="color:var(--text);font-weight:500">Rule of thumb:</strong> if the price break forces more than ~3–4 months of additional stock for a saving under 5%, it usually fails the arithmetic. Counter-offer: the break price at a committed annual volume with scheduled releases — the supplier gets the volume certainty; you avoid the inventory.</p>
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>VMI, Consignment &amp; Buffer Agreements</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>VMI, Consignment &amp; Buffer Agreements</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>Vendor-Managed Inventory: the supplier plans and replenishes against agreed min/max levels using your consumption data. Consignment: stock sits at your site but remains supplier-owned until consumed — you carry no working capital. Buffer agreements: the supplier holds finished or semi-finished stock at agreed levels, funded by volume commitment or a holding fee.</p>
             <p><strong style="color:var(--text);font-weight:500">When each fits:</strong> VMI for stable, repetitive C/B items where planning effort exceeds value; consignment for high-value items with unpredictable pull; buffer agreements for long-lead strategic components where continuity risk justifies the commitment.</p>
@@ -2487,7 +2514,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Last-Time-Buy (LTB) Decisions</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Last-Time-Buy (LTB) Decisions</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>When a component is end-of-life'd, the LTB quantity must cover remaining product demand plus service/warranty obligations across the support horizon — often 5–10 years for industrial electronics. Build the estimate from: remaining production forecast, field failure rates for service demand, yield loss, and a defined confidence buffer.</p>
             <p><strong style="color:var(--text);font-weight:500">Before buying:</strong> exhaust the alternatives — pin-compatible substitutes, broker market assessment, die-bank options, or redesign economics. An LTB is a multi-year bet with zero salvage value if wrong; it deserves cross-functional sign-off (engineering + product + finance), not a solo procurement call.</p>
@@ -2557,42 +2584,42 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
       <div class="section-intro"><h2>Resilience Levers</h2><p>Six families of intervention. None is universally right — each is bought with cost, complexity, or leverage, and matched to the exposure it addresses.</p></div>
       <div class="expand-list">
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Multi-Sourcing &amp; Qualification Depth</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Multi-Sourcing &amp; Qualification Depth</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>The strongest structural lever: two or more genuinely qualified, tooled, volume-receiving suppliers on different failure paths (different geographies, different upstream dependencies). Variants: full dual-source (both live), warm alternate (qualified, small share), cold alternate (qualified once, dormant — weakest).</p>
             <p><strong style="color:var(--text);font-weight:500">Costs:</strong> duplicated NRE/tooling, split volume leverage, double qualification maintenance. <strong style="color:var(--text);font-weight:500">Fit:</strong> A-class strategic components where TTR &gt; TTS and redesign is slow.</p>
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Strategic Buffers</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Strategic Buffers</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>Inventory held explicitly against disruption (distinct from cycle/safety stock): sized from TTS-vs-TTR gaps on critical items. Options: buyer-held stock, supplier-held buffer under contract, or bonded/3PL stock at a neutral point. For electronics, die banking (holding wafers/die before packaging) buys long cover at lower cost and lower obsolescence exposure than finished parts.</p>
             <p><strong style="color:var(--text);font-weight:500">Discipline:</strong> strategic buffer is ring-fenced — it is not available to cover forecast misses, or it will silently become safety stock and be gone when the event arrives.</p>
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Geographic &amp; Logistics Diversification</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Geographic &amp; Logistics Diversification</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>Reducing correlated exposure: nearshoring or regionalising supply for critical items, qualifying alternate ports and freight lanes, and avoiding single-country concentration for any component family. For NZ-based operations the logistics dimension is acute — long, thin inbound lanes mean freight disruption is a primary risk, not a footnote.</p>
             <p><strong style="color:var(--text);font-weight:500">Honest trade:</strong> regional supply usually carries a unit-cost premium. Price it against the exposure it removes; apply it selectively to the critical path, not the whole portfolio.</p>
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Contractual Flexibility &amp; Capacity Rights</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Contractual Flexibility &amp; Capacity Rights</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>Resilience written into commercial terms: volume flexibility bands (e.g. ±25% at 8 weeks), capacity reservation fees, allocation priority clauses, disclosed sub-tier dependencies, and mandatory disruption notification within defined hours. In shortage conditions, contractual allocation priority — agreed when you had leverage — is worth more than relationship goodwill.</p>
             <p><strong style="color:var(--text);font-weight:500">Negotiate when calm:</strong> none of these terms is obtainable mid-crisis. They are bought during normal sourcing events, priced as modest premiums, and exercised rarely.</p>
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Design for Resilience</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Design for Resilience</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>The upstream lever most procurement teams never pull: influencing engineering toward multi-sourced components, standard packages over sole-source exotics, approved alternates on the BOM at design time, and component commonality across products (which pools demand and simplifies buffering). A resilient BOM beats any amount of downstream heroics.</p>
             <p><strong style="color:var(--text);font-weight:500">Mechanism:</strong> a sourcing-risk gate in the NPI process — every new sole-source component requires justification and a documented mitigation before design freeze.</p>
           </div>
         </div>
         <div class="expand-item">
-          <div class="expand-header" onclick="toggleExpand(this)"><span>Sensing &amp; Early Warning</span><span class="expand-toggle">+</span></div>
+          <div class="expand-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleExpand(this)" onkeydown="expandKeydown(event,this)"><span>Sensing &amp; Early Warning</span><span class="expand-toggle">+</span></div>
           <div class="expand-body">
             <p>Shortening detection time: supplier financial monitoring, PCN/EOL feeds for electronic components, geopolitical and weather watch on concentrated nodes, and lead-time trend tracking (a creeping quote lead time is often the first public signal of allocation). Detection days ahead of competitors translates directly into allocation position and broker-market cost.</p>
             <p><strong style="color:var(--text);font-weight:500">Keep it proportionate:</strong> monitor the critical-path map, not the universe. A tight watch on 40 nodes beats a shallow feed on 4,000.</p>
@@ -2959,19 +2986,75 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
 </div><!-- /main -->
 
 <script>
-  function selectFW(fw, btn) {
-    document.querySelectorAll('.fw-content').forEach(f => f.classList.remove('active'));
-    document.querySelectorAll('.fw-sel-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('fw-' + fw).classList.add('active');
-    document.querySelectorAll(`[data-fw="${fw}"]`).forEach(b => b.classList.add('active'));
+  let suppressHashUpdate = false;
+
+  function scrollToMain() {
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }
 
-  function showTab(fw, tabId, btn) {
-    const fw_el = document.getElementById('fw-' + fw);
+  function updateHash(fw, tabKey) {
+    if (suppressHashUpdate) return;
+    const hash = tabKey ? '#' + fw + '/' + tabKey : '#' + fw;
+    if (location.hash !== hash) history.replaceState(null, '', hash);
+  }
+
+  function getActiveTab(fw) {
+    const panel = document.querySelector('#fw-' + fw + ' .tab-panel.active');
+    return panel ? panel.id.slice(fw.length + 1) : null;
+  }
+
+  function setNavState(fw) {
+    document.querySelectorAll('.fw-sel-btn').forEach(b => {
+      const active = b.dataset.fw === fw;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+  }
+
+  function setTabState(fw_el, tabId, btn) {
     fw_el.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    fw_el.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(fw + '-' + tabId).classList.add('active');
+    fw_el.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    document.getElementById(fw_el.id.replace('fw-', '') + '-' + tabId).classList.add('active');
     btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+  }
+
+  function selectFW(fw, btn, opts) {
+    opts = opts || {};
+    document.querySelectorAll('.fw-content').forEach(f => f.classList.remove('active'));
+    document.getElementById('fw-' + fw).classList.add('active');
+    setNavState(fw);
+    if (!opts.skipScroll) scrollToMain();
+    if (!opts.skipHash) updateHash(fw, getActiveTab(fw));
+  }
+
+  function showTab(fw, tabId, btn, opts) {
+    opts = opts || {};
+    const fw_el = document.getElementById('fw-' + fw);
+    setTabState(fw_el, tabId, btn);
+    if (!opts.skipScroll) scrollToMain();
+    if (!opts.skipHash) updateHash(fw, tabId);
+  }
+
+  function applyHash() {
+    const raw = location.hash.replace(/^#/, '');
+    if (!raw) return;
+    const parts = raw.split('/');
+    const fw = parts[0];
+    const tabKey = parts[1] || null;
+    const navBtn = document.querySelector('.fw-sel-btn[data-fw="' + fw + '"]');
+    if (!navBtn) return;
+    suppressHashUpdate = true;
+    selectFW(fw, navBtn, { skipHash: true, skipScroll: true });
+    if (tabKey) {
+      const tb = document.querySelector('#fw-' + fw + ' .tab-btn[onclick*="\'' + tabKey + '\'"]');
+      if (tb) showTab(fw, tabKey, tb, { skipHash: true, skipScroll: true });
+    }
+    suppressHashUpdate = false;
+    scrollToMain();
   }
 
   function toggleReveal(el) { el.classList.toggle('revealed'); }
@@ -2980,6 +3063,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
     const isOpen = a.classList.contains('open');
     a.classList.toggle('open', !isOpen);
     btn.textContent = isOpen ? 'Reveal answer' : 'Hide answer';
+    btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
   }
   function filterQuiz(fw, btn) {
     document.querySelectorAll('.quiz-filter').forEach(b => b.classList.remove('active'));
@@ -2987,6 +3071,22 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
     document.querySelectorAll('.quiz-item').forEach(q => {
       q.classList.toggle('hidden-fw', fw !== 'all' && q.dataset.qfw !== fw);
     });
+  }
+
+  function expandKeydown(e, header) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleExpand(header);
+    }
+  }
+
+  function toggleExpand(header) {
+    const body = header.parentElement.querySelector('.expand-body');
+    const toggle = header.querySelector('.expand-toggle');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    if (toggle) toggle.textContent = isOpen ? '+' : '−';
+    header.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
   }
 
   let searchIndex = null;
@@ -3022,18 +3122,22 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
       const start = Math.max(0, h.idx - 34);
       let snip = b.text.slice(start, h.idx + q.length + 70);
       snip = snip.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-      return '<div class="search-hit" onclick="goToHit(' + h.i + ')"><div class="hit-path">' + (fwNames[b.fw]||b.fw) + '</div><div class="hit-title">' + b.title.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</div><div class="hit-snip">…' + snip + '…</div></div>';
+      return '<div class="search-hit" role="option" tabindex="0" onkeydown="searchHitKey(event,' + h.i + ')" onclick="goToHit(' + h.i + ')"><div class="hit-path">' + (fwNames[b.fw]||b.fw) + '</div><div class="hit-title">' + b.title.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</div><div class="hit-snip">…' + snip + '…</div></div>';
     }).join('') || '<div class="search-empty">No matches for "' + q.replace(/</g,'&lt;') + '"</div>';
     resEl.classList.add('open');
+  }
+  function searchHitKey(e, i) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToHit(i); }
   }
   function goToHit(i) {
     const b = searchIndex[i];
     const navBtn = document.querySelector('.fw-sel-btn[data-fw="' + b.fw + '"]');
-    if (navBtn) selectFW(b.fw, navBtn);
+    if (navBtn) selectFW(b.fw, navBtn, { skipHash: true });
     if (b.tabKey) {
       const tb = document.querySelector('#fw-' + b.fw + ' .tab-btn[onclick*="\'' + b.tabKey + '\'"]');
-      if (tb) tb.click();
+      if (tb) showTab(b.fw, b.tabKey, tb, { skipHash: true, skipScroll: true });
     }
+    updateHash(b.fw, b.tabKey);
     document.getElementById('searchResults').classList.remove('open');
     const inp = document.getElementById('searchInput');
     if (inp) inp.blur();
@@ -3050,13 +3154,20 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
     }
   });
 
-  function toggleExpand(header) {
-    const body = header.parentElement.querySelector('.expand-body');
-    const toggle = header.querySelector('.expand-toggle');
-    const isOpen = body.classList.contains('open');
-    body.classList.toggle('open', !isOpen);
-    toggle.textContent = isOpen ? '+' : '−';
-  }
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.fw-sel-btn').forEach(b => b.setAttribute('aria-selected', b.classList.contains('active') ? 'true' : 'false'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', b.classList.contains('active') ? 'true' : 'false'));
+    document.querySelectorAll('.org-table, .comparison-table').forEach(t => {
+      if (!t.parentElement.classList.contains('table-scroll')) {
+        const wrap = document.createElement('div');
+        wrap.className = 'table-scroll';
+        t.parentNode.insertBefore(wrap, t);
+        wrap.appendChild(t);
+      }
+    });
+    applyHash();
+  });
+  window.addEventListener('hashchange', applyHash);
 </script>
 </body>
 </html>
