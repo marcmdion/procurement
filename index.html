@@ -24,7 +24,11 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
 .top-nav {
   position: sticky; top: 0; z-index: 100;
   background: var(--surface); border-bottom: 1px solid var(--border);
-  display: flex; align-items: stretch; overflow-x: auto;
+  display: flex; flex-wrap: wrap; align-items: stretch;
+}
+.nav-primary {
+  display: flex; flex: 1 1 auto; min-width: 0; align-items: stretch;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
 }
 .app-brand {
   padding: 0 20px; display: flex; align-items: center;
@@ -36,14 +40,16 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
   white-space: nowrap; line-height: 1.2;
 }
 .brand-mark span { display: block; font-family: var(--font-mono); font-size: 9px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1px; }
-.fw-selector { display: flex; flex: 1; }
+.fw-selector { display: flex; flex: 1 1 auto; min-width: max-content; }
 .fw-sel-btn {
-  flex: 1; min-width: 100px; background: none; border: none;
+  flex: 0 0 auto; flex-shrink: 0; min-width: 100px; background: none; border: none;
   border-bottom: 3px solid transparent; display: flex; flex-direction: column;
   align-items: flex-start; justify-content: center; gap: 2px;
   padding: 12px 18px; cursor: pointer; transition: all 0.18s;
   margin-bottom: -1px; text-align: left;
 }
+.fw-sel-btn.t2-btn { min-width: 118px; }
+.fw-sel-btn.t3-btn { min-width: 152px; }
 .fw-sel-btn:hover { background: rgba(0,0,0,0.03); }
 .fw-sel-btn.active { border-bottom-color: var(--gold); background: rgba(140,109,31,0.06); }
 .sel-num { font-family: var(--font-mono); font-size: 9px; color: var(--muted); letter-spacing: 0.1em; }
@@ -441,7 +447,7 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
 .fw-sel-btn.apx-btn.active .sel-num { color: var(--gold); }
 
 /* ── SEARCH ── */
-.search-row { padding: 9px 16px 11px; border-bottom: 1px solid var(--border); background: var(--surface); }
+.search-row { flex: 1 1 100%; padding: 9px 16px 11px; border-top: 1px solid var(--border); background: var(--surface); }
 .search-wrap { position: relative; max-width: 760px; margin: 0 auto; }
 .search-wrap::before { content: '⌕'; position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 16px; pointer-events: none; }
 .search-input { width: 100%; box-sizing: border-box; font-family: var(--font-mono); font-size: 13px; padding: 9px 14px 9px 36px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); outline: none; transition: border-color 0.15s; }
@@ -500,14 +506,9 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
      TOP NAVIGATION
 ════════════════════════════════════ -->
 <nav class="top-nav" aria-label="Site navigation">
+  <div class="nav-primary">
   <div class="app-brand">
     <div class="brand-mark"><span>Reference Suite</span>Procurement<br>Frameworks</div>
-  </div>
-  <div class="search-row">
-    <div class="search-wrap">
-      <input type="search" id="searchInput" class="search-input" placeholder="Search all frameworks — try 'BATNA', 'Kraljic', 'safety stock'…" oninput="runSearch(this.value)" autocomplete="off" aria-label="Search frameworks" aria-controls="searchResults">
-      <div class="search-results" id="searchResults"></div>
-    </div>
   </div>
   <div class="fw-selector" role="tablist" aria-label="Frameworks">
     <button class="fw-sel-btn active" data-fw="proc" onclick="selectFW('proc',this)">
@@ -597,6 +598,13 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
       <span class="sel-name">Drill</span>
       <span class="sel-drill">Recall &amp; Self-Test</span>
     </button>
+  </div>
+  </div>
+  <div class="search-row">
+    <div class="search-wrap">
+      <input type="search" id="searchInput" class="search-input" placeholder="Search all frameworks — try 'BATNA', 'Kraljic', 'safety stock'…" oninput="runSearch(this.value)" autocomplete="off" aria-label="Search frameworks" aria-controls="searchResults">
+      <div class="search-results" id="searchResults"></div>
+    </div>
   </div>
 </nav>
 
