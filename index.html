@@ -367,6 +367,7 @@ p:last-child { margin-bottom: 0; }
 }
 .badge-t1 { color: var(--gold); border-color: var(--gold); background: rgba(140,109,31,0.06); }
 .badge-t2 { color: var(--blue); border-color: var(--blue); background: rgba(36,95,126,0.06); }
+.badge-t3 { color: var(--orange); border-color: var(--orange); background: rgba(142,83,26,0.06); }
 .badge-os { color: var(--muted); border-color: var(--border); background: var(--surface2); }
 .seq-desc { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
 .seq-produces {
@@ -1040,272 +1041,24 @@ html, body { background: #f7f6f3 !important; color: #1e1d1a !important; }
      ╚══════════════════════════════════╝ -->
 <div class="fw-content" id="fw-guide">
   <div class="fw-header">
+    <div class="fw-kicker">Navigation · Learning and Working Order</div>
     <h1>Sequences</h1>
-    <p>Two perspectives on how the frameworks relate — how to learn them, and how they flow in practice.</p>
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="showTab('guide','g1',this)">01 — Study Sequence</button>
-      <button class="tab-btn" onclick="showTab('guide','g2',this)">02 — Live Work Sequence</button>
-    </div>
+    <p>Two views of how the fifteen topics fit together: the order in which to learn them, and the order in which to use them on a real category.</p>
   </div>
-  <div class="fw-body">
-
-    <!-- ═══════════════════════════════ STUDY SEQUENCE ═══════════════════════════════ -->
+  <div class="fw-tabs"><button class="tab-btn active" onclick="showTab('guide','g1',this)">01 · Study Sequence</button><button class="tab-btn" onclick="showTab('guide','g2',this)">02 · Live Work Sequence</button></div>
+  <div class="fw-main">
     <div class="tab-panel active" id="guide-g1">
-      <div class="seq-intro">
-        <h2>Study Sequence</h2>
-        <p>The order in which to build conceptual understanding — each framework provides scaffolding that makes the next one land more meaningfully. Follow this when learning the discipline from scratch.</p>
-      </div>
-
-      <div class="seq-os-note">
-        <div class="seq-os-icon">⬡</div>
-        <div>
-          <h4>Procurement — The Operating System</h4>
-          <p>Learn this first and return to it last. It establishes the vocabulary, process architecture, and organisational logic that every other framework plugs into. It is not a step in the sequence — it is the platform the sequence runs on.</p>
-        </div>
-      </div>
-
-      <div class="seq-phase-group">
-        <div class="seq-phase-label phase-foundation">Strategic Foundation</div>
-        <div class="seq-steps">
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-study">1</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Category Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('cat', document.querySelector('[data-fw=cat]'))">Open framework →</button>
-              <p class="seq-why">The central organising framework of strategic procurement. Learn this second because every other discipline — market analysis, should-cost, supplier selection, negotiation — exists in service of a category strategy. Without understanding what a category strategy is trying to achieve, the tools that feed it are context-free.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="seq-phase-group">
-        <div class="seq-phase-label phase-understand">Intelligence Layer</div>
-        <div class="seq-steps">
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-study">2</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Supply Market Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('sma', document.querySelector('[data-fw=sma]'))">Open framework →</button>
-              <p class="seq-why">Learn market analysis before spend analysis because understanding the external environment — supplier landscape, competitive structure, macro forces — is the prerequisite context for interpreting what your own spend data means. A spend concentration finding only becomes actionable when you know whether the supply market offers alternatives.</p>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-study">3</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Spend Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('spend', document.querySelector('[data-fw=spend]'))">Open framework →</button>
-              <p class="seq-why">Spend analysis is your internal intelligence layer — what you buy, from whom, at what cost, and how it clusters. It directly produces the inputs a category strategy needs: supplier concentration, spend by category, maverick spend, tail rationalisation opportunities. With market analysis already understood, you can immediately contextualise what the spend data reveals.</p>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-study">4</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Should-Cost Modelling <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('scm', document.querySelector('[data-fw=scm]'))">Open framework →</button>
-              <p class="seq-why">Should-cost sits at the intersection of market intelligence and commercial execution. Learn it after market analysis and spend analysis — you need commodity data fluency and an understanding of supplier economics (both from SMA) before the cost decomposition model makes full sense. It then becomes the commercial anchor for negotiation.</p>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-study">5</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">TCO Model <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('tco', document.querySelector('[data-fw=tco]'))">Open framework →</button>
-              <p class="seq-why">TCO extends should-cost from production cost to full lifecycle cost — adding quality failure, logistics, switching, and end-of-life costs. Learn it here, after should-cost, so the progression from "what should it cost to make" to "what does it cost to own" is conceptually clean. Together, SCM and TCO form the complete cost intelligence toolkit.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="seq-phase-group">
-        <div class="seq-phase-label phase-execute">Sourcing & Commercial Execution</div>
-        <div class="seq-steps">
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-study">6</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Supplier Selection &amp; Evaluation <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('sse', document.querySelector('[data-fw=sse]'))">Open framework →</button>
-              <p class="seq-why">With intelligence frameworks understood, you can now learn how to make the sourcing decision itself — the evaluation methodology, the RFx process, due diligence, and onboarding. Placed here because supplier selection consumes all the intelligence you've built: market landscape (who exists), spend data (what you need), and TCO (how to evaluate true cost).</p>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-study">7</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Negotiation <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('neg', document.querySelector('[data-fw=neg]'))">Open framework →</button>
-              <p class="seq-why">Negotiation is the commercial execution step that converts intelligence and strategy into outcomes. Positioned after supplier selection because in practice you negotiate after you've shortlisted — and understanding the selection methodology clarifies what concessions have strategic weight versus cosmetic value.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="seq-phase-group">
-        <div class="seq-phase-label phase-protect">Post-Award Disciplines</div>
-        <div class="seq-steps">
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-study">8</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Contract Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('cmt', document.querySelector('[data-fw=cmt]'))">Open framework →</button>
-              <p class="seq-why">Contract management is the first post-award discipline — it governs how you execute and protect the deal you've negotiated. Logically follows negotiation in the study sequence because contracts are the instrument that captures negotiation outcomes, and managing them well requires understanding what was agreed and why.</p>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-study">9</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Supplier Risk Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('srisk', document.querySelector('[data-fw=srisk]'))">Open framework →</button>
-              <p class="seq-why">Risk management overlaps with both contract management and SRM — it sits between the two. Learning it here, after contract management, makes the distinction between contractual protection mechanisms (covered in CMT) and proactive supply risk monitoring (covered here) conceptually clear.</p>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-study">10</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">SRM Deep Dive <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('srm', document.querySelector('[data-fw=srm]'))">Open framework →</button>
-              <p class="seq-why">SRM is the final and most advanced discipline — it operates above and beyond contracts, risk management, and performance monitoring. Learn it last because it synthesises everything: you need to understand category strategy, supplier selection, negotiation, contract management, and risk management before you can appreciate what SRM does that none of those disciplines accomplish on their own.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /g1 study -->
-
-    <!-- ═══════════════════════════════ LIVE WORK SEQUENCE ═══════════════════════════════ -->
+      <div class="seq-intro"><h2>Study Sequence</h2><p>The order in which to learn the topics. Each topic prepares you for the next. Follow this order when you are new to procurement or to our company.</p></div>
+      <div class="seq-os-note"><div class="seq-os-icon">⬡</div><div><h4>Start Here: Root Principles and Procurement</h4><p>Read the Root Principles page first; it takes ten minutes and gives you the nine ideas behind every topic. Then read Procurement, which gives the vocabulary, the source-to-pay process and the operating model that all other topics use. Come back to both at the end.</p></div></div>
+      <div class="seq-phase-group"><div class="seq-phase-label phase-foundation">Strategic Foundation</div><div class="seq-steps"><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">1</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Category Management <span class="seq-tier-badge badge-t1">Tier 1</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('cat', document.querySelector('[data-fw=cat]'))">Open topic →</button><p class="seq-why">The central framework of strategic procurement. Learn it early, because market analysis, should-cost, supplier selection and negotiation all serve a category plan. Without knowing what the plan needs, the other tools have no context.</p></div></div></div></div><div class="seq-phase-group"><div class="seq-phase-label phase-understand">Intelligence Layer</div><div class="seq-steps"><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">2</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Supply Market Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('sma', document.querySelector('[data-fw=sma]'))">Open topic →</button><p class="seq-why">Learn how supply markets work before looking at our own data. A spend finding only becomes useful when you know whether the market offers alternatives.</p></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">3</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Spend Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('spend', document.querySelector('[data-fw=spend]'))">Open topic →</button><p class="seq-why">Our internal view: what we buy, from whom, at what cost. It gives the category plan its baseline, and it links direct spend to the bill of materials.</p></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">4</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Should-Cost Modelling <span class="seq-tier-badge badge-t2">Tier 2</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('scm', document.querySelector('[data-fw=scm]'))">Open topic →</button><p class="seq-why">Uses market data and cost knowledge to estimate a fair price. Learn it after market analysis, because it depends on material prices and supplier economics.</p></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">5</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Total Cost of Ownership <span class="seq-tier-badge badge-t1">Tier 1</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('tco', document.querySelector('[data-fw=tco]'))">Open topic →</button><p class="seq-why">Extends should-cost from "what it costs to make" to "what it costs to own": freight, stock, quality, switching and risk. Together, should-cost and TCO are the complete cost toolkit.</p></div></div></div></div><div class="seq-phase-group"><div class="seq-phase-label phase-execute">Sourcing and Commercial Execution</div><div class="seq-steps"><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">6</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Supplier Selection &amp; Evaluation <span class="seq-tier-badge badge-t2">Tier 2</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('sse', document.querySelector('[data-fw=sse]'))">Open topic →</button><p class="seq-why">How to make the sourcing decision: criteria, RFx, due diligence and onboarding. It uses everything learned so far: the market (who exists), spend (what we need) and TCO (how to compare).</p></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">7</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Negotiation <span class="seq-tier-badge badge-t1">Tier 1</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('neg', document.querySelector('[data-fw=neg]'))">Open topic →</button><p class="seq-why">Turns preparation into an agreement. Learn it after supplier selection, because in practice we negotiate with a short list, and the BATNA comes from the alternatives found during selection.</p></div></div></div></div><div class="seq-phase-group"><div class="seq-phase-label phase-protect">Post-Award Disciplines</div><div class="seq-steps"><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">8</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Contract Management <span class="seq-tier-badge badge-t1">Tier 1</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('cmt', document.querySelector('[data-fw=cmt]'))">Open topic →</button><p class="seq-why">How to protect the value that was agreed. It follows negotiation naturally: the contract records the result, and managing it well requires knowing what was agreed and why.</p></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">9</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Supplier Risk Management <span class="seq-tier-badge badge-t1">Tier 1</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('srisk', document.querySelector('[data-fw=srisk]'))">Open topic →</button><p class="seq-why">Finding and reducing risks in the supply base. Learn it after contract management, so the difference between contract protection and active risk monitoring is clear.</p></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">10</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Supplier Relationship Management <span class="seq-tier-badge badge-t2">Tier 2</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('srm', document.querySelector('[data-fw=srm]'))">Open topic →</button><p class="seq-why">The most advanced of the core disciplines. It builds on everything before it: category plans, selection, negotiation, contracts and risk.</p></div></div></div></div><div class="seq-phase-group"><div class="seq-phase-label phase-strategise">Operational Depth</div><div class="seq-steps"><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">11</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Inventory &amp; Planning Interface <span class="seq-tier-badge badge-t3">Tier 3</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('inv', document.querySelector('[data-fw=inv]'))">Open topic →</button><p class="seq-why">How lead time, demand and order quantities decide stock and cash. Essential for a NZ site with long supply lines. Planners can study it earlier.</p></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">12</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Supply Chain Resilience <span class="seq-tier-badge badge-t3">Tier 3</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('res', document.querySelector('[data-fw=res]'))">Open topic →</button><p class="seq-why">How fast we recover from disruption, including at our own site. Learn it after supplier risk and inventory, because it combines both: risk tells us what can fail, inventory tells us how long we can survive.</p></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">13</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Sustainable &amp; Ethical Procurement <span class="seq-tier-badge badge-t3">Tier 3</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('sus', document.querySelector('[data-fw=sus]'))">Open topic →</button><p class="seq-why">The environmental, labour and integrity obligations that reach us through law and customers. It builds on supplier selection, contracts and risk, where these obligations are applied.</p></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-study">14</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Procurement Governance &amp; Policy <span class="seq-tier-badge badge-t3">Tier 3</span></div><button type="button" class="seq-fw-link" style="color:var(--teal)" onclick="selectFW('gov', document.querySelector('[data-fw=gov]'))">Open topic →</button><p class="seq-why">The rules and controls around every step: authority, separation of duties, ethics and trade compliance. Learn it last, when you know all the processes it governs.</p></div></div></div></div>
+      <div class="seq-os-note"><div class="seq-os-icon">⬡</div><div><h4>Finish: Return to the Root Principles</h4><p>After the last topic, read the Root Principles page again. You will now recognise each root in several topics. Then use the Drill to test yourself.</p></div></div>
+    </div>
     <div class="tab-panel" id="guide-g2">
-      <div class="seq-intro">
-        <h2>Live Work Sequence</h2>
-        <p>How the disciplines flow in practice when working a category from scratch — from intelligence gathering through to relationship governance. This is the execution order, not the learning order.</p>
-      </div>
-
-      <div class="seq-os-note">
-        <div class="seq-os-icon">⬡</div>
-        <div>
-          <h4>Procurement — The Operating System</h4>
-          <p>The Procurement framework sits outside the live work sequence. It defines the governance structures, process standards, and organisational design within which the category cycle operates. It is always active — not a discrete step.</p>
-        </div>
-      </div>
-
-      <div class="seq-phase-group">
-        <div class="seq-phase-label phase-understand">Phase 1 — Understand</div>
-        <div class="seq-steps">
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-understand">1</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Spend Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('spend', document.querySelector('[data-fw=spend]'))">Open framework →</button>
-              <p class="seq-desc">Before anything else, establish what you are actually buying — volume, value, supplier distribution, specification variation, and maverick spend. This is your internal baseline. Without it you cannot scope the category, size the opportunity, or know which suppliers are material.</p>
-              <div class="seq-produces">What it produces: spend baseline — what you buy, from whom, at what cost, and how it clusters.</div>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-understand">2</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Supply Market Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('sma', document.querySelector('[data-fw=sma]'))">Open framework →</button>
-              <p class="seq-desc">Now look outward. Map the supplier landscape, apply Porter's Five Forces, run the PESTLE scan, and model supply/demand dynamics. This tells you what is strategically possible — whether genuine competition can be created, what macro forces will affect pricing, and where the leverage points in the market are.</p>
-              <div class="seq-produces">What it produces: external intelligence — supplier landscape, power balance, market outlook, cost driver analysis.</div>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-understand">3</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Should-Cost Modelling <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('scm', document.querySelector('[data-fw=scm]'))">Open framework →</button>
-              <p class="seq-desc">With market data in hand, build your independent cost estimate: decompose the BOM, apply commodity prices, estimate labour and overhead, add fair margin. This is your commercial anchor — the number against which every supplier quote will be measured. Built now, before the RFQ, it shapes the sourcing event rather than just reacting to it.</p>
-              <div class="seq-produces">What it produces: commercial anchor — independent cost estimate, fair-price reference for the target, cost variance basis.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="seq-phase-group">
-        <div class="seq-phase-label phase-strategise">Phase 2 — Strategise</div>
-        <div class="seq-steps">
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-strategise">4</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Category Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--gold)" onclick="selectFW('cat', document.querySelector('[data-fw=cat]'))">Open framework →</button>
-              <p class="seq-desc">Now you have enough intelligence to build a credible category strategy. Work through the 7-stage cycle: run the Kraljic analysis on your spend data, define the sourcing approach, set savings and risk objectives, and produce the category plan. Everything from Phase 1 feeds directly into this step — spend data informs segmentation, market analysis calibrates strategic options, should-cost sets the target.</p>
-              <div class="seq-produces">What it produces: category strategy — sourcing model, objectives, supplier approach, savings target, risk posture.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="seq-phase-group">
-        <div class="seq-phase-label phase-execute">Phase 3 — Execute</div>
-        <div class="seq-steps">
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-execute">5</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Supplier Selection &amp; Evaluation <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--purple)" onclick="selectFW('sse', document.querySelector('[data-fw=sse]'))">Open framework →</button>
-              <p class="seq-desc">Run the sourcing event: long-list from your market analysis, pre-qualify with an RFI, issue the RFQ/RFP, evaluate responses against a pre-defined weighted scorecard, conduct due diligence on the shortlist, and request BAFOs. The category strategy defines what "best" looks like; supplier selection determines who delivers it.</p>
-              <div class="seq-produces">What it produces: shortlist and preferred supplier — evaluated, due-diligenced, and ready to negotiate.</div>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-execute">6</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">TCO Model <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--purple)" onclick="selectFW('tco', document.querySelector('[data-fw=tco]'))">Open framework →</button>
-              <p class="seq-desc">Before making the award decision, build a full TCO model for your shortlisted suppliers. Unit price is only one input. Quality failure cost, logistics, inventory carrying cost, switching cost, and end-of-life costs frequently reverse the price ranking. TCO gives you the true basis for the award decision and the commercial objectives going into negotiation.</p>
-              <div class="seq-produces">What it produces: total cost picture — full lifecycle cost per supplier, award decision basis, negotiation objectives.</div>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-execute">7</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Negotiation <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--purple)" onclick="selectFW('neg', document.querySelector('[data-fw=neg]'))">Open framework →</button>
-              <p class="seq-desc">Armed with your should-cost model, TCO analysis, market intelligence, and a clear BATNA, negotiate the commercial outcome. This is not a standalone conversation — it is the execution of everything built in the previous six steps. Should-cost gives a fair-price reference for your target. TCO shows the value of non-price terms. Your BATNA, built from market analysis and supplier selection, sets your walkaway.</p>
-              <div class="seq-produces">What it produces: commercial outcome — agreed price, terms, service levels, risk allocation, and commitments.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="seq-phase-group">
-        <div class="seq-phase-label phase-protect">Phase 4 — Protect</div>
-        <div class="seq-steps">
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-protect">8</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Contract Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--green)" onclick="selectFW('cmt', document.querySelector('[data-fw=cmt]'))">Open framework →</button>
-              <p class="seq-desc">Execute the contract, establish performance baselines, and formally mobilise the supplier. The contract captures the value you negotiated — contract management ensures you actually receive it. Set up the governance framework immediately: KPIs, review cadence, escalation path, and variation management process. The first 90 days set the tone for the relationship.</p>
-              <div class="seq-produces">What it produces: value lock-in — performance governance, baseline metrics, mobilised supplier, active issue management.</div>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-protect">9</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">Supplier Risk Management <span class="seq-tier-badge badge-t1">Tier 1</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--green)" onclick="selectFW('srisk', document.querySelector('[data-fw=srisk]'))">Open framework →</button>
-              <p class="seq-desc">Stand up your ongoing risk monitoring framework. Classify the supplier by risk tier, identify your specific risk exposures (disruption, quality, financial, geopolitical, cyber), set early warning indicators, and activate your mitigation plans. Risk management is most effective when established at contract launch — before any event occurs, not in response to one.</p>
-              <div class="seq-produces">What it produces: risk posture — risk classification, monitoring framework, early warning indicators, mitigation plans.</div>
-            </div>
-          </div>
-          <div class="seq-step">
-            <div class="seq-spine"><div class="seq-num num-protect">10</div><div class="seq-line"></div></div>
-            <div class="seq-body">
-              <div class="seq-fw-name">SRM Deep Dive <span class="seq-tier-badge badge-t2">Tier 2</span></div>
-              <button type="button" class="seq-fw-link" style="color:var(--green)" onclick="selectFW('srm', document.querySelector('[data-fw=srm]'))">Open framework →</button>
-              <p class="seq-desc">For suppliers that meet the strategic classification criteria, activate the SRM programme. Assign executive sponsors, establish the QBR cadence, launch the scorecard, and begin building the joint value creation pipeline. SRM is not appropriate for all suppliers — this is a deliberate investment reserved for the 5–15 relationships where the return justifies the cost. Assess classification honestly before committing.</p>
-              <div class="seq-produces">What it produces: relationship return — scorecards, QBR governance, joint value plan, strategic alignment, innovation pipeline.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:20px 24px;margin-top:8px;">
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;">Note on linearity</div>
-        <p style="font-size:13px;color:var(--muted);margin:0;">This sequence is not strictly one-directional in practice. Spend analysis is refreshed before every major renewal. Market analysis is updated whenever a significant macro event occurs. Should-cost models are rebuilt when commodity markets move. The cycle is iterative — Phase 1 intelligence work recurs each time you re-enter the category, not just at initial strategy launch.</p>
-      </div>
-
-    </div><!-- /g2 live -->
-
+      <div class="seq-intro"><h2>Live Work Sequence</h2><p>The order in which the topics are used when working on a category from the beginning. This is the working order, not the learning order.</p></div>
+      <div class="seq-os-note"><div class="seq-os-icon">⬡</div><div><h4>Always Active: Procurement and Governance &amp; Policy</h4><p>These two topics are not steps. Procurement defines the process and operating model, and Governance &amp; Policy defines the rules, approvals and trade compliance that apply at every step below.</p></div></div>
+      <div class="seq-phase-group"><div class="seq-phase-label phase-understand">Phase 1 · Understand</div><div class="seq-steps"><div class="seq-step"><div class="seq-spine"><div class="seq-num num-understand">1</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Spend Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div><button type="button" class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('spend', document.querySelector('[data-fw=spend]'))">Open topic →</button><p class="seq-desc">Start with what we actually buy: volume, value, suppliers, currency and the link to the bill of materials and build plan. This is the internal baseline for the category.</p><div class="seq-produces">Output: spend baseline and future demand.</div></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-understand">2</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Supply Market Analysis <span class="seq-tier-badge badge-t2">Tier 2</span></div><button type="button" class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('sma', document.querySelector('[data-fw=sma]'))">Open topic →</button><p class="seq-desc">Look outward: suppliers and distributors, the power balance, external forces, capacity and price trends, and how suppliers see us. This shows what is realistic.</p><div class="seq-produces">Output: market summary, power assessment and outlook.</div></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-understand">3</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Should-Cost Modelling <span class="seq-tier-badge badge-t2">Tier 2</span></div><button type="button" class="seq-fw-link" style="color:var(--blue)" onclick="selectFW('scm', document.querySelector('[data-fw=scm]'))">Open topic →</button><p class="seq-desc">For custom and mechanical parts, build an independent estimate of a fair price before any RFQ. For standard chips, use market price benchmarks.</p><div class="seq-produces">Output: fair-price reference and cost drivers.</div></div></div></div></div><div class="seq-phase-group"><div class="seq-phase-label phase-strategise">Phase 2 · Strategise</div><div class="seq-steps"><div class="seq-step"><div class="seq-spine"><div class="seq-num num-strategise">4</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Category Management <span class="seq-tier-badge badge-t1">Tier 1</span></div><button type="button" class="seq-fw-link" style="color:var(--gold)" onclick="selectFW('cat', document.querySelector('[data-fw=cat]'))">Open topic →</button><p class="seq-desc">Now build the category plan: Kraljic position, sourcing options, risk position and targets. Everything from phase 1 feeds this step.</p><div class="seq-produces">Output: approved category plan.</div></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-strategise">5</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Total Cost of Ownership <span class="seq-tier-badge badge-t1">Tier 1</span></div><button type="button" class="seq-fw-link" style="color:var(--gold)" onclick="selectFW('tco', document.querySelector('[data-fw=tco]'))">Open topic →</button><p class="seq-desc">Build the TCO model structure before the RFQ, so it decides what we evaluate and how we weight it. It is filled in with real offers in phase 3.</p><div class="seq-produces">Output: TCO model and evaluation criteria.</div></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-strategise">6</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Supply Chain Resilience <span class="seq-tier-badge badge-t3">Tier 3</span></div><button type="button" class="seq-fw-link" style="color:var(--gold)" onclick="selectFW('res', document.querySelector('[data-fw=res]'))">Open topic →</button><p class="seq-desc">For critical parts, compare time to recover with time to survive, and choose the resilience levers the plan needs: second sources, buffers, contract rights or design alternates.</p><div class="seq-produces">Output: resilience requirements for the category.</div></div></div></div></div><div class="seq-phase-group"><div class="seq-phase-label phase-execute">Phase 3 · Execute</div><div class="seq-steps"><div class="seq-step"><div class="seq-spine"><div class="seq-num num-execute">7</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Supplier Selection &amp; Evaluation <span class="seq-tier-badge badge-t2">Tier 2</span></div><button type="button" class="seq-fw-link" style="color:var(--purple)" onclick="selectFW('sse', document.querySelector('[data-fw=sse]'))">Open topic →</button><p class="seq-desc">Run the sourcing event: pass/fail requirements (including ESG and trade compliance), RFQ or RFP, scoring on total cost, due diligence and a short list.</p><div class="seq-produces">Output: preferred supplier, verified and ready to negotiate.</div></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-execute">8</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Negotiation <span class="seq-tier-badge badge-t1">Tier 1</span></div><button type="button" class="seq-fw-link" style="color:var(--purple)" onclick="selectFW('neg', document.querySelector('[data-fw=neg]'))">Open topic →</button><p class="seq-desc">Negotiate with a prepared position stack. Should-cost gives the fair-price reference, TCO shows the value of non-price terms, and the alternatives found in selection set our walkaway.</p><div class="seq-produces">Output: agreed price, terms, lead time and allocation rights.</div></div></div></div></div><div class="seq-phase-group"><div class="seq-phase-label phase-protect">Phase 4 · Protect and Operate</div><div class="seq-steps"><div class="seq-step"><div class="seq-spine"><div class="seq-num num-protect">9</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Contract Management <span class="seq-tier-badge badge-t1">Tier 1</span></div><button type="button" class="seq-fw-link" style="color:var(--green)" onclick="selectFW('cmt', document.querySelector('[data-fw=cmt]'))">Open topic →</button><p class="seq-desc">Register obligations, hand over to operations, and manage performance, changes and renewal. Check that supplier terms support our customer terms.</p><div class="seq-produces">Output: managed contract with owner and calendar.</div></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-protect">10</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Inventory &amp; Planning Interface <span class="seq-tier-badge badge-t3">Tier 3</span></div><button type="button" class="seq-fw-link" style="color:var(--green)" onclick="selectFW('inv', document.querySelector('[data-fw=inv]'))">Open topic →</button><p class="seq-desc">Set lead times, order quantities, safety stock and forecast-sharing bands in the ERP system, and bring the supplier into the monthly S&amp;OP cycle.</p><div class="seq-produces">Output: planning parameters and supplier forecast.</div></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-protect">11</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Supplier Risk Management <span class="seq-tier-badge badge-t1">Tier 1</span></div><button type="button" class="seq-fw-link" style="color:var(--green)" onclick="selectFW('srisk', document.querySelector('[data-fw=srisk]'))">Open topic →</button><p class="seq-desc">Start ongoing monitoring: risk score, leading indicators and mitigation actions for the new supplier and parts.</p><div class="seq-produces">Output: active risk register entry.</div></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-protect">12</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Supplier Relationship Management <span class="seq-tier-badge badge-t2">Tier 2</span></div><button type="button" class="seq-fw-link" style="color:var(--green)" onclick="selectFW('srm', document.querySelector('[data-fw=srm]'))">Open topic →</button><p class="seq-desc">For strategic suppliers only, start the SRM programme: sponsor, joint objectives, reviews and joint projects.</p><div class="seq-produces">Output: relationship plan and scorecard.</div></div></div><div class="seq-step"><div class="seq-spine"><div class="seq-num num-protect">13</div><div class="seq-line"></div></div><div class="seq-body"><div class="seq-fw-name">Sustainable &amp; Ethical Procurement <span class="seq-tier-badge badge-t3">Tier 3</span></div><button type="button" class="seq-fw-link" style="color:var(--green)" onclick="selectFW('sus', document.querySelector('[data-fw=sus]'))">Open topic →</button><p class="seq-desc">Keep due diligence going: declarations up to date, audits for high-risk suppliers, evidence ready for customers and for the annual modern slavery statement.</p><div class="seq-produces">Output: current compliance evidence.</div></div></div></div></div>
+      <div class="highlight-box"><h4>The Sequence Repeats</h4><p>This is a cycle, not a straight line. Spend and market analysis are refreshed before every major renewal. Should-cost and TCO models are updated when prices move. A trigger (end-of-life notice, big price or lead-time change, new tariff, supplier event) sends you back to phase 1 for that category.</p></div>
+    </div>
   </div>
 </div><!-- /fw-guide -->
 
